@@ -39,12 +39,26 @@
             <h1 class="font-heading text-xl tracking-[0.3em] italic">MIKOKO<span class="text-red-600">.NX</span></h1>
         </div>
 
-        <div class="menu-container flex gap-8">
-            <button onclick="switchTab('home')" class="nav-link active" id="nav-home">CORE</button>
-            <button onclick="switchTab('standings')" class="nav-link" id="nav-standings">ARENA</button>
-            <button onclick="switchTab('news')" class="nav-link" id="nav-news">FEED</button>
-            <button onclick="switchTab('leaderboard')" class="nav-link" id="nav-leaderboard">RANK</button>
-        </div>
+       <div class="menu-container flex items-center justify-start md:justify-center gap-4 sm:gap-6 overflow-x-auto no-scrollbar py-4 px-6 border-b border-white/5 bg-black/40 backdrop-blur-md">
+    
+    <button onclick="switchTab('home')" class="nav-link active whitespace-nowrap" id="nav-home">CORE</button>
+    
+    <button onclick="switchTab('standings')" class="nav-link whitespace-nowrap" id="nav-standings">ARENA</button>
+    
+    <button onclick="switchTab('fixtures')" class="nav-link whitespace-nowrap" id="nav-fixtures">FIXTURES</button>
+    
+    <button onclick="switchTab('live-games')" class="nav-link whitespace-nowrap flex items-center gap-2" id="nav-live-games">
+        <span class="w-1.5 h-1.5 bg-red-600 rounded-full animate-pulse"></span>
+        LIVE
+    </button>
+    
+    <button onclick="switchTab('news')" class="nav-link whitespace-nowrap" id="nav-news">FEED</button>
+    
+    <button onclick="switchTab('pure-stream')" class="nav-link whitespace-nowrap" id="nav-pure-stream">STREAM</button>
+    
+    <button onclick="switchTab('leaderboard')" class="nav-link whitespace-nowrap" id="nav-leaderboard">RANK</button>
+
+</div>
 
         <div class="flex items-center gap-4 pl-6 border-l border-white/10">
             <div class="text-[9px] font-mono text-zinc-500 text-right uppercase">
