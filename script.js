@@ -253,7 +253,49 @@ leaderboard: `
     </div>
 </div>`,
 
-    fixtures: `<div class="animate-boot"><h2 class="font-heading text-4xl italic uppercase">Match_Fixtures</h2><p class="text-zinc-500 font-mono text-[10px] mt-4 uppercase tracking-[0.5em]">Establishing data link...</p></div>`,
+   fixtures: `
+<div class="animate-boot space-y-10 pb-28">
+    <div class="bento-card border-b-2 border-red-600 flex justify-between items-center">
+        <div>
+            <h2 class="font-heading text-4xl italic tracking-tighter text-white uppercase">Match_Fixtures</h2>
+            <p class="text-[9px] font-mono text-red-600 uppercase tracking-[0.4em]">Chronological_Deployment // Season_26</p>
+        </div>
+        <div class="hidden md:block text-right">
+            <span class="font-mono text-[10px] text-zinc-600 uppercase block">System_Time</span>
+            <span class="font-heading text-xl text-white italic" id="fixture-clock">00:00</span>
+        </div>
+    </div>
+
+    <div class="space-y-12">
+        <div class="space-y-6">
+            <div class="flex items-center gap-4">
+                <div class="h-[1px] flex-1 bg-gradient-to-r from-transparent to-zinc-800"></div>
+                <h3 class="font-heading text-xs tracking-[0.3em] text-zinc-500 uppercase">Match_Day_01</h3>
+                <div class="h-[1px] flex-1 bg-gradient-to-l from-transparent to-zinc-800"></div>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                ${renderMatchCard('GUNNERS FC', 'JED FC', '16:00', 'MAR 20', 'ARENA_01')}
+                ${renderMatchCard('OGBAFIA FC', 'ZUBBY FC', '17:00', 'MAR 20', 'ARENA_01')}
+            </div>
+        </div>
+
+        <div class="space-y-6">
+            <div class="flex items-center gap-4">
+                <div class="h-[1px] flex-1 bg-gradient-to-r from-transparent to-zinc-800"></div>
+                <h3 class="font-heading text-xs tracking-[0.3em] text-zinc-500 uppercase">Match_Day_02</h3>
+                <div class="h-[1px] flex-1 bg-gradient-to-l from-transparent to-zinc-800"></div>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                ${renderMatchCard('BIG PAMS FC', 'HASSAN FC', '16:00', 'MAR 21', 'ARENA_02')}
+                ${renderMatchCard('UNDECIDED FC', 'GABI FC', '17:00', 'MAR 21', 'ARENA_02')}
+            </div>
+        </div>
+    </div>
+</div>`,
+
+    
     'live-games': `<div class="animate-boot flex flex-col items-center py-20"><div class="w-4 h-4 bg-red-600 rounded-full animate-ping mb-4"></div><h2 class="font-heading text-2xl uppercase">No_Live_Matches</h2></div>`,
     'pure-stream': `<div class="animate-boot bento-card h-64 flex items-center justify-center bg-black"><span class="text-zinc-800 font-heading text-xs tracking-widest italic uppercase">Stream_Offline</span></div>`,
     'live-center': `<div class="animate-boot space-y-4"><h2 class="font-heading text-4xl italic uppercase">Live_Center</h2><div class="bento-card p-12 text-center text-zinc-500 font-mono text-[10px] uppercase">Node aggregation in progress...</div></div>`
@@ -401,4 +443,36 @@ function renderNilExtendedList(suffix) {
         `;
     }
     return list;
+}
+function renderMatchCard(home, away, time, date, venue) {
+    return `
+        <div class="bento-card !p-0 group border-zinc-900 hover:border-red-600/50 transition-all duration-500">
+            <div class="flex items-center justify-between p-6">
+                <div class="flex-1 text-center">
+                    <div class="w-12 h-12 bg-zinc-900 border border-white/5 mx-auto mb-3 rotate-45 flex items-center justify-center group-hover:border-red-600/50 transition-colors">
+                        <span class="rotate-[-45deg] font-heading text-xs text-red-600">${home.charAt(0)}</span>
+                    </div>
+                    <span class="font-heading text-[10px] text-white tracking-tighter uppercase italic">${home}</span>
+                </div>
+
+                <div class="px-4 text-center">
+                    <div class="font-mono text-[10px] text-red-600 font-bold mb-1">${time}</div>
+                    <div class="w-[1px] h-8 bg-zinc-800 mx-auto mb-1"></div>
+                    <div class="font-mono text-[8px] text-zinc-600 uppercase">${date}</div>
+                </div>
+
+                <div class="flex-1 text-center">
+                    <div class="w-12 h-12 bg-zinc-900 border border-white/5 mx-auto mb-3 rotate-45 flex items-center justify-center group-hover:border-red-600/50 transition-colors">
+                        <span class="rotate-[-45deg] font-heading text-xs text-red-600">${away.charAt(0)}</span>
+                    </div>
+                    <span class="font-heading text-[10px] text-white tracking-tighter uppercase italic">${away}</span>
+                </div>
+            </div>
+            
+            <div class="bg-black/40 py-2 px-4 border-t border-white/5 flex justify-between items-center">
+                <span class="text-[7px] font-mono text-zinc-500 tracking-[0.2em] uppercase">${venue}</span>
+                <button class="text-[7px] font-heading text-zinc-400 hover:text-red-600 tracking-widest uppercase transition">Set_Reminder +</button>
+            </div>
+        </div>
+    `;
 }
