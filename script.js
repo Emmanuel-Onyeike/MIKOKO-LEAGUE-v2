@@ -540,5 +540,14 @@ setInterval(() => {
     const timer = document.getElementById('live-timer');
     if (timer) timer.innerText = new Date().toLocaleTimeString('en-GB', { hour12: false });
 }, 1000);
+// Temporary news listener for testing
+if (typeof db !== 'undefined') {
+    db.ref('news_feed').on('child_added', (snapshot) => {
+        const post = snapshot.val();
+        console.log("New news post received:", post);
 
+        // Show simple alert so you know it's working
+        alert("New feed item!\n" + (post.text || "Image only") + "\nPosted: " + post.date);
+    });
+}
 window.onload = () => switchTab('home');
