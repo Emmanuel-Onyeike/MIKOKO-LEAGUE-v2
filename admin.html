@@ -94,18 +94,77 @@
                 </div>
             </section>
 
-            <section class="admin-card p-6">
-                <h2 class="font-heading text-xs text-red-600 mb-6 tracking-widest uppercase">Leaderboard_Rank</h2>
-                <div class="space-y-4">
-                    <select>
-                        <option>Select Player</option>
-                        <option>ZUBBY</option>
-                        <option>GABI</option>
-                    </select>
-                    <input type="number" placeholder="Add Goals">
-                    <button class="btn-action w-full py-3">SYNC_PLAYER_STATS</button>
-                </div>
-            </section>
+        <section class="admin-card p-6">
+    <h2 class="font-heading text-xs text-red-600 mb-6 tracking-widest uppercase">Leaderboard_Rank_Sync</h2>
+    <div class="space-y-4">
+        <label class="text-[8px] text-zinc-500 block uppercase">Select_Active_Node</label>
+        <select id="player-select" class="bg-black border border-white/10 text-[10px] focus:border-red-600 outline-none">
+            <option value="">CHOOSE_PLAYER...</option>
+            
+            <optgroup label="GABI FC">
+                <option>OBIECHIMA</option><option>NZEKWU</option><option>OAK</option>
+                <option>ALUIS</option><option>GOZIE</option><option>DIVINE AMALEX</option>
+                <option>FECHI</option><option>JOSEPH</option><option>NWABUEZE</option><option>SUCCESS</option>
+            </optgroup>
+
+            <optgroup label="HASSAN FC">
+                <option>CYRIL</option><option>EKEVAL</option><option>FRANKLIN</option>
+                <option>PEPSI</option><option>CHIMUANYA</option><option>IKENNA PASCAL</option>
+                <option>HENRY</option><option>RIZZY</option><option>JAMIKE</option><option>EBUKA</option>
+            </optgroup>
+
+            <optgroup label="OGBAFIA FC">
+                <option>BALON</option><option>EMPEROR</option><option>DONALD</option>
+                <option>EXENE</option><option>MICHEAL</option><option>JJ</option>
+                <option>HASSAN</option><option>CHILAKA</option><option>KONJ</option><option>ONOJE CHARLES</option>
+            </optgroup>
+
+            <optgroup label="JED FC">
+                <option>MAXWELL</option><option>FRANCIS</option><option>CYRIL</option>
+                <option>GENTLE</option><option>DENNIS</option><option>DUBEM</option>
+                <option>BERMIE</option><option>MARVIS</option><option>RIDER</option><option>KAKAS</option>
+            </optgroup>
+
+            <optgroup label="UNDECIDED FC">
+                <option>NNAMDI</option><option>NIKOLAGWU</option><option>AZZO</option>
+                <option>ANTHONY</option><option>CHIBUIKEM</option><option>PLAYBOY</option>
+                <option>HEZES</option><option>MICHEAL</option><option>ZICO</option><option>HALLAND</option>
+            </optgroup>
+
+            <optgroup label="BIG PAMS FC">
+                <option>EMMA</option><option>SOMADINNA</option><option>UGO</option>
+                <option>ABBA</option><option>RHEMA</option><option>VON</option>
+                <option>NOBLE</option><option>CHARLES</option><option>FAVOUR</option><option>TEMPLE</option>
+            </optgroup>
+
+            <optgroup label="GUNNERS FC">
+                <option>PETER</option><option>DANIEL</option><option>CHUKWUEMEKA</option>
+                <option>ORORO</option><option>SOPULU</option><option>PASCAL</option>
+                <option>PABLO</option><option>SPORTY</option><option>ECHE</option><option>NESTER</option>
+            </optgroup>
+
+            <optgroup label="ZUBBY FC">
+                <option>ONE GUY</option><option>SOMTO</option><option>JK</option>
+                <option>SOLOMON BLACK</option><option>CHUKA</option><option>CALVIN</option>
+                <option>ARINZE</option><option>ELIJAH</option><option>MELLO</option><option>BABY</option>
+                <option>JASO</option><option>CUSH</option><option>CUSH</option>
+            </optgroup>
+        </select>
+
+        <div class="grid grid-cols-2 gap-2">
+            <div>
+                <label class="text-[7px] text-zinc-600 block mb-1 uppercase">Goals</label>
+                <input type="number" id="add-goals" placeholder="0" class="text-center">
+            </div>
+            <div>
+                <label class="text-[7px] text-zinc-600 block mb-1 uppercase">Assists</label>
+                <input type="number" id="add-assists" placeholder="0" class="text-center">
+            </div>
+        </div>
+
+        <button onclick="syncPlayerStats()" class="btn-action w-full py-3">SYNC_PLAYER_STATS</button>
+    </div>
+</section>
         </div>
 
     </div>
