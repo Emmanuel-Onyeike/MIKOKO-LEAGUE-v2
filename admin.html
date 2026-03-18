@@ -76,7 +76,71 @@
                     </div>
                 </div>
             </section>
+<section class="admin-card p-6">
+    <div class="flex items-center justify-between mb-6">
+        <h2 class="font-heading text-xs text-red-600 tracking-widest uppercase">Fixture_Deployment</h2>
+        <span class="text-[7px] font-mono text-zinc-600 uppercase italic">Chronological_Scheduler</span>
+    </div>
 
+    <div class="space-y-10">
+        
+        <div class="p-4 bg-white/[0.02] border border-white/5 space-y-4">
+            <h3 class="text-[8px] font-heading text-zinc-500 uppercase">Slot_01 // Arena_Deployment</h3>
+            <div class="grid grid-cols-2 gap-3">
+                <select id="fix-1-home" class="text-[10px] bg-black p-2 border border-white/10">
+                    <option>HOME_TEAM...</option>
+                    <option>GUNNERS FC</option><option>JED FC</option><option>OGBAFIA FC</option>
+                    <option>ZUBBY FC</option><option>BIG PAMS FC</option><option>HASSAN FC</option>
+                    <option>UNDECIDED FC</option><option>GABI FC</option>
+                </select>
+                <select id="fix-1-away" class="text-[10px] bg-black p-2 border border-white/10">
+                    <option>AWAY_TEAM...</option>
+                    <option>GUNNERS FC</option><option>JED FC</option><option>OGBAFIA FC</option>
+                    <option>ZUBBY FC</option><option>BIG PAMS FC</option><option>HASSAN FC</option>
+                    <option>UNDECIDED FC</option><option>GABI FC</option>
+                </select>
+            </div>
+            <div class="grid grid-cols-3 gap-2">
+                <input type="text" id="fix-1-time" placeholder="16:00" class="text-center text-[10px]">
+                <input type="text" id="fix-1-date" placeholder="MAR 20" class="text-center text-[10px]">
+                <input type="text" id="fix-1-arena" placeholder="ARENA_01" class="text-center text-[10px]">
+            </div>
+        </div>
+
+        <div class="p-4 bg-white/[0.02] border border-white/5 space-y-4">
+            <h3 class="text-[8px] font-heading text-zinc-500 uppercase">Slot_02 // Arena_Deployment</h3>
+            <div class="grid grid-cols-2 gap-3">
+                <select id="fix-2-home" class="text-[10px] bg-black p-2 border border-white/10">
+                    <option>HOME_TEAM...</option>
+                    <option>GUNNERS FC</option><option>JED FC</option><option>OGBAFIA FC</option>
+                    <option>ZUBBY FC</option><option>BIG PAMS FC</option><option>HASSAN FC</option>
+                    <option>UNDECIDED FC</option><option>GABI FC</option>
+                </select>
+                <select id="fix-2-away" class="text-[10px] bg-black p-2 border border-white/10">
+                    <option>AWAY_TEAM...</option>
+                    <option>GUNNERS FC</option><option>JED FC</option><option>OGBAFIA FC</option>
+                    <option>ZUBBY FC</option><option>BIG PAMS FC</option><option>HASSAN FC</option>
+                    <option>UNDECIDED FC</option><option>GABI FC</option>
+                </select>
+            </div>
+            <div class="grid grid-cols-3 gap-2">
+                <input type="text" id="fix-2-time" placeholder="17:00" class="text-center text-[10px]">
+                <input type="text" id="fix-2-date" placeholder="MAR 20" class="text-center text-[10px]">
+                <input type="text" id="fix-2-arena" placeholder="ARENA_01" class="text-center text-[10px]">
+            </div>
+        </div>
+
+        <div class="space-y-3">
+            <select id="match-day-target" class="text-[9px] font-heading bg-red-600/10 border-red-600 text-red-600">
+                <option>SELECT_MATCH_DAY...</option>
+                <option value="day_1">MATCH_DAY_01</option>
+                <option value="day_2">MATCH_DAY_02</option>
+                <option value="day_3">MATCH_DAY_03</option>
+            </select>
+            <button onclick="publishFixtures()" class="btn-action w-full py-4 tracking-widest">PUBLISH_FIXTURES_TO_GRID</button>
+        </div>
+    </div>
+</section>
             <section class="admin-card p-6">
                 <h2 class="font-heading text-xs text-red-600 mb-6 tracking-widest uppercase">Neural_Feed_Broadcast</h2>
                 <textarea class="w-full bg-zinc-900 border border-white/10 p-4 text-xs mb-4" rows="3" placeholder="Write league update..."></textarea>
