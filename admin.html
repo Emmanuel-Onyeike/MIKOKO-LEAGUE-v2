@@ -76,6 +76,49 @@
                     </div>
                 </div>
             </section>
+            <section class="admin-card p-6 border-l-4 border-red-600">
+    <div class="flex items-center justify-between mb-6">
+        <h2 class="font-heading text-xs text-red-600 tracking-widest uppercase">Signal_Broadcast_Control</h2>
+        <div class="flex items-center gap-2">
+            <span class="w-2 h-2 bg-red-600 rounded-full animate-ping"></span>
+            <span class="text-[8px] font-mono text-white uppercase">Live_Node</span>
+        </div>
+    </div>
+
+    <div class="space-y-6">
+        <div class="grid grid-cols-2 gap-3">
+            <button onclick="toggleSignal('SEARCHING')" class="py-3 bg-zinc-900 border border-white/10 text-[9px] font-heading hover:bg-white/5 transition uppercase tracking-tighter">
+                Set_Radar_Mode (Searching)
+            </button>
+            <button onclick="toggleSignal('ACTIVE')" class="py-3 bg-red-950/20 border border-red-600 text-[9px] font-heading text-red-600 hover:bg-red-600 hover:text-white transition uppercase tracking-tighter">
+                Deploy_Live_Signals (Active)
+            </button>
+        </div>
+
+        <div id="signal-active-config" class="p-4 bg-white/[0.02] border border-white/5 space-y-4">
+            <h3 class="text-[8px] font-heading text-zinc-500 uppercase">Match_Signal_Configuration</h3>
+            <div class="grid grid-cols-2 gap-3">
+                <select id="signal-home" class="text-[10px] bg-black p-2 border border-white/10">
+                    <option>HOME_TEAM...</option>
+                    <option>GUNNERS FC</option><option>JED FC</option><option>OGBAFIA FC</option>
+                    <option>ZUBBY FC</option><option>BIG PAMS FC</option><option>HASSAN FC</option>
+                    <option>UNDECIDED FC</option><option>GABI FC</option>
+                </select>
+                <select id="signal-away" class="text-[10px] bg-black p-2 border border-white/10">
+                    <option>AWAY_TEAM...</option>
+                    <option>GUNNERS FC</option><option>JED FC</option><option>OGBAFIA FC</option>
+                    <option>ZUBBY FC</option><option>BIG PAMS FC</option><option>HASSAN FC</option>
+                    <option>UNDECIDED FC</option><option>GABI FC</option>
+                </select>
+            </div>
+            <button onclick="publishLiveSignal()" class="btn-action w-full py-3 mt-2">BROADCAST_LIVE_MATCH</button>
+        </div>
+        
+        <p class="text-[7px] font-mono text-zinc-600 uppercase text-center italic">
+            Note: "Radar_Mode" overrides all live cards and shows the SIGNAL_SEARCH animation to users.
+        </p>
+    </div>
+</section>
 <section class="admin-card p-6">
     <div class="flex items-center justify-between mb-6">
         <h2 class="font-heading text-xs text-red-600 tracking-widest uppercase">Fixture_Deployment</h2>
