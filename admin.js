@@ -1,0 +1,128 @@
+// --- MIKOKO_ADMIN_CORE_V1 ---
+// Initialize Firebase (Replace the config below with your actual Firebase Project keys)
+const firebaseConfig = {
+    apiKey: "YOUR_API_KEY",
+    authDomain: "mikoko-league.firebaseapp.com",
+    databaseURL: "https://mikoko-league-default-rtdb.firebaseio.com",
+    projectId: "mikoko-league",
+    storageBucket: "mikoko-league.appspot.com",
+    messagingSenderId: "YOUR_ID",
+    appId: "YOUR_APP_ID"
+};
+
+// Initialize Firebase App and Database
+const app = firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
+
+// Security Gate
+const ENCRYPTED_PIN = "123789"; 
+
+function checkAccess() {
+    const pinInput = document.getElementById('admin-pin').value;
+    if (pinInput === ENCRYPTED_PIN) {
+        document.getElementById('login-overlay').classList.add('hidden');
+        showNotify("ACCESS_GRANTED // NEURAL_LINK_STABLE");
+        syncCurrentState(); // Load existing data into admin fields
+    } else {
+        alert("SECURITY_BREACH: INVALID_PIN");
+    }
+}
+
+// --- 1. LIVE_CENTER_CONTROL ---
+function updateLiveMatch(node) {
+    const homeName = document.getElementById(`live-home-name`).value;
+    const awayName = document.getElementById(`live-away-name`).value;
+    
+    db.ref('live_matches/' + node).update({
+        home: homeName,
+        away: awayName,
+        timestamp: Date.now()
+    }).then(() => showNotify(`NODE_${node}_UPDATED`));
+}
+
+function updateScore(node, team, increment) {
+    const scoreRef = db.ref(`live_matches/${node}/${team}_score`);
+    scoreRef.transaction((currentScore) => {
+        return (currentScore || 0) + increment;
+    }).then(() => showNotify(`SCORE_SYNCED`));
+}
+
+function setMatchStatus(node, status) {
+    db.ref(`live_matches/${node}`).update({
+        status: status, // e.g., 'LIVE', 'HT', 'FT', 'ET'
+        last_update: new Date().toLocaleTimeString()
+    }).then(() => showNotify(`STATUS: ${status}`));
+}
+
+// --- 2. LEADERBOARD & RANKING ---
+function syncPlayerStats() {
+    const playerName = document.getElementById('player-select').value;
+    const goalsToAdd = parseInt(document.getElementById('add-goals').value) || 0;
+    const assistsToAdd = parseInt(document.getElementById('add-assists').value) || 0;
+
+    const playerRef = db.ref('leaderboard/' + playerName);
+    playerRef.transaction((stats) => {
+        if (stats) {
+            stats.goals += goalsToAdd;
+            stats.assists += assistsToAdd;
+        }
+        return stats;
+    }).then(() => {
+        showNotify(`${playerName}_STATS_SYNCED`);
+        document.getElementById('add-goals').value = '';
+    });
+}
+
+// --- 3. NEWS_FEED_BROADCAST ---
+function publishNews() {
+    const content = document.getElementById('news-content').value;
+    if (!content) return;
+
+    const newPostRef = db.ref('news_feed').push();
+    newPostRef.set({
+        text: content,
+        date: new Date().toLocaleDateString(),
+        time: new Date().toLocaleTimeString(),
+        timestamp: firebase.database.ServerValue.TIMESTAMP
+    }).then(() => {
+        showNotify("BROADCAST_PUBLISHED");
+        document.getElementById('news-content').value = '';
+    });
+}
+
+// --- 4. STREAM_LINK_CONTROL ---
+function updateStreamLinks() {
+    const s1 = document.getElementById('stream-1-url').value;
+    const s2 = document.getElementById('stream-2-url').value;
+    const s3 = document.getElementById('stream-3-url').value;
+
+    db.ref('streams').set({
+        link1: s1,
+        link2: s2,
+        link3: s3,
+        active: true
+    }).then(() => showNotify("STREAM_NODES_CONFIGURED"));
+}
+
+// --- UI_HELPER_FUNCTIONS ---
+function showNotify(msg) {
+    const alertBox = document.getElementById('admin-alert');
+    alertBox.innerText = msg;
+    alertBox.classList.remove('hidden');
+    
+    // Auto-hide after 3 seconds
+    setTimeout(() => {
+        alertBox.classList.add('hidden');
+    }, 3000);
+}
+
+// Fetch current data from Firebase to populate admin inputs on login
+function syncCurrentState() {
+    db.ref('live_matches/node_alpha').once('value', (snapshot) => {
+        const data = snapshot.val();
+        if (data) {
+            document.getElementById('live-home-name').value = data.home;
+            document.getElementById('live-away-name').value = data.away;
+        }
+    });
+}
