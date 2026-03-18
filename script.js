@@ -742,6 +742,52 @@ function updateNewsTab(posts) {
                 });
             }
         };
+
+// ────────────────────────────────────────────────
+// WEB PUSH – survives tab close / browser close
+// ────────────────────────────────────────────────
+async function subscribeToPush() {
+    if (!('serviceWorker' in navigator) || !('PushManager' in window)) {
+        console.warn("Push not supported in this browser");
+        return;
+    }
+
+    try {
+        const registration = await navigator.serviceWorker.register('/sw.js', { scope: '/' });
+        console.log('Service Worker registered');
+
+        const permission = await Notification.requestPermission();
+        if (permission !== 'granted') {
+            console.log('Notification permission denied');
+            return;
+        }
+
+        const subscription = await registration.pushManager.subscribe({
+            userVisibleOnly: true,
+            applicationServerKey: 'YOUR_VAPID_PUBLIC_KEY_HERE'   // ← very important, see below
+        });
+
+        // Send subscription to your database
+        const subRef = db.ref('push_subscriptions').push();   // or use uid if you have auth
+        await subRef.set({
+            subscription: subscription.toJSON(),
+            userAgent: navigator.userAgent,
+            timestamp: firebase.database.ServerValue.TIMESTAMP
+        });
+
+        console.log("Push subscription saved!");
+        // Optional: showAlert("Notifications enabled!", "You'll now get Mikoko updates even when offline");
+
+    } catch (err) {
+        console.error("Push subscription failed:", err);
+    }
+}
+
+// Call it once on load (after asking normal Notification permission)
+window.addEventListener('load', () => {
+    // your existing code...
+    subscribeToPush();
+});
 window.onload = () => {
     switchTab('home');
     // Initial check for news on load
