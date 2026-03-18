@@ -639,59 +639,68 @@ function renderMatchCard(home, away, time, date, venue) {
     `;
 }
 
-
-function renderLiveMatchCard(home, away, clock, status) {
+function renderLiveMatchCard(home, away, clock, status, homeScore = 0, awayScore = 0) {
     return `
     <div class="bento-card !p-0 overflow-hidden border-zinc-900 bg-zinc-950/50 backdrop-blur-xl">
-        <div class="p-8 flex flex-col items-center justify-center relative">
-            <div class="absolute top-4 font-mono text-[10px] text-zinc-700 tracking-[0.5em] uppercase">${status}</div>
+        <div class="p-8 flex flex-col items-center justify-center relative bg-gradient-to-b from-red-600/5 to-transparent">
+            <div class="absolute top-4 font-mono text-[9px] text-red-600 tracking-[0.5em] uppercase animate-pulse">${status}</div>
             
-            <div class="flex items-center justify-between w-full max-w-2xl gap-4 md:gap-12">
+            <div class="flex items-center justify-between w-full max-w-3xl gap-4">
                 <div class="flex-1 text-right">
-                    <h3 class="font-heading text-xl md:text-3xl text-white italic tracking-tighter uppercase">${home}</h3>
-                    <p class="text-[8px] font-mono text-zinc-600 uppercase">Home_Node</p>
+                    <h3 class="font-heading text-xl md:text-4xl text-white italic tracking-tighter uppercase leading-none">${home}</h3>
+                    <div class="flex justify-end gap-1 mt-2">
+                        <div class="w-2 h-3 bg-yellow-500 rounded-sm opacity-20"></div> <div class="w-2 h-3 bg-red-600 rounded-sm opacity-20"></div>
+                    </div>
                 </div>
 
-                <div class="flex flex-col items-center">
-                    <div class="font-heading text-5xl md:text-7xl text-white tracking-tighter mb-2">0 : 0</div>
-                    <div class="px-4 py-1 bg-zinc-900 border border-white/10 rounded-full font-mono text-xs text-red-600 font-bold tracking-widest">
-                        ${clock}'
+                <div class="flex flex-col items-center min-w-[120px]">
+                    <div class="font-heading text-6xl md:text-8xl text-white tracking-tighter drop-shadow-[0_0_20px_rgba(255,255,255,0.1)]">
+                        ${homeScore}:${awayScore}
+                    </div>
+                    <div class="mt-2 px-6 py-1 bg-red-600 font-mono text-xs text-white font-bold skew-x-[-12deg] shadow-[4px_4px_0px_#4a0000]">
+                        ${clock}
                     </div>
                 </div>
 
                 <div class="flex-1 text-left">
-                    <h3 class="font-heading text-xl md:text-3xl text-white italic tracking-tighter uppercase">${away}</h3>
-                    <p class="text-[8px] font-mono text-zinc-600 uppercase">Away_Node</p>
+                    <h3 class="font-heading text-xl md:text-4xl text-white italic tracking-tighter uppercase leading-none">${away}</h3>
+                    <div class="flex justify-start gap-1 mt-2">
+                        <div class="w-2 h-3 bg-yellow-500 rounded-sm opacity-20"></div>
+                        <div class="w-2 h-3 bg-red-600 rounded-sm opacity-20"></div>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 border-t border-white/5 bg-black/40">
-            <div class="p-6 border-b md:border-b-0 md:border-r border-white/5 space-y-4">
-                <div class="flex items-center gap-2 mb-2">
-                    <div class="w-2 h-2 bg-white rounded-full"></div>
-                    <span class="font-heading text-[9px] text-zinc-400 uppercase tracking-widest">Match_Events</span>
+        <div class="grid grid-cols-2 border-t border-white/5 bg-black/60 min-h-[150px]">
+            
+            <div class="p-4 border-r border-white/5 space-y-2">
+                <div class="flex items-center gap-2 mb-3 opacity-50">
+                    <span class="font-heading text-[8px] text-zinc-400 uppercase">Home_Events</span>
                 </div>
-                <div class="text-[10px] font-mono text-zinc-600 italic">No events recorded yet...</div>
+                <div class="flex items-center gap-3 animate-slide-right">
+                    <span class="font-mono text-[10px] text-red-600">--'</span>
+                    <span class="font-heading text-[9px] text-zinc-500 italic uppercase">Waiting_for_data...</span>
+                </div>
             </div>
 
-            <div class="p-6 space-y-4">
-                <div class="flex items-center gap-2 mb-2">
-                    <div class="w-2 h-2 bg-red-600 rounded-sm"></div>
-                    <span class="font-heading text-[9px] text-zinc-400 uppercase tracking-widest">Disciplinary_Log</span>
+            <div class="p-4 space-y-2 text-right">
+                <div class="flex items-center justify-end gap-2 mb-3 opacity-50">
+                    <span class="font-heading text-[8px] text-zinc-400 uppercase">Away_Events</span>
                 </div>
-                <div class="flex gap-4">
-                    <div class="flex flex-col items-center opacity-20">
-                        <div class="w-3 h-4 bg-yellow-500 rounded-sm mb-1"></div>
-                        <span class="font-mono text-[8px] text-zinc-500">0</span>
-                    </div>
-                    <div class="flex flex-col items-center opacity-20">
-                        <div class="w-3 h-4 bg-red-600 rounded-sm mb-1"></div>
-                        <span class="font-mono text-[8px] text-zinc-500">0</span>
-                    </div>
-                    <div class="text-[10px] font-mono text-zinc-600 italic self-center ml-2">Clean sheet.</div>
+                <div class="flex items-center justify-end gap-3 opacity-40">
+                    <span class="font-heading text-[9px] text-zinc-600 italic uppercase">No_Signal</span>
+                    <span class="font-mono text-[10px] text-zinc-800">'--</span>
                 </div>
             </div>
+        </div>
+
+        <div class="bg-zinc-900/80 py-2 px-4 border-t border-white/5 flex justify-between items-center">
+            <div class="flex items-center gap-4">
+                <span class="text-[7px] font-mono text-zinc-600 uppercase tracking-widest">Official: <span class="text-zinc-400 font-bold">UNASSIGNED</span></span>
+                <span class="text-[7px] font-mono text-zinc-600 uppercase tracking-widest">Sync: <span class="text-green-500 font-bold">99%</span></span>
+            </div>
+            <div class="text-[7px] font-heading text-red-600/50 uppercase tracking-tighter">Correction_Protocol_Active</div>
         </div>
     </div>`;
 }
