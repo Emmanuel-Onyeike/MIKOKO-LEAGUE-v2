@@ -640,68 +640,46 @@ function closeModal() {
 }
 
 // ────────────────────────────────────────────────
-        // REAL-TIME LISTENERS – EVERY CATEGORY UPDATES INSTANTLY
-        // ────────────────────────────────────────────────
-        let newsPosts = [];
-        let standingsData = {};
-        let liveMatchData = {};
+// FIXED NEWS FEED – Real-time + Alert on every new post
+// ────────────────────────────────────────────────
+let newsPosts = [];
 
-        if (typeof db !== 'undefined') {
-            // News
-            db.ref('news_feed').orderByChild('timestamp').limitToLast(10).on('value', (snap) => {
-                newsPosts = [];
-                snap.forEach(c => newsPosts.push(c.val()));
-                newsPosts.reverse();
-                if (document.querySelector('#nav-news.active')) updateNewsTab(newsPosts);
-            });
+// Main listener (fixed + more reliable)
+if (typeof db !== 'undefined') {
+    const newsRef = db.ref('news_feed');
 
-            // Standings (both groups)
-            db.ref('standings').on('value', (snap) => {
-                standingsData = snap.val() || {};
-                const ga = document.getElementById('group-a-node-container');
-                const gb = document.getElementById('group-b-node-container');
-                if (ga) ga.innerHTML = renderGroupTable(['GUNNERS FC','JED FC','OGBAFIA FC','ZUBBY FC'], standingsData);
-                if (gb) gb.innerHTML = renderGroupTable(['BIG PAMS FC','HASSAN FC','UNDECIDED FC','GABI FC'], standingsData);
-            });
+    newsRef.orderByChild('timestamp').limitToLast(15).on('value', (snapshot) => {
+        newsPosts = [];
+        snapshot.forEach((child) => {
+            newsPosts.push(child.val());
+        });
+        // Reverse so newest is first
+        newsPosts.reverse();
 
-            // LIVE MATCH – powers Live Center + Live Games
-            db.ref('live_matches/node_alpha').on('value', (snap) => {
-                liveMatchData = snap.val() || {home:"NODE_A", away:"NODE_B", clock:"00:00", status:"PENDING", homeScore:0, awayScore:0};
-                if (document.querySelector('#nav-live-center.active')) updateLiveCenter();
-            });
+        console.log('📰 News updated – Total posts:', newsPosts.length); // helpful for debugging
+
+        // If user is currently on News tab → update instantly
+        if (document.querySelector('#nav-news.active, #dock-news.active')) {
+            updateNewsTab(newsPosts);
         }
 
-        // Live Center real-time render
-        function updateLiveCenter() {
-            const container = document.getElementById('live-center-dynamic');
-            if (!container) return;
-
-            container.innerHTML = `
-                <div class="space-y-6">
-                    <div class="flex items-center justify-between px-2">
-                        <span class="font-heading text-[10px] text-zinc-500 tracking-widest uppercase italic">NODE_ALPHA // PITCH_01</span>
-                        <span class="px-4 py-1 bg-red-600/5 border border-red-600/20 text-red-600/80 font-mono text-[9px] uppercase animate-pulse">${liveMatchData.status || 'LIVE'}</span>
-                    </div>
-                    ${renderLiveMatchCard(
-                        liveMatchData.home || 'NODE_A',
-                        liveMatchData.away || 'NODE_B',
-                        liveMatchData.clock || '00:00',
-                        liveMatchData.status || 'LIVE',
-                        liveMatchData.homeScore || 0,
-                        liveMatchData.awayScore || 0
-                    )}
-                </div>
-            `;
+        // If there is at least one post → show beautiful slide-down alert (real phone style)
+        if (newsPosts.length > 0) {
+            const latest = newsPosts[0];
+            showAlert(
+                "NEW MIKOKO UPDATE", 
+                latest.text ? latest.text.substring(0, 80) + (latest.text.length > 80 ? '...' : '') : "New broadcast received"
+            );
         }
-// ────────────────────────────────────────────────
-// NEWS TAB – keep your UI until real posts exist
-// ────────────────────────────────────────────────
+    });
+}
 
+// Improved updateNewsTab (more robust)
 function updateNewsTab(posts) {
-    const container = document.querySelector('#main-content');
+    const container = document.getElementById('main-content');
     if (!container) return;
 
-    if (posts.length > 0) {
+    if (posts && posts.length > 0) {
         container.innerHTML = `
             <div class="animate-boot space-y-10 pb-28">
                 <div class="text-center mb-12">
@@ -709,28 +687,26 @@ function updateNewsTab(posts) {
                         NEURAL_FEED_LIVE
                     </h2>
                     <p class="text-[11px] font-mono text-zinc-400 uppercase tracking-[0.4em] mt-4">
-                        Latest tactical broadcasts • Mikoko Grid Online
+                        Latest tactical broadcasts • ${posts.length} posts
                     </p>
                 </div>
                 ${posts.map(post => `
                     <div class="bento-card overflow-hidden border border-red-600/30 bg-black/50 backdrop-blur-md mb-10">
                         ${post.image ? `
                             <div class="relative h-64 md:h-96 overflow-hidden">
-                                <img src="${post.image}" alt="Broadcast visual" class="w-full h-full object-cover transition-all duration-1000 grayscale hover:grayscale-0" />
+                                <img src="${post.image}" alt="Broadcast visual" class="w-full h-full object-cover transition-all duration-1000" />
                                 <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent"></div>
                             </div>
                         ` : ''}
                         <div class="p-6 md:p-10">
                             <div class="flex justify-between items-center mb-5">
                                 <span class="text-[10px] font-mono text-zinc-500 uppercase tracking-widest">
-                                    ${post.date || 'Unknown'} • ${post.time || '--:--:--'}
+                                    ${post.date || 'Just now'} • ${post.time || '--:--'}
                                 </span>
-                                <span class="px-4 py-1 bg-red-600/20 text-red-400 text-[9px] rounded-full animate-pulse">
-                                    ACTIVE
-                                </span>
+                                <span class="px-4 py-1 bg-red-600/20 text-red-400 text-[9px] rounded-full">LIVE</span>
                             </div>
                             <div class="text-zinc-200 text-base leading-relaxed">
-                                ${post.text || '<i class="text-zinc-500">[Image transmission only]</i>'}
+                                ${post.text || '<i class="text-zinc-500">[Visual transmission only]</i>'}
                             </div>
                         </div>
                     </div>
@@ -738,10 +714,9 @@ function updateNewsTab(posts) {
             </div>
         `;
     } else {
-        container.innerHTML = views.news;
+        container.innerHTML = views.news;   // your original waiting UI
     }
 }
-
 // ────────────────────────────────────────────────
 // INIT
 // ────────────────────────────────────────────────
