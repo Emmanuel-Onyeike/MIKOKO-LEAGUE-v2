@@ -197,3 +197,39 @@ async function publishNews() {
         clearImage();
     });
 }
+function setStreamStatus(status) {
+    const isLive = status === 'LIVE';
+    
+    db.ref('stream_settings').update({
+        broadcast_status: status, // 'STANDBY' or 'LIVE'
+        is_unlocked: isLive
+    }).then(() => {
+        showNotify(`BROADCAST_MODIFIED: ${status}`);
+        
+        // Update Admin UI feedback
+        const dot = document.getElementById('stream-status-dot');
+        const text = document.getElementById('stream-status-text');
+        
+        if (isLive) {
+            dot.className = "w-2 h-2 bg-red-600 rounded-full animate-ping";
+            text.innerText = "Live_Broadcast";
+            text.classList.replace('text-zinc-500', 'text-red-600');
+        } else {
+            dot.className = "w-2 h-2 bg-zinc-800 rounded-full";
+            text.innerText = "Standby_Mode";
+            text.classList.replace('text-red-600', 'text-zinc-500');
+        }
+    });
+}
+
+function updateStreamLinks() {
+    const s1 = document.getElementById('stream-1-url').value;
+    const s2 = document.getElementById('stream-2-url').value;
+    const s3 = document.getElementById('stream-3-url').value;
+
+    db.ref('stream_links').set({
+        node_1: s1 || "https://elite-league-streamer.vercel.app/",
+        node_2: s2 || "https://elite-league-streamer-2.vercel.app/",
+        node_3: s3 || "https://elite-league-streamer-3.vercel.app/"
+    }).then(() => showNotify("NODES_SYNCED_TO_BACKEND"));
+}
