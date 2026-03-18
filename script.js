@@ -114,26 +114,34 @@ const views = {
         </div>
     </div>`,
 
-    standings: `
-    <div class="animate-boot space-y-8">
-        <div class="bento-card border-b-2 border-red-600 flex justify-between items-center">
-            <div>
+  standings: `
+    <div class="animate-boot space-y-8 pb-24">
+        <div class="bento-card border-b-2 border-red-600 flex justify-between items-center relative overflow-hidden">
+            <div class="absolute top-0 right-0 p-2 opacity-10">
+                <span class="font-heading text-6xl italic">DEPO</span>
+            </div>
+            <div class="relative z-10">
                 <h2 class="font-heading text-4xl italic tracking-tighter text-white uppercase">Group_Stage</h2>
                 <p class="text-[9px] font-mono text-red-600 uppercase tracking-[0.4em]">Arena_Deploys // Phase_01</p>
             </div>
         </div>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div class="space-y-4">
-                <h3 class="font-heading text-xl italic text-red-600">GROUP_A</h3>
+        
+        <div class="grid grid-cols-1 xl:grid-cols-2 gap-8">
+            <div class="space-y-4 bento-card !p-0 overflow-hidden border-zinc-900">
+                <div class="bg-zinc-900/30 p-4 border-b border-white/5">
+                    <h3 class="font-heading text-sm italic text-red-600 tracking-widest uppercase">GROUP_A_NODE</h3>
+                </div>
                 ${renderGroupTable(['GUNNERS FC', 'JED FC', 'OGBAFIA FC', 'ZUBBY FC'])}
             </div>
-            <div class="space-y-4">
-                <h3 class="font-heading text-xl italic text-red-600">GROUP_B</h3>
+            
+            <div class="space-y-4 bento-card !p-0 overflow-hidden border-zinc-900">
+                <div class="bg-zinc-900/30 p-4 border-b border-white/5">
+                    <h3 class="font-heading text-sm italic text-red-600 tracking-widest uppercase">GROUP_B_NODE</h3>
+                </div>
                 ${renderGroupTable(['BIG PAMS FC', 'HASSAN FC', 'UNDECIDED FC', 'GABI FC'])}
             </div>
         </div>
     </div>`,
-
     news: `
     <div class="animate-boot space-y-10 pb-28">
         <div class="relative group rounded-3xl overflow-hidden border border-red-600/20 h-[500px]">
@@ -263,30 +271,41 @@ function closeModal() {
 
 function renderGroupTable(teams) {
     return `
-        <div class="overflow-x-auto">
-            <table class="w-full text-left border-collapse">
+        <div class="overflow-x-auto no-scrollbar">
+            <table class="w-full text-left border-collapse min-w-[500px]">
                 <thead class="bg-zinc-900/80 border-b border-white/10">
                     <tr>
-                        <th class="p-3 font-heading text-[8px] text-zinc-500 uppercase">Pos</th>
-                        <th class="p-3 font-heading text-[8px] text-zinc-500 uppercase">Team</th>
-                        <th class="p-3 font-heading text-[8px] text-zinc-500 uppercase text-center">MP</th>
-                        <th class="p-3 font-heading text-[8px] text-red-600 uppercase text-right">PTS</th>
+                        <th class="p-2 font-heading text-[7px] text-zinc-500 uppercase">Pos</th>
+                        <th class="p-2 font-heading text-[7px] text-zinc-500 uppercase">Team</th>
+                        <th class="p-2 font-mono text-[8px] text-zinc-500 uppercase text-center">MP</th>
+                        <th class="p-2 font-mono text-[8px] text-zinc-500 uppercase text-center">W</th>
+                        <th class="p-2 font-mono text-[8px] text-zinc-500 uppercase text-center">D</th>
+                        <th class="p-2 font-mono text-[8px] text-zinc-500 uppercase text-center">L</th>
+                        <th class="p-2 font-mono text-[8px] text-zinc-500 uppercase text-center">GF</th>
+                        <th class="p-2 font-mono text-[8px] text-zinc-500 uppercase text-center">GA</th>
+                        <th class="p-2 font-mono text-[8px] text-zinc-500 uppercase text-center">GD</th>
+                        <th class="p-2 font-heading text-[8px] text-red-600 uppercase text-right">P</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-white/5">
                     ${teams.map((team, i) => `
-                        <tr class="group hover:bg-white/[0.02]">
-                            <td class="p-3 font-mono text-[10px] text-zinc-600">${i + 1}</td>
-                            <td class="p-3 font-heading text-[10px] uppercase italic tracking-tighter text-zinc-300 group-hover:text-white">${team}</td>
-                            <td class="p-3 font-mono text-[10px] text-center">0</td>
-                            <td class="p-3 font-heading text-xs text-right italic text-red-600 font-bold">0</td>
+                        <tr class="group hover:bg-white/[0.02] transition-colors">
+                            <td class="p-2 font-mono text-[10px] text-zinc-600">${i + 1}</td>
+                            <td class="p-2 font-heading text-[9px] uppercase italic tracking-tighter text-zinc-300 group-hover:text-white">${team}</td>
+                            <td class="p-2 font-mono text-[10px] text-center text-zinc-500">0</td>
+                            <td class="p-2 font-mono text-[10px] text-center text-zinc-500">0</td>
+                            <td class="p-2 font-mono text-[10px] text-center text-zinc-500">0</td>
+                            <td class="p-2 font-mono text-[10px] text-center text-zinc-500">0</td>
+                            <td class="p-2 font-mono text-[10px] text-center text-zinc-500">0</td>
+                            <td class="p-2 font-mono text-[10px] text-center text-zinc-500">0</td>
+                            <td class="p-2 font-mono text-[10px] text-center text-zinc-400">0</td>
+                            <td class="p-2 font-heading text-[10px] text-right italic text-red-600 font-bold">0</td>
                         </tr>
                     `).join('')}
                 </tbody>
             </table>
         </div>`;
 }
-
 setInterval(() => {
     const timer = document.getElementById('live-timer');
     if (timer) timer.innerText = new Date().toLocaleTimeString('en-GB');
