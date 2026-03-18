@@ -224,14 +224,39 @@
         </div>
 
         <div class="space-y-6">
-            <section class="admin-card p-6">
-                <h2 class="font-heading text-xs text-red-600 mb-6 tracking-widest uppercase">Stream_Management</h2>
-                <div class="space-y-4">
-                    <input type="text" placeholder="Stream 1 URL">
-                    <input type="text" placeholder="Stream 2 URL">
-                    <button class="btn-action w-full py-3">UPDATE_LINK_NODES</button>
-                </div>
-            </section>
+         <section class="admin-card p-6 border-b-4 border-red-600">
+    <div class="flex items-center justify-between mb-6">
+        <h2 class="font-heading text-xs text-red-600 tracking-widest uppercase">Stream_Node_Management</h2>
+        <div class="flex items-center gap-2">
+            <span id="stream-status-dot" class="w-2 h-2 bg-zinc-800 rounded-full"></span>
+            <span id="stream-status-text" class="text-[8px] font-mono text-zinc-500 uppercase">Standby_Mode</span>
+        </div>
+    </div>
+
+    <div class="space-y-4">
+        <div class="space-y-3">
+            <div>
+                <label class="text-[7px] text-zinc-600 block mb-1 uppercase">Link_Node_01</label>
+                <input type="text" id="stream-1-url" placeholder="https://elite-league-streamer.vercel.app/" class="text-[10px] border-zinc-900 focus:border-red-600">
+            </div>
+            <div>
+                <label class="text-[7px] text-zinc-600 block mb-1 uppercase">Link_Node_02</label>
+                <input type="text" id="stream-2-url" placeholder="https://elite-league-streamer-2.vercel.app/" class="text-[10px] border-zinc-900 focus:border-red-600">
+            </div>
+            <div>
+                <label class="text-[7px] text-zinc-600 block mb-1 uppercase">Link_Node_03</label>
+                <input type="text" id="stream-3-url" placeholder="https://elite-league-streamer-3.vercel.app/" class="text-[10px] border-zinc-900 focus:border-red-600">
+            </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-2 pt-2">
+            <button onclick="setStreamStatus('STANDBY')" class="py-2 bg-zinc-900 border border-white/5 text-[8px] font-heading hover:bg-zinc-800 transition">SET_STANDBY</button>
+            <button onclick="setStreamStatus('LIVE')" class="py-2 bg-red-950/20 border border-red-600 text-[8px] font-heading text-red-600 hover:bg-red-600 hover:text-white transition">GO_LIVE</button>
+        </div>
+
+        <button onclick="updateStreamLinks()" class="btn-action w-full py-4 mt-2 tracking-[0.2em]">UPDATE_ALL_NODES</button>
+    </div>
+</section>
             <section class="admin-card p-6">
     <div class="flex items-center justify-between mb-6">
         <h2 class="font-heading text-xs text-red-600 tracking-widest uppercase">Standings_Operator</h2>
