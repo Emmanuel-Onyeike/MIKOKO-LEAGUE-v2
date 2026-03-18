@@ -126,3 +126,33 @@ function syncCurrentState() {
         }
     });
 }
+function toggleSignal(status) {
+    // status can be 'SEARCHING' or 'ACTIVE'
+    db.ref('broadcast_settings').update({
+        mode: status,
+        last_toggle: firebase.database.ServerValue.TIMESTAMP
+    }).then(() => {
+        showNotify(`SIGNAL_MODE: ${status}`);
+        
+        // Visual UI feedback in Admin
+        if(status === 'SEARCHING') {
+            document.getElementById('signal-active-config').style.opacity = '0.3';
+            document.getElementById('signal-active-config').style.pointerEvents = 'none';
+        } else {
+            document.getElementById('signal-active-config').style.opacity = '1';
+            document.getElementById('signal-active-config').style.pointerEvents = 'auto';
+        }
+    });
+}
+
+function publishLiveSignal() {
+    const home = document.getElementById('signal-home').value;
+    const away = document.getElementById('signal-away').value;
+
+    db.ref('broadcast_settings').update({
+        mode: 'ACTIVE',
+        active_home: home,
+        active_away: away,
+        timestamp: firebase.database.ServerValue.TIMESTAMP
+    }).then(() => showNotify("LIVE_SIGNAL_BROADCASTED"));
+}
