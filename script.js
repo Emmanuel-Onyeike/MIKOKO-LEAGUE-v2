@@ -7,67 +7,67 @@
 
 const mainContent = document.getElementById('main-content');
 
-        // ────────────────────────────────────────────────
-        // HELPER RENDER FUNCTIONS (unchanged – perfect as before)
-        // ────────────────────────────────────────────────
-        function renderGroupTable(teams, groupData = {}) {
-            const hasRealData = Object.keys(groupData).length > 0 && Object.values(groupData).some(s => s.mp > 0 || s.w > 0);
-            return `
-                <div class="overflow-x-auto no-scrollbar">
-                    <table class="w-full text-left border-collapse min-w-[500px]">
-                        <thead class="bg-zinc-900/80 border-b border-white/10">
-                            <tr>
-                                <th class="p-2 font-heading text-[7px] text-zinc-500 uppercase">Pos</th>
-                                <th class="p-2 font-heading text-[7px] text-zinc-500 uppercase">Team</th>
-                                <th class="p-2 font-mono text-[8px] text-zinc-500 uppercase text-center">MP</th>
-                                <th class="p-2 font-mono text-[8px] text-zinc-500 uppercase text-center">W</th>
-                                <th class="p-2 font-mono text-[8px] text-zinc-500 uppercase text-center">D</th>
-                                <th class="p-2 font-mono text-[8px] text-zinc-500 uppercase text-center">L</th>
-                                <th class="p-2 font-mono text-[8px] text-zinc-500 uppercase text-center">GF</th>
-                                <th class="p-2 font-mono text-[8px] text-zinc-500 uppercase text-center">GA</th>
-                                <th class="p-2 font-mono text-[8px] text-zinc-500 uppercase text-center">GD</th>
-                                <th class="p-2 font-heading text-[8px] text-red-600 uppercase text-right">P</th>
-                            </tr>
-                        </thead>
-                        <tbody class="divide-y divide-white/5">
-                            ${teams.map((team, i) => {
-                                const teamKey = team.split(' ')[0].toLowerCase();
-                                const s = groupData[teamKey] || { mp:0, w:0, d:0, l:0, gf:0, ga:0 };
-                                const gd = s.gf - s.ga;
-                                const points = (s.w * 3) + (s.d * 1);
-                                const isWaiting = !hasRealData || (s.mp === 0 && s.w === 0 && s.d === 0 && s.l === 0);
+// ────────────────────────────────────────────────
+// HELPER RENDER FUNCTIONS
+// ────────────────────────────────────────────────
 
-                                return `
-                                    <tr class="${isWaiting ? 'opacity-65' : 'hover:bg-white/[0.02]'} transition-colors">
-                                        <td class="p-2 font-mono text-[10px] ${isWaiting ? 'text-zinc-700 animate-pulse' : 'text-zinc-600'}">${i + 1}</td>
-                                        <td class="p-2 font-heading text-[9px] uppercase italic tracking-tighter ${isWaiting ? 'text-zinc-500' : 'text-zinc-300 group-hover:text-white'}">${team}</td>
-                                        <td class="p-2 font-mono text-[10px] text-center ${isWaiting ? 'text-zinc-700 animate-pulse' : 'text-zinc-500'}">${isWaiting ? '–' : s.mp}</td>
-                                        <td class="p-2 font-mono text-[10px] text-center ${isWaiting ? 'text-zinc-700 animate-pulse' : 'text-zinc-500'}">${isWaiting ? '–' : s.w}</td>
-                                        <td class="p-2 font-mono text-[10px] text-center ${isWaiting ? 'text-zinc-700 animate-pulse' : 'text-zinc-500'}">${isWaiting ? '–' : s.d}</td>
-                                        <td class="p-2 font-mono text-[10px] text-center ${isWaiting ? 'text-zinc-700 animate-pulse' : 'text-zinc-500'}">${isWaiting ? '–' : s.l}</td>
-                                        <td class="p-2 font-mono text-[10px] text-center ${isWaiting ? 'text-zinc-700 animate-pulse' : 'text-zinc-500'}">${isWaiting ? '–' : s.gf}</td>
-                                        <td class="p-2 font-mono text-[10px] text-center ${isWaiting ? 'text-zinc-700 animate-pulse' : 'text-zinc-500'}">${isWaiting ? '–' : s.ga}</td>
-                                        <td class="p-2 font-mono text-[10px] text-center ${isWaiting ? 'text-zinc-700 animate-pulse' : (gd > 0 ? 'text-green-400' : gd < 0 ? 'text-red-400' : 'text-zinc-500')}">
-                                            ${isWaiting ? '–' : (gd > 0 ? '+' + gd : gd)}
-                                        </td>
-                                        <td class="p-2 font-heading text-[10px] text-right italic ${isWaiting ? 'text-zinc-700 animate-pulse' : 'text-red-600 font-bold'}">
-                                            ${isWaiting ? 'PENDING' : points}
-                                        </td>
-                                    </tr>
-                                `;
-                            }).join('')}
-                        </tbody>
-                    </table>
-                    ${!hasRealData ? `
-                        <div class="py-10 text-center">
-                            <div class="inline-block w-10 h-10 border-4 border-red-600/30 border-t-red-600 rounded-full animate-spin mb-4"></div>
-                            <p class="font-mono text-[10px] text-zinc-500 uppercase tracking-[0.3em]">
-                                Standings node initializing • No match data received yet
-                            </p>
-                        </div>
-                    ` : ''}
-                </div>`;
-        }
+function renderGroupTable(teams, groupData = {}) {
+    const hasRealData = Object.keys(groupData).length > 0 && Object.values(groupData).some(s => s.mp > 0 || s.w > 0);
+    return `
+        <div class="overflow-x-auto no-scrollbar">
+            <table class="w-full text-left border-collapse min-w-[500px]">
+                <thead class="bg-zinc-900/80 border-b border-white/10">
+                    <tr>
+                        <th class="p-2 font-heading text-[7px] text-zinc-500 uppercase">Pos</th>
+                        <th class="p-2 font-heading text-[7px] text-zinc-500 uppercase">Team</th>
+                        <th class="p-2 font-mono text-[8px] text-zinc-500 uppercase text-center">MP</th>
+                        <th class="p-2 font-mono text-[8px] text-zinc-500 uppercase text-center">W</th>
+                        <th class="p-2 font-mono text-[8px] text-zinc-500 uppercase text-center">D</th>
+                        <th class="p-2 font-mono text-[8px] text-zinc-500 uppercase text-center">L</th>
+                        <th class="p-2 font-mono text-[8px] text-zinc-500 uppercase text-center">GF</th>
+                        <th class="p-2 font-mono text-[8px] text-zinc-500 uppercase text-center">GA</th>
+                        <th class="p-2 font-mono text-[8px] text-zinc-500 uppercase text-center">GD</th>
+                        <th class="p-2 font-heading text-[8px] text-red-600 uppercase text-right">P</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-white/5">
+                    ${teams.map((team, i) => {
+                        const teamKey = team.split(' ')[0].toLowerCase();
+                        const s = groupData[teamKey] || { mp:0, w:0, d:0, l:0, gf:0, ga:0 };
+                        const gd = s.gf - s.ga;
+                        const points = (s.w * 3) + (s.d * 1);
+                        const isWaiting = !hasRealData || (s.mp === 0 && s.w === 0 && s.d === 0 && s.l === 0);
+                        return `
+                            <tr class="${isWaiting ? 'opacity-65' : 'hover:bg-white/[0.02]'} transition-colors">
+                                <td class="p-2 font-mono text-[10px] ${isWaiting ? 'text-zinc-700 animate-pulse' : 'text-zinc-600'}">${i + 1}</td>
+                                <td class="p-2 font-heading text-[9px] uppercase italic tracking-tighter ${isWaiting ? 'text-zinc-500' : 'text-zinc-300 group-hover:text-white'}">${team}</td>
+                                <td class="p-2 font-mono text-[10px] text-center ${isWaiting ? 'text-zinc-700 animate-pulse' : 'text-zinc-500'}">${isWaiting ? '–' : s.mp}</td>
+                                <td class="p-2 font-mono text-[10px] text-center ${isWaiting ? 'text-zinc-700 animate-pulse' : 'text-zinc-500'}">${isWaiting ? '–' : s.w}</td>
+                                <td class="p-2 font-mono text-[10px] text-center ${isWaiting ? 'text-zinc-700 animate-pulse' : 'text-zinc-500'}">${isWaiting ? '–' : s.d}</td>
+                                <td class="p-2 font-mono text-[10px] text-center ${isWaiting ? 'text-zinc-700 animate-pulse' : 'text-zinc-500'}">${isWaiting ? '–' : s.l}</td>
+                                <td class="p-2 font-mono text-[10px] text-center ${isWaiting ? 'text-zinc-700 animate-pulse' : 'text-zinc-500'}">${isWaiting ? '–' : s.gf}</td>
+                                <td class="p-2 font-mono text-[10px] text-center ${isWaiting ? 'text-zinc-700 animate-pulse' : 'text-zinc-500'}">${isWaiting ? '–' : s.ga}</td>
+                                <td class="p-2 font-mono text-[10px] text-center ${isWaiting ? 'text-zinc-700 animate-pulse' : (gd > 0 ? 'text-green-400' : gd < 0 ? 'text-red-400' : 'text-zinc-500')}">
+                                    ${isWaiting ? '–' : (gd > 0 ? '+' + gd : gd)}
+                                </td>
+                                <td class="p-2 font-heading text-[10px] text-right italic ${isWaiting ? 'text-zinc-700 animate-pulse' : 'text-red-600 font-bold'}">
+                                    ${isWaiting ? 'PENDING' : points}
+                                </td>
+                            </tr>
+                        `;
+                    }).join('')}
+                </tbody>
+            </table>
+            ${!hasRealData ? `
+                <div class="py-10 text-center">
+                    <div class="inline-block w-10 h-10 border-4 border-red-600/30 border-t-red-600 rounded-full animate-spin mb-4"></div>
+                    <p class="font-mono text-[10px] text-zinc-500 uppercase tracking-[0.3em]">
+                        Standings node initializing • No match data received yet
+                    </p>
+                </div>
+            ` : ''}
+        </div>`;
+}
 
 function renderNilTopPlayers(unit) {
     let html = '';
@@ -116,7 +116,6 @@ function renderNilExtendedList(suffix) {
 
 function renderMatchCard(home, away, time, date, venue) {
     const isPlaceholder = time.includes('16:00') || time.includes('17:00') || date === 'MAR NIL';
-
     return `
         <div class="bento-card !p-0 group border-zinc-900 ${isPlaceholder ? 'opacity-70' : 'hover:border-red-600/50'} transition-all duration-500">
             <div class="flex items-center justify-between p-6">
@@ -150,14 +149,13 @@ function renderMatchCard(home, away, time, date, venue) {
 
 function renderLiveMatchCard(home, away, clock, status, homeScore = 0, awayScore = 0) {
     const isWaiting = status === 'PENDING' || clock === '00:00';
-
     return `
     <div class="bento-card !p-0 overflow-hidden border-zinc-900 bg-zinc-950/50 backdrop-blur-xl ${isWaiting ? 'opacity-75' : ''}">
         <div class="p-8 flex flex-col items-center justify-center relative bg-gradient-to-b from-red-600/5 to-transparent">
             <div class="absolute top-4 font-mono text-[9px] ${isWaiting ? 'text-red-600/60 animate-pulse' : 'text-red-600'} tracking-[0.5em] uppercase">
                 ${isWaiting ? 'INITIALIZING_NODE' : status}
             </div>
-           
+          
             <div class="flex items-center justify-between w-full max-w-3xl gap-4">
                 <div class="flex-1 text-right">
                     <h3 class="font-heading text-xl md:text-4xl ${isWaiting ? 'text-zinc-500' : 'text-white'} italic tracking-tighter uppercase leading-none">${home}</h3>
@@ -208,7 +206,7 @@ function renderLiveMatchCard(home, away, clock, status, homeScore = 0, awayScore
 }
 
 // ────────────────────────────────────────────────
-// ALL VIEWS – your exact UI preserved
+// ALL VIEWS
 // ────────────────────────────────────────────────
 
 const views = {
@@ -232,8 +230,6 @@ const views = {
                 <p class="text-sm font-bold italic uppercase animate-pulse text-red-400">Awaiting Deployment</p>
             </div>
         </div>
-        <!-- Keep your original VS card and rest of home as is -->
-        <!-- ... paste your full home view here if you want to change it ... -->
     </div>`,
 
     standings: `
@@ -247,7 +243,7 @@ const views = {
                 <p class="text-[9px] font-mono text-red-600/70 uppercase tracking-[0.4em] animate-pulse">Phase_01 • Deployment Pending</p>
             </div>
         </div>
-       
+      
         <div class="grid grid-cols-1 xl:grid-cols-2 gap-8">
             <div class="space-y-4 bento-card !p-0 overflow-hidden border-zinc-900">
                 <div class="bg-zinc-900/30 p-4 border-b border-white/5">
@@ -257,7 +253,7 @@ const views = {
                     ${renderGroupTable(['GUNNERS FC', 'JED FC', 'OGBAFIA FC', 'ZUBBY FC'])}
                 </div>
             </div>
-           
+          
             <div class="space-y-4 bento-card !p-0 overflow-hidden border-zinc-900">
                 <div class="bg-zinc-900/30 p-4 border-b border-white/5">
                     <h3 class="font-heading text-sm italic text-red-600/80 tracking-widest uppercase">GROUP_B_NODE</h3>
@@ -267,7 +263,6 @@ const views = {
                 </div>
             </div>
         </div>
-
         <div class="text-center mt-10 py-6 bg-black/30 border border-red-600/10 rounded-xl">
             <p class="font-mono text-[10px] text-zinc-500 uppercase tracking-[0.3em] animate-pulse">
                 <span class="text-red-600">●</span> Standings grid initializing • First match data expected soon
@@ -289,7 +284,6 @@ const views = {
                 </div>
             </div>
         </div>
-
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8 opacity-70">
             <div class="bento-card h-64 flex items-center justify-center bg-black/40 border border-zinc-800">
                 <div class="text-center px-6">
@@ -297,7 +291,7 @@ const views = {
                     <h3 class="font-heading text-2xl italic uppercase text-zinc-500">Awaiting Content Deployment</h3>
                 </div>
             </div>
-           
+          
             <div class="bento-card !bg-zinc-950/50 border-zinc-900 h-64 flex items-center justify-center">
                 <p class="text-center font-mono text-[10px] text-zinc-600 uppercase tracking-widest leading-relaxed px-10">
                     Live tactical stream offline<br>
@@ -305,7 +299,6 @@ const views = {
                 </p>
             </div>
         </div>
-
         <div class="text-center py-12 bg-black/30 border border-red-600/10 rounded-xl">
             <p class="font-mono text-[10px] text-zinc-500 uppercase tracking-[0.4em] animate-pulse">
                 <span class="text-red-600">●</span> News & visual data • Waiting for first admin push
@@ -328,7 +321,6 @@ const views = {
             <button class="px-6 py-2 font-heading text-[8px] tracking-widest text-zinc-600 cursor-not-allowed">ASSISTS</button>
         </div>
     </div>
-
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
         <div id="goals-sector" class="space-y-6">
             <div class="flex items-center justify-between px-2">
@@ -344,7 +336,6 @@ const views = {
                 </div>
             </div>
         </div>
-
         <div id="assists-sector" class="space-y-6">
             <div class="flex items-center justify-between px-2">
                 <h3 class="font-heading text-lg italic text-zinc-400 uppercase"><span class="text-red-600/70">02.</span> TACTICAL_ASSISTS</h3>
@@ -360,7 +351,6 @@ const views = {
             </div>
         </div>
     </div>
-
     <div class="text-center mt-12 py-8 bg-black/40 border border-red-600/10 rounded-xl">
         <p class="font-mono text-[10px] text-zinc-500 uppercase tracking-[0.4em] animate-pulse">
             Leaderboard matrix • Waiting for first goal & assist events to be logged
@@ -380,7 +370,6 @@ const views = {
             <span class="font-heading text-xl text-zinc-500 italic animate-pulse">--:--:--</span>
         </div>
     </div>
-
     <div class="text-center py-32 opacity-80">
         <div class="inline-block w-24 h-24 border-4 border-red-600/30 border-t-red-600 rounded-full animate-spin mb-10"></div>
         <h3 class="font-heading text-4xl text-zinc-400 uppercase tracking-widest mb-6">NO_MATCHES_SCHEDULED</h3>
@@ -397,13 +386,11 @@ const views = {
         <div class="w-[450px] h-[450px] border border-red-600/40 rounded-full animate-ping-slow"></div>
         <div class="absolute w-[700px] h-[700px] border border-zinc-800 rounded-full animate-pulse-slow"></div>
     </div>
-
     <div class="relative mb-16">
         <div class="w-24 h-24 border-4 border-red-600/20 rounded-full flex items-center justify-center animate-pulse">
             <div class="w-8 h-8 bg-red-600 rounded-full shadow-[0_0_40px_#ff0033]"></div>
         </div>
     </div>
-
     <div class="text-center z-10 space-y-8 max-w-3xl px-6">
         <h2 class="font-heading text-5xl md:text-7xl text-zinc-300 italic uppercase tracking-tighter">LIVE_GRID_SCANNING</h2>
         <p class="font-mono text-[12px] text-red-600/80 uppercase tracking-[0.5em] animate-pulse">
@@ -421,7 +408,6 @@ const views = {
             </p>
         </div>
     </div>
-
     <div class="mt-20 opacity-50 font-mono text-[10px] text-zinc-700 uppercase flex flex-wrap justify-center gap-8">
         <span>🛰️ Satellite Link: Stable</span>
         <span>📡 Signal Latency: --ms</span>
@@ -446,7 +432,6 @@ const views = {
             <span class="font-mono text-[9px] text-red-600/80 uppercase animate-pulse">STANDBY</span>
         </div>
     </div>
-
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 opacity-75">
         ${[1,2,3].map(n => `
             <div class="space-y-4">
@@ -464,7 +449,6 @@ const views = {
             </div>
         `).join('')}
     </div>
-
     <div class="bento-card bg-red-600/5 border-red-600/20 text-center py-8">
         <p class="font-mono text-[10px] text-zinc-500 uppercase tracking-widest leading-relaxed">
             <span class="text-red-600 animate-pulse">Note:</span> Pure Stream nodes require active match deployment.<br>
@@ -487,11 +471,9 @@ const views = {
             </div>
         </div>
     </div>
-
     <div id="live-center-dynamic" class="grid grid-cols-1 gap-12">
         <!-- Will be replaced instantly by real data -->
     </div>
-
     <div class="bento-card border-white/5 bg-black/40 text-center p-8 mt-12">
         <p class="font-mono text-[10px] text-zinc-500 uppercase tracking-[0.3em] leading-relaxed">
             Live center now fully synced with admin • Real-time clock & scores active
@@ -506,23 +488,18 @@ const views = {
 
 function switchTab(tab) {
     if (!mainContent) return;
-
     mainContent.style.opacity = '0';
     mainContent.style.transform = 'translateY(15px)';
-
     setTimeout(() => {
         mainContent.innerHTML = views[tab] || views['home'];
         mainContent.style.opacity = '1';
         mainContent.style.transform = 'translateY(0)';
-
         document.querySelectorAll('.nav-link, .dock-btn').forEach(btn => btn.classList.remove('active'));
         const navBtn = document.getElementById(`nav-${tab}`);
         const dockBtn = document.getElementById(`dock-${tab}`);
         if (navBtn) navBtn.classList.add('active');
         if (dockBtn) dockBtn.classList.add('active');
-
         window.scrollTo({ top: 0, behavior: 'smooth' });
-
         // Special handling for NEWS tab
         if (tab === 'news') {
             if (newsPosts.length > 0) {
@@ -533,152 +510,107 @@ function switchTab(tab) {
         }
     }, 250);
 }
+
 // ────────────────────────────────────────────────
-        // REAL MOBILE ALERT – slides down like real phone notification
-        // Appears in phone notification center even if tab is in background
-        // ────────────────────────────────────────────────
-        function showAlert(title, message) {
-            // 1. Browser/System Notification (shows in phone notification center)
-            if ("Notification" in window && Notification.permission === "granted") {
-                new Notification(title, {
-                    body: message,
-                    icon: "https://mikoko.neural/icon-192.png", // replace with your icon if you have one
-                    tag: "mikoko-alert",
-                    requireInteraction: false
-                });
-            }
-
-            // 2. In-app slide-down toast (exactly like iPhone/Android top banner)
-            let toast = document.getElementById('mikoko-toast');
-            if (!toast) {
-                toast = document.createElement('div');
-                toast.id = 'mikoko-toast';
-                toast.style.cssText = `
-                    position: fixed;
-                    top: -120px;
-                    left: 50%;
-                    transform: translateX(-50%);
-                    width: 92%;
-                    max-width: 380px;
-                    background: linear-gradient(90deg, #111, #1a1a1a);
-                    color: white;
-                    padding: 18px 20px;
-                    border-radius: 14px;
-                    box-shadow: 0 20px 40px rgba(255,0,51,0.3);
-                    font-family: system-ui, -apple-system, sans-serif;
-                    font-size: 15px;
-                    z-index: 99999;
-                    display: flex;
-                    align-items: center;
-                    gap: 14px;
-                    border: 1px solid #ff0033;
-                    transition: all 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
-                `;
-                document.body.appendChild(toast);
-            }
-
-            toast.innerHTML = `
-                <div style="flex:1">
-                    <div style="font-weight: 700; font-size: 16px; letter-spacing: -0.3px;">${title}</div>
-                    <div style="opacity: 0.95; margin-top: 3px; line-height: 1.35;">${message}</div>
-                </div>
-                <button onclick="closeToast()" style="background:none;border:none;color:#ff0033;font-size:28px;line-height:1;padding:0 8px;cursor:pointer;">×</button>
-            `;
-
-            // POP DOWN ANIMATION
-            setTimeout(() => { toast.style.top = '24px'; }, 10);
-
-            // Auto dismiss after 5.5 seconds (real phone behaviour)
-            setTimeout(() => {
-                if (toast) {
-                    toast.style.top = '-120px';
-                    setTimeout(() => { if (toast.parentNode) toast.parentNode.removeChild(toast); }, 500);
-                }
-            }, 5500);
-        }
-
-        window.closeToast = function() {
-            const toast = document.getElementById('mikoko-toast');
-            if (toast) {
-                toast.style.top = '-120px';
-                setTimeout(() => { if (toast.parentNode) toast.parentNode.removeChild(toast); }, 500);
-            }
-        };
-function toggleMenu(isOpen) {
-    const menu = document.getElementById('side-menu');
-    const drawer = document.getElementById('menu-drawer');
-    const overlay = document.getElementById('menu-overlay');
-    if (!menu || !drawer || !overlay) return;
-
-    if (isOpen) {
-        menu.classList.add('active');
-        overlay.style.opacity = "1";
-        drawer.style.transform = "translateX(0)";
-        menu.style.pointerEvents = "auto";
-    } else {
-        menu.classList.remove('active');
-        overlay.style.opacity = "0";
-        drawer.style.transform = "translateX(100%)";
-        menu.style.pointerEvents = "none";
-    }
-}
+// IN-APP + BROWSER NOTIFICATION HELPERS
+// ────────────────────────────────────────────────
 
 function showAlert(title, message) {
-    const modal = document.getElementById('modalOverlay');
-    const t = document.getElementById('modalTitle');
-    const b = document.getElementById('modalBody');
-    if (modal && t && b) {
-        t.innerText = title;
-        b.innerText = message;
-        modal.style.display = 'flex';
+    // Browser notification
+    if ("Notification" in window && Notification.permission === "granted") {
+        new Notification(title, {
+            body: message,
+            icon: "https://mikoko.neural/icon-192.png",
+            tag: "mikoko-alert",
+            requireInteraction: false
+        });
     }
+
+    // Slide-down toast
+    let toast = document.getElementById('mikoko-toast');
+    if (!toast) {
+        toast = document.createElement('div');
+        toast.id = 'mikoko-toast';
+        toast.style.cssText = `
+            position: fixed;
+            top: -120px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 92%;
+            max-width: 380px;
+            background: linear-gradient(90deg, #111, #1a1a1a);
+            color: white;
+            padding: 18px 20px;
+            border-radius: 14px;
+            box-shadow: 0 20px 40px rgba(255,0,51,0.3);
+            font-family: system-ui, -apple-system, sans-serif;
+            font-size: 15px;
+            z-index: 99999;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            border: 1px solid #ff0033;
+            transition: all 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+        `;
+        document.body.appendChild(toast);
+    }
+    toast.innerHTML = `
+        <div style="flex:1">
+            <div style="font-weight: 700; font-size: 16px; letter-spacing: -0.3px;">${title}</div>
+            <div style="opacity: 0.95; margin-top: 3px; line-height: 1.35;">${message}</div>
+        </div>
+        <button onclick="closeToast()" style="background:none;border:none;color:#ff0033;font-size:28px;line-height:1;padding:0 8px;cursor:pointer;">×</button>
+    `;
+    setTimeout(() => { toast.style.top = '24px'; }, 10);
+    setTimeout(() => {
+        if (toast) {
+            toast.style.top = '-120px';
+            setTimeout(() => { if (toast.parentNode) toast.parentNode.removeChild(toast); }, 500);
+        }
+    }, 5500);
 }
 
-function closeModal() {
-    const modal = document.getElementById('modalOverlay');
-    if (modal) modal.style.display = 'none';
-}
+window.closeToast = function() {
+    const toast = document.getElementById('mikoko-toast');
+    if (toast) {
+        toast.style.top = '-120px';
+        setTimeout(() => { if (toast.parentNode) toast.parentNode.removeChild(toast); }, 500);
+    }
+};
 
 // ────────────────────────────────────────────────
-// FIXED NEWS FEED – Real-time + Alert on every new post
+// NEWS FEED LOGIC
 // ────────────────────────────────────────────────
+
 let newsPosts = [];
 
-// Main listener (fixed + more reliable)
 if (typeof db !== 'undefined') {
     const newsRef = db.ref('news_feed');
-
     newsRef.orderByChild('timestamp').limitToLast(15).on('value', (snapshot) => {
         newsPosts = [];
         snapshot.forEach((child) => {
             newsPosts.push(child.val());
         });
-        // Reverse so newest is first
         newsPosts.reverse();
+        console.log('📰 News updated – Total posts:', newsPosts.length);
 
-        console.log('📰 News updated – Total posts:', newsPosts.length); // helpful for debugging
-
-        // If user is currently on News tab → update instantly
         if (document.querySelector('#nav-news.active, #dock-news.active')) {
             updateNewsTab(newsPosts);
         }
 
-        // If there is at least one post → show beautiful slide-down alert (real phone style)
         if (newsPosts.length > 0) {
             const latest = newsPosts[0];
             showAlert(
-                "NEW MIKOKO UPDATE", 
+                "NEW MIKOKO UPDATE",
                 latest.text ? latest.text.substring(0, 80) + (latest.text.length > 80 ? '...' : '') : "New broadcast received"
             );
         }
     });
 }
 
-// Improved updateNewsTab (more robust)
 function updateNewsTab(posts) {
     const container = document.getElementById('main-content');
     if (!container) return;
-
     if (posts && posts.length > 0) {
         container.innerHTML = `
             <div class="animate-boot space-y-10 pb-28">
@@ -714,38 +646,27 @@ function updateNewsTab(posts) {
             </div>
         `;
     } else {
-        container.innerHTML = views.news;   // your original waiting UI
+        container.innerHTML = views.news;
     }
 }
-// ────────────────────────────────────────────────
-// INIT
-// ────────────────────────────────────────────────
-// ────────────────────────────────────────────────
-        // INIT – Request real phone notifications + start on home
-        // ────────────────────────────────────────────────
-        window.onload = () => {
-            // Ask for notification permission once (real phone alerts)
-            if ("Notification" in window && Notification.permission === "default") {
-                Notification.requestPermission();
-            }
-
-            switchTab('home');
-
-            // Initial news check
-            if (typeof db !== 'undefined') {
-                db.ref('news_feed').once('value').then(snap => {
-                    const p = [];
-                    snap.forEach(c => p.push(c.val()));
-                    p.reverse();
-                    newsPosts = p;
-                    if (document.querySelector('#nav-news.active') && p.length > 0) updateNewsTab(p);
-                });
-            }
-        };
 
 // ────────────────────────────────────────────────
 // WEB PUSH – survives tab close / browser close
 // ────────────────────────────────────────────────
+
+function urlBase64ToUint8Array(base64String) {
+    const padding = '='.repeat((4 - base64String.length % 4) % 4);
+    const base64 = (base64String + padding)
+        .replace(/-/g, '+')
+        .replace(/_/g, '/');
+    const rawData = window.atob(base64);
+    const outputArray = new Uint8Array(rawData.length);
+    for (let i = 0; i < rawData.length; ++i) {
+        outputArray[i] = rawData.charCodeAt(i);
+    }
+    return outputArray;
+}
+
 async function subscribeToPush() {
     if (!('serviceWorker' in navigator) || !('PushManager' in window)) {
         console.warn("Push not supported in this browser");
@@ -756,19 +677,23 @@ async function subscribeToPush() {
         const registration = await navigator.serviceWorker.register('/sw.js', { scope: '/' });
         console.log('Service Worker registered');
 
-        const permission = await Notification.requestPermission();
+        let permission = Notification.permission;
+        if (permission === 'default') {
+            permission = await Notification.requestPermission();
+        }
         if (permission !== 'granted') {
             console.log('Notification permission denied');
             return;
         }
 
+        const vapidPublicKey = 'BKBPpzP5k3KxgrWtQZbeQVllNkC2b0hZ80hjqzVEitg6DIdElmEJSo5SteugGU3kHw2jSYOnGwJ3ICmjg_67PnA';
+
         const subscription = await registration.pushManager.subscribe({
             userVisibleOnly: true,
-            applicationServerKey: 'YOUR_VAPID_PUBLIC_KEY_HERE'   // ← very important, see below
+            applicationServerKey: urlBase64ToUint8Array(vapidPublicKey)
         });
 
-        // Send subscription to your database
-        const subRef = db.ref('push_subscriptions').push();   // or use uid if you have auth
+        const subRef = db.ref('push_subscriptions').push();
         await subRef.set({
             subscription: subscription.toJSON(),
             userAgent: navigator.userAgent,
@@ -776,27 +701,32 @@ async function subscribeToPush() {
         });
 
         console.log("Push subscription saved!");
-        // Optional: showAlert("Notifications enabled!", "You'll now get Mikoko updates even when offline");
-
     } catch (err) {
         console.error("Push subscription failed:", err);
     }
 }
 
-// Call it once on load (after asking normal Notification permission)
-window.addEventListener('load', () => {
-    // your existing code...
-    subscribeToPush();
-});
+// ────────────────────────────────────────────────
+// INIT
+// ────────────────────────────────────────────────
+
 window.onload = () => {
+    // Start on home
     switchTab('home');
-    // Initial check for news on load
-    db.ref('news_feed').once('value').then(snap => {
-        const posts = [];
-        snap.forEach(child => posts.push(child.val()));
-        posts.reverse();
-        if (posts.length > 0 && document.querySelector('#nav-news.active, #dock-news.active')) {
-            updateNewsTab(posts);
-        }
-    });
+
+    // Subscribe to push notifications
+    subscribeToPush();
+
+    // Initial news check
+    if (typeof db !== 'undefined') {
+        db.ref('news_feed').once('value').then(snap => {
+            const posts = [];
+            snap.forEach(child => posts.push(child.val()));
+            posts.reverse();
+            newsPosts = posts;
+            if (document.querySelector('#nav-news.active, #dock-news.active') && posts.length > 0) {
+                updateNewsTab(posts);
+            }
+        });
+    }
 };
