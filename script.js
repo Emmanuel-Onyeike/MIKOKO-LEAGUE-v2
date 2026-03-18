@@ -411,7 +411,56 @@ leaderboard: `
 </div>`,
 
     
-    'live-center': `<div class="animate-boot space-y-4"><h2 class="font-heading text-4xl italic uppercase">Live_Center</h2><div class="bento-card p-12 text-center text-zinc-500 font-mono text-[10px] uppercase">Node aggregation in progress...</div></div>`
+   'live-center': `
+<div class="animate-boot space-y-10 pb-28">
+    <div class="bento-card border-b-2 border-red-600 flex justify-between items-center bg-black/60">
+        <div class="flex items-center gap-4">
+            <div class="relative w-3 h-3">
+                <div class="absolute inset-0 bg-red-600 rounded-full animate-ping opacity-30"></div>
+                <div class="absolute inset-0 bg-red-600 rounded-full"></div>
+            </div>
+            <div>
+                <h2 class="font-heading text-3xl italic tracking-tighter text-white uppercase">Live_Center</h2>
+                <p class="text-[9px] font-mono text-zinc-500 uppercase tracking-[0.4em]">Real_Time_Match_Control // Port_Harcourt_Node</p>
+            </div>
+        </div>
+        <div class="text-right hidden sm:block">
+            <span class="font-mono text-[8px] text-zinc-600 uppercase block">Encryption_Active</span>
+            <span class="font-mono text-[10px] text-red-600 uppercase">Secure_Admin_Link</span>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 gap-12">
+        
+        <div class="space-y-4">
+            <div class="flex items-center justify-between px-2">
+                <span class="font-heading text-[10px] text-zinc-500 tracking-widest uppercase italic">NODE_ALPHA // PITCH_01</span>
+                <span class="px-3 py-1 bg-red-600/10 border border-red-600/30 text-red-600 font-mono text-[9px] uppercase animate-pulse">Waiting_For_Official</span>
+            </div>
+            
+            ${renderLiveMatchCard('TEAM_A', 'TEAM_B', '00:00', 'PENDING')}
+        </div>
+
+        <div class="space-y-4">
+            <div class="flex items-center justify-between px-2">
+                <span class="font-heading text-[10px] text-zinc-500 tracking-widest uppercase italic">NODE_BETA // PITCH_02</span>
+                <span class="px-3 py-1 bg-zinc-900 border border-white/5 text-zinc-600 font-mono text-[9px] uppercase">Standby_Mode</span>
+            </div>
+            
+            ${renderLiveMatchCard('TEAM_C', 'TEAM_D', '00:00', 'PENDING')}
+        </div>
+
+    </div>
+
+    <div class="bento-card border-white/5 bg-white/[0.02] text-center p-6 mt-10">
+        <p class="font-mono text-[9px] text-zinc-500 uppercase tracking-[0.3em]">
+            Official match data is pushed directly from the <span class="text-red-600 font-bold">Tech_Nxxt Admin Panel</span>. <br>
+            Time, Events, and Discipline records are updated in sub-10ms intervals.
+        </p>
+    </div>
+</div>`,
+
+    
 };
 
 // --- CORE FUNCTIONS ---
@@ -588,4 +637,61 @@ function renderMatchCard(home, away, time, date, venue) {
             </div>
         </div>
     `;
+}
+
+
+function renderLiveMatchCard(home, away, clock, status) {
+    return `
+    <div class="bento-card !p-0 overflow-hidden border-zinc-900 bg-zinc-950/50 backdrop-blur-xl">
+        <div class="p-8 flex flex-col items-center justify-center relative">
+            <div class="absolute top-4 font-mono text-[10px] text-zinc-700 tracking-[0.5em] uppercase">${status}</div>
+            
+            <div class="flex items-center justify-between w-full max-w-2xl gap-4 md:gap-12">
+                <div class="flex-1 text-right">
+                    <h3 class="font-heading text-xl md:text-3xl text-white italic tracking-tighter uppercase">${home}</h3>
+                    <p class="text-[8px] font-mono text-zinc-600 uppercase">Home_Node</p>
+                </div>
+
+                <div class="flex flex-col items-center">
+                    <div class="font-heading text-5xl md:text-7xl text-white tracking-tighter mb-2">0 : 0</div>
+                    <div class="px-4 py-1 bg-zinc-900 border border-white/10 rounded-full font-mono text-xs text-red-600 font-bold tracking-widest">
+                        ${clock}'
+                    </div>
+                </div>
+
+                <div class="flex-1 text-left">
+                    <h3 class="font-heading text-xl md:text-3xl text-white italic tracking-tighter uppercase">${away}</h3>
+                    <p class="text-[8px] font-mono text-zinc-600 uppercase">Away_Node</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 border-t border-white/5 bg-black/40">
+            <div class="p-6 border-b md:border-b-0 md:border-r border-white/5 space-y-4">
+                <div class="flex items-center gap-2 mb-2">
+                    <div class="w-2 h-2 bg-white rounded-full"></div>
+                    <span class="font-heading text-[9px] text-zinc-400 uppercase tracking-widest">Match_Events</span>
+                </div>
+                <div class="text-[10px] font-mono text-zinc-600 italic">No events recorded yet...</div>
+            </div>
+
+            <div class="p-6 space-y-4">
+                <div class="flex items-center gap-2 mb-2">
+                    <div class="w-2 h-2 bg-red-600 rounded-sm"></div>
+                    <span class="font-heading text-[9px] text-zinc-400 uppercase tracking-widest">Disciplinary_Log</span>
+                </div>
+                <div class="flex gap-4">
+                    <div class="flex flex-col items-center opacity-20">
+                        <div class="w-3 h-4 bg-yellow-500 rounded-sm mb-1"></div>
+                        <span class="font-mono text-[8px] text-zinc-500">0</span>
+                    </div>
+                    <div class="flex flex-col items-center opacity-20">
+                        <div class="w-3 h-4 bg-red-600 rounded-sm mb-1"></div>
+                        <span class="font-mono text-[8px] text-zinc-500">0</span>
+                    </div>
+                    <div class="text-[10px] font-mono text-zinc-600 italic self-center ml-2">Clean sheet.</div>
+                </div>
+            </div>
+        </div>
+    </div>`;
 }
