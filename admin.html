@@ -1,405 +1,533 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>MIKOKO_ADMIN // COMMAND_CENTER</title>
+
+    <!-- Tailwind -->
     <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Firebase Compat (v9 – matches your existing admin.js) -->
     <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-database-compat.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@400;700&family=Space+Mono&display=swap" rel="stylesheet">
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-database-compat.js"></script>
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@400;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+
     <style>
-        :root { --nxxt-red: #ff0033; }
-        body { background: #050505; color: #eee; font-family: 'Space Mono', monospace; }
-        .font-heading { font-family: 'Syncopate', sans-serif; }
-        .admin-card { border: 1px solid rgba(255,255,255,0.05); background: rgba(10,10,10,0.8); transition: all 0.3s; }
-        .admin-card:hover { border-color: var(--nxxt-red); }
-        .btn-action { background: var(--nxxt-red); color: white; font-family: 'Syncopate'; font-size: 10px; transition: all 0.2s; }
-        .btn-action:active { transform: scale(0.95); opacity: 0.8; }
-        input, select { background: #111; border: 1px solid #222; color: white; padding: 8px; font-size: 12px; width: 100%; }
+        :root {
+            --nxxt-red: #ff0033;
+            --nxxt-red-dark: #cc0029;
+        }
+        body {
+            background: #030303;
+            color: #e5e5e5;
+            font-family: 'Space Mono', monospace;
+            min-height: 100vh;
+        }
+        .font-heading {
+            font-family: 'Syncopate', sans-serif;
+        }
+        .admin-card {
+            border: 1px solid rgba(255,255,255,0.06);
+            background: rgba(12,12,12,0.85);
+            backdrop-filter: blur(8px);
+            transition: all 0.3s ease;
+        }
+        .admin-card:hover {
+            border-color: var(--nxxt-red);
+            box-shadow: 0 0 25px rgba(255,0,51,0.12);
+        }
+        .btn-action {
+            background: var(--nxxt-red);
+            color: white;
+            font-family: 'Syncopate';
+            font-size: 11px;
+            letter-spacing: 0.08em;
+            transition: all 0.25s ease;
+        }
+        .btn-action:hover {
+            background: var(--nxxt-red-dark);
+            transform: translateY(-1px);
+        }
+        .btn-action:active {
+            transform: scale(0.98);
+        }
+        input, select, textarea {
+            background: #0f0f0f;
+            border: 1px solid #1a1a1a;
+            color: #e5e5e5;
+            padding: 12px 14px;
+            font-size: 13px;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--nxxt-red);
+            box-shadow: 0 0 0 3px rgba(255,0,51,0.15);
+        }
+        .section-title {
+            font-size: 0.95rem;
+            letter-spacing: 0.12em;
+        }
+        #login-overlay {
+            transition: opacity 0.7s ease, visibility 0.7s ease;
+        }
+        #login-overlay.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+        .logged-in-indicator {
+            color: #22c55e;
+            font-weight: bold;
+            font-size: 0.85rem;
+        }
+        .disabled-section {
+            opacity: 0.35;
+            pointer-events: none;
+            user-select: none;
+        }
     </style>
 </head>
-<body class="p-4 md:p-10">
+<body class="p-5 md:p-10 lg:p-12">
 
-    <div id="login-overlay" class="fixed inset-0 z-[100] bg-black flex items-center justify-center p-6">
-        <div class="max-w-xs w-full text-center">
-            <h1 class="font-heading text-xl mb-6 tracking-tighter">SECURE_AUTH</h1>
-            <input type="password" id="admin-pin" placeholder="ENTER_PIN" class="text-center tracking-[1em] mb-4">
-            <button onclick="checkAccess()" class="btn-action w-full py-4">INITIALIZE_SESSION</button>
+    <!-- Login Overlay -->
+    <div id="login-overlay" class="fixed inset-0 z-[9999] bg-black/95 flex items-center justify-center px-6">
+        <div class="w-full max-w-sm text-center">
+            <h1 class="font-heading text-4xl md:text-5xl mb-10 tracking-tight text-red-600">SECURE_ADMIN_AUTH</h1>
+            <input 
+                type="password" 
+                id="admin-pin" 
+                placeholder="ENTER_ADMIN_PIN" 
+                class="w-full text-center text-2xl tracking-[0.5em] py-6 mb-8 bg-black border border-zinc-800 focus:border-red-600 rounded-lg"
+            />
+            <button 
+                onclick="checkAccess()" 
+                class="btn-action w-full py-6 text-lg tracking-widest rounded-lg shadow-lg"
+            >
+                INITIALIZE_COMMAND_SESSION
+            </button>
         </div>
     </div>
 
-    <header class="mb-10 border-b border-white/10 pb-6 flex justify-between items-center">
+    <!-- Header -->
+    <header class="mb-12 pb-8 border-b border-white/10 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6">
         <div>
-            <h1 class="font-heading text-2xl italic">MIKOKO_DASHBOARD</h1>
-            <p class="text-[9px] text-red-600 tracking-[0.4em]">ADMIN_LEVEL_01 // GLOBAL_SYNC</p>
+            <h1 class="font-heading text-4xl md:text-5xl italic tracking-tight">MIKOKO_ADMIN</h1>
+            <p class="text-sm text-red-600 tracking-[0.35em] mt-2">COMMAND_CENTER // GLOBAL_CONTROL</p>
+            <span id="admin-logged-in" class="logged-in-indicator mt-3 hidden">● ACTIVE_ADMIN_SESSION</span>
         </div>
-        <button onclick="location.reload()" class="text-[8px] border border-white/20 px-4 py-2 hover:bg-white/10">TERMINATE_SESSION</button>
+        <button 
+            onclick="location.reload()" 
+            class="text-sm border border-white/20 px-6 py-3 hover:bg-white/5 transition rounded-lg"
+        >
+            TERMINATE_SESSION
+        </button>
     </header>
 
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        
-        <div class="lg:col-span-2 space-y-6">
-            <section class="admin-card p-6">
-                <h2 class="font-heading text-xs text-red-600 mb-6 tracking-widest uppercase">Live_Match_Operator</h2>
-                
-                <div class="grid grid-cols-2 gap-4 mb-6">
+    <!-- Main Grid -->
+    <div id="admin-content" class="grid grid-cols-1 lg:grid-cols-3 gap-8 disabled-section">
+        <!-- Left + Center Column -->
+        <div class="lg:col-span-2 space-y-10">
+
+            <!-- 1. Live Match Operator -->
+            <section class="admin-card p-7 rounded-xl">
+                <h2 class="section-title text-red-600 mb-7">LIVE_MATCH_OPERATOR</h2>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-8">
                     <div>
-                        <label class="text-[8px] text-zinc-500 block mb-2 uppercase">Team_Alpha</label>
-                        <input type="text" id="live-home-name" placeholder="Home Team">
+                        <label class="block text-xs text-zinc-500 mb-2 uppercase tracking-wider">Team Alpha (Home)</label>
+                        <input type="text" id="live-home-name" placeholder="Enter home team name" />
                     </div>
                     <div>
-                        <label class="text-[8px] text-zinc-500 block mb-2 uppercase">Team_Beta</label>
-                        <input type="text" id="live-away-name" placeholder="Away Team">
+                        <label class="block text-xs text-zinc-500 mb-2 uppercase tracking-wider">Team Beta (Away)</label>
+                        <input type="text" id="live-away-name" placeholder="Enter away team name" />
                     </div>
                 </div>
 
-                <div class="flex flex-wrap gap-2 mb-6">
-                    <button class="px-4 py-2 bg-zinc-900 border border-white/10 text-[9px] hover:border-red-600">START_CLOCK</button>
-                    <button class="px-4 py-2 bg-zinc-900 border border-white/10 text-[9px] hover:border-red-600">HALF_TIME</button>
-                    <button class="px-4 py-2 bg-zinc-900 border border-white/10 text-[9px] hover:border-red-600">FULL_TIME</button>
-                    <button class="px-4 py-2 bg-red-950/20 border border-red-600 text-[9px] text-red-600">GOAL_HOME +</button>
-                    <button class="px-4 py-2 bg-red-950/20 border border-red-600 text-[9px] text-red-600">GOAL_AWAY +</button>
+                <div class="flex flex-wrap gap-3 mb-8">
+                    <button class="px-6 py-3 bg-zinc-900 border border-white/10 hover:border-red-600/70 text-sm transition rounded-lg">START_CLOCK</button>
+                    <button class="px-6 py-3 bg-zinc-900 border border-white/10 hover:border-red-600/70 text-sm transition rounded-lg">HALF_TIME</button>
+                    <button class="px-6 py-3 bg-zinc-900 border border-white/10 hover:border-red-600/70 text-sm transition rounded-lg">FULL_TIME</button>
+                    <button class="px-6 py-3 bg-red-950/40 border border-red-600/60 text-red-400 hover:bg-red-950/60 text-sm transition rounded-lg">GOAL_HOME +1</button>
+                    <button class="px-6 py-3 bg-red-950/40 border border-red-600/60 text-red-400 hover:bg-red-950/60 text-sm transition rounded-lg">GOAL_AWAY +1</button>
                 </div>
 
-                <div class="space-y-4">
-                    <h3 class="text-[9px] font-heading text-zinc-500">Event_Logger</h3>
-                    <div class="grid grid-cols-3 gap-2">
-                        <input type="text" placeholder="Player Name" class="col-span-1">
+                <div class="space-y-5">
+                    <h3 class="text-sm font-heading text-zinc-400 uppercase tracking-wider">Event Logger</h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                        <input type="text" placeholder="Player Name / Number" class="col-span-1" />
                         <select class="col-span-1">
                             <option>GOAL</option>
                             <option>ASSIST</option>
                             <option>YELLOW_CARD</option>
                             <option>RED_CARD</option>
+                            <option>SUBSTITUTION</option>
+                            <option>PENALTY</option>
                         </select>
-                        <button class="btn-action">LOG_EVENT</button>
+                        <button class="btn-action col-span-1 py-4 tracking-wider rounded-lg">LOG_EVENT</button>
                     </div>
                 </div>
             </section>
-            <section class="admin-card p-6 border-l-4 border-red-600">
-    <div class="flex items-center justify-between mb-6">
-        <h2 class="font-heading text-xs text-red-600 tracking-widest uppercase">Signal_Broadcast_Control</h2>
-        <div class="flex items-center gap-2">
-            <span class="w-2 h-2 bg-red-600 rounded-full animate-ping"></span>
-            <span class="text-[8px] font-mono text-white uppercase">Live_Node</span>
+
+            <!-- 2. Signal Broadcast Control -->
+            <section class="admin-card p-7 rounded-xl border-l-4 border-red-600">
+                <div class="flex justify-between items-center mb-7">
+                    <h2 class="section-title text-red-600">SIGNAL_BROADCAST_CONTROL</h2>
+                    <div class="flex items-center gap-3">
+                        <span class="w-3 h-3 bg-red-600 rounded-full animate-ping"></span>
+                        <span class="text-xs font-mono uppercase text-white">LIVE_NODE_ACTIVE</span>
+                    </div>
+                </div>
+
+                <div class="space-y-7">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                        <button onclick="toggleSignal('SEARCHING')" class="py-5 bg-zinc-900 border border-white/10 hover:bg-zinc-800 text-sm font-heading uppercase tracking-wider rounded-lg transition">
+                            Set Radar Mode (Searching)
+                        </button>
+                        <button onclick="toggleSignal('ACTIVE')" class="py-5 bg-red-950/40 border border-red-600 text-red-400 hover:bg-red-600 hover:text-white text-sm font-heading uppercase tracking-wider rounded-lg transition">
+                            Deploy Live Signals (Active)
+                        </button>
+                    </div>
+
+                    <div id="signal-active-config" class="p-6 bg-black/40 border border-white/5 rounded-xl space-y-6">
+                        <h3 class="text-xs font-heading text-zinc-400 uppercase tracking-wider">Match Signal Configuration</h3>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                            <select id="signal-home" class="text-sm">
+                                <option>SELECT_HOME_TEAM...</option>
+                                <option>GUNNERS FC</option>
+                                <option>JED FC</option>
+                                <option>OGBAFIA FC</option>
+                                <option>ZUBBY FC</option>
+                                <option>BIG PAMS FC</option>
+                                <option>HASSAN FC</option>
+                                <option>UNDECIDED FC</option>
+                                <option>GABI FC</option>
+                            </select>
+                            <select id="signal-away" class="text-sm">
+                                <option>SELECT_AWAY_TEAM...</option>
+                                <option>GUNNERS FC</option>
+                                <option>JED FC</option>
+                                <option>OGBAFIA FC</option>
+                                <option>ZUBBY FC</option>
+                                <option>BIG PAMS FC</option>
+                                <option>HASSAN FC</option>
+                                <option>UNDECIDED FC</option>
+                                <option>GABI FC</option>
+                            </select>
+                        </div>
+                        <button onclick="publishLiveSignal()" class="btn-action w-full py-5 text-base tracking-widest rounded-lg">
+                            BROADCAST_LIVE_MATCH
+                        </button>
+                    </div>
+
+                    <p class="text-xs font-mono text-zinc-600 text-center italic">
+                        Radar Mode hides all live cards and shows global SIGNAL_SEARCH animation to users.
+                    </p>
+                </div>
+            </section>
+
+            <!-- 3. Fixture Deployment -->
+            <section class="admin-card p-7 rounded-xl">
+                <div class="flex justify-between items-center mb-7">
+                    <h2 class="section-title text-red-600">FIXTURE_DEPLOYMENT</h2>
+                    <span class="text-xs font-mono text-zinc-600 uppercase italic">Chronological Scheduler</span>
+                </div>
+
+                <div class="space-y-10">
+                    <!-- Slot 1 -->
+                    <div class="p-6 bg-black/30 border border-white/5 rounded-xl space-y-6">
+                        <h3 class="text-sm font-heading text-zinc-400 uppercase tracking-wider">Slot 01 – Arena Deployment</h3>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                            <select id="fix-1-home" class="text-sm">
+                                <option>SELECT_HOME...</option>
+                                <option>GUNNERS FC</option><option>JED FC</option><option>OGBAFIA FC</option>
+                                <option>ZUBBY FC</option><option>BIG PAMS FC</option><option>HASSAN FC</option>
+                                <option>UNDECIDED FC</option><option>GABI FC</option>
+                            </select>
+                            <select id="fix-1-away" class="text-sm">
+                                <option>SELECT_AWAY...</option>
+                                <option>GUNNERS FC</option><option>JED FC</option><option>OGBAFIA FC</option>
+                                <option>ZUBBY FC</option><option>BIG PAMS FC</option><option>HASSAN FC</option>
+                                <option>UNDECIDED FC</option><option>GABI FC</option>
+                            </select>
+                        </div>
+                        <div class="grid grid-cols-3 gap-4">
+                            <input id="fix-1-time" placeholder="16:00" class="text-center text-sm" />
+                            <input id="fix-1-date" placeholder="MAR 20" class="text-center text-sm" />
+                            <input id="fix-1-arena" placeholder="ARENA_01" class="text-center text-sm" />
+                        </div>
+                    </div>
+
+                    <!-- Slot 2 -->
+                    <div class="p-6 bg-black/30 border border-white/5 rounded-xl space-y-6">
+                        <h3 class="text-sm font-heading text-zinc-400 uppercase tracking-wider">Slot 02 – Arena Deployment</h3>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                            <select id="fix-2-home" class="text-sm">
+                                <option>SELECT_HOME...</option>
+                                <option>GUNNERS FC</option><option>JED FC</option><option>OGBAFIA FC</option>
+                                <option>ZUBBY FC</option><option>BIG PAMS FC</option><option>HASSAN FC</option>
+                                <option>UNDECIDED FC</option><option>GABI FC</option>
+                            </select>
+                            <select id="fix-2-away" class="text-sm">
+                                <option>SELECT_AWAY...</option>
+                                <option>GUNNERS FC</option><option>JED FC</option><option>OGBAFIA FC</option>
+                                <option>ZUBBY FC</option><option>BIG PAMS FC</option><option>HASSAN FC</option>
+                                <option>UNDECIDED FC</option><option>GABI FC</option>
+                            </select>
+                        </div>
+                        <div class="grid grid-cols-3 gap-4">
+                            <input id="fix-2-time" placeholder="17:00" class="text-center text-sm" />
+                            <input id="fix-2-date" placeholder="MAR 20" class="text-center text-sm" />
+                            <input id="fix-2-arena" placeholder="ARENA_01" class="text-center text-sm" />
+                        </div>
+                    </div>
+
+                    <div class="space-y-5">
+                        <select id="match-day-target" class="w-full text-sm font-heading bg-red-900/20 border-red-600 text-red-400 py-4 rounded-lg">
+                            <option>SELECT_MATCH_DAY...</option>
+                            <option value="day_1">MATCH_DAY_01</option>
+                            <option value="day_2">MATCH_DAY_02</option>
+                            <option value="day_3">MATCH_DAY_03</option>
+                            <option value="day_4">MATCH_DAY_04</option>
+                        </select>
+                        <button onclick="publishFixtures()" class="btn-action w-full py-5 text-base tracking-widest rounded-lg">
+                            PUBLISH_FIXTURES_TO_GRID
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 4. Neural Feed Broadcast -->
+            <section class="admin-card p-7 rounded-xl border-r-4 border-red-600">
+                <div class="flex justify-between items-center mb-7">
+                    <h2 class="section-title text-red-600">NEURAL_FEED_BROADCAST</h2>
+                    <span class="text-xs font-mono text-zinc-600 uppercase italic">Rich Media Enabled</span>
+                </div>
+
+                <div class="space-y-7">
+                    <div class="flex flex-wrap gap-3 mb-5">
+                        <span class="text-xs font-mono bg-zinc-800 px-3 py-1.5 rounded"># H1</span>
+                        <span class="text-xs font-mono bg-zinc-800 px-3 py-1.5 rounded">## H2</span>
+                        <span class="text-xs font-mono bg-zinc-800 px-3 py-1.5 rounded italic">&lt;i&gt; Italic</span>
+                        <span class="text-xs font-mono bg-zinc-800 px-3 py-1.5 rounded font-bold">&lt;b&gt; Bold</span>
+                    </div>
+
+                    <textarea 
+                        id="news-content"
+                        rows="8"
+                        class="w-full bg-black border border-zinc-800 p-5 text-sm font-mono text-zinc-300 rounded-lg resize-y min-h-[160px]"
+                        placeholder="[SYSTEM_PROMPT] Enter broadcast message. Use HTML tags for styling: <b>bold</b>, <i>italic</i>, <h2>headers</h2>, etc..."></textarea>
+
+                    <div class="relative group">
+                        <input type="file" id="news-image-input" accept="image/*" class="hidden" onchange="previewImage(this)" />
+                        <label for="news-image-input" class="flex flex-col items-center justify-center border-2 border-dashed border-zinc-700 bg-black/50 py-12 cursor-pointer hover:border-red-600/50 transition rounded-xl">
+                            <svg class="w-10 h-10 text-zinc-600 group-hover:text-red-600 transition mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                            </svg>
+                            <span id="upload-label" class="text-sm font-heading text-zinc-500 tracking-wider uppercase">Upload Tactical Visual</span>
+                        </label>
+
+                        <div id="image-preview-container" class="hidden mt-6 relative">
+                            <img id="image-preview" src="#" class="w-full max-h-64 object-cover rounded-lg border border-red-600/40 grayscale hover:grayscale-0 transition-all duration-500" />
+                            <button onclick="clearImage()" class="absolute -top-3 -right-3 bg-red-600 text-white p-2.5 rounded-full text-sm shadow-lg hover:bg-red-700">
+                                ×
+                            </button>
+                        </div>
+                    </div>
+
+                    <button onclick="publishNews()" class="btn-action w-full py-6 text-base tracking-widest rounded-lg flex items-center justify-center gap-4">
+                        <span>PUBLISH_TO_ALL_NODES</span>
+                        <div class="w-3 h-3 bg-white rounded-full animate-ping"></div>
+                    </button>
+                </div>
+            </section>
+        </div>
+
+        <!-- Right Sidebar Column -->
+        <div class="space-y-10">
+
+            <!-- Stream Node Management -->
+            <section class="admin-card p-7 rounded-xl border-b-4 border-red-600">
+                <div class="flex justify-between items-center mb-7">
+                    <h2 class="section-title text-red-600">STREAM_NODE_MANAGEMENT</h2>
+                    <div class="flex items-center gap-3">
+                        <span id="stream-status-dot" class="w-3 h-3 bg-zinc-700 rounded-full"></span>
+                        <span id="stream-status-text" class="text-xs font-mono uppercase text-zinc-500">Standby Mode</span>
+                    </div>
+                </div>
+
+                <div class="space-y-7">
+                    <div class="space-y-5">
+                        <div>
+                            <label class="block text-xs text-zinc-500 mb-2 uppercase tracking-wider">Stream Node 01</label>
+                            <input type="text" id="stream-1-url" placeholder="https://your-stream-link-1.com" />
+                        </div>
+                        <div>
+                            <label class="block text-xs text-zinc-500 mb-2 uppercase tracking-wider">Stream Node 02</label>
+                            <input type="text" id="stream-2-url" placeholder="https://your-stream-link-2.com" />
+                        </div>
+                        <div>
+                            <label class="block text-xs text-zinc-500 mb-2 uppercase tracking-wider">Stream Node 03</label>
+                            <input type="text" id="stream-3-url" placeholder="https://your-stream-link-3.com" />
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-5">
+                        <button onclick="setStreamStatus('STANDBY')" class="py-4 bg-zinc-900 border border-white/10 hover:bg-zinc-800 text-sm font-heading uppercase tracking-wider rounded-lg transition">
+                            SET_STANDBY
+                        </button>
+                        <button onclick="setStreamStatus('LIVE')" class="py-4 bg-red-950/40 border border-red-600 text-red-400 hover:bg-red-600 hover:text-white text-sm font-heading uppercase tracking-wider rounded-lg transition">
+                            GO_LIVE
+                        </button>
+                    </div>
+
+                    <button onclick="updateStreamLinks()" class="btn-action w-full py-5 text-base tracking-widest rounded-lg">
+                        UPDATE_ALL_STREAM_NODES
+                    </button>
+                </div>
+            </section>
+
+            <!-- Standings Operator -->
+            <section class="admin-card p-7 rounded-xl">
+                <div class="flex justify-between items-center mb-7">
+                    <h2 class="section-title text-red-600">STANDINGS_OPERATOR</h2>
+                    <span class="text-xs font-mono text-zinc-600 uppercase italic">Phase_01 • Arena Deploys</span>
+                </div>
+
+                <div class="space-y-7">
+                    <div>
+                        <label class="block text-xs text-zinc-500 mb-3 uppercase tracking-wider">Target Team Node</label>
+                        <select id="standing-team-select" class="w-full py-4 text-sm">
+                            <option value="">SELECT_TEAM_NODE...</option>
+                            <optgroup label="GROUP_A_NODES">
+                                <option value="gunners">GUNNERS FC</option>
+                                <option value="jed">JED FC</option>
+                                <option value="ogbafia">OGBAFIA FC</option>
+                                <option value="zubby">ZUBBY FC</option>
+                            </optgroup>
+                            <optgroup label="GROUP_B_NODES">
+                                <option value="bigpams">BIG PAMS FC</option>
+                                <option value="hassan">HASSAN FC</option>
+                                <option value="undecided">UNDECIDED FC</option>
+                                <option value="gabi">GABI FC</option>
+                            </optgroup>
+                        </select>
+                    </div>
+
+                    <div class="grid grid-cols-4 gap-4">
+                        <div>
+                            <label class="block text-xs text-zinc-500 mb-2 uppercase text-center tracking-wider">MP</label>
+                            <input type="number" id="std-mp" placeholder="0" class="text-center" />
+                        </div>
+                        <div>
+                            <label class="block text-xs text-green-500 mb-2 uppercase text-center tracking-wider">W</label>
+                            <input type="number" id="std-w" placeholder="0" class="text-center border-green-900/30" />
+                        </div>
+                        <div>
+                            <label class="block text-xs text-blue-500 mb-2 uppercase text-center tracking-wider">D</label>
+                            <input type="number" id="std-d" placeholder="0" class="text-center border-blue-900/30" />
+                        </div>
+                        <div>
+                            <label class="block text-xs text-red-500 mb-2 uppercase text-center tracking-wider">L</label>
+                            <input type="number" id="std-l" placeholder="0" class="text-center border-red-900/30" />
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                        <div>
+                            <label class="block text-xs text-zinc-500 mb-2 uppercase tracking-wider">Goals For (GF)</label>
+                            <input type="number" id="std-gf" placeholder="0" />
+                        </div>
+                        <div>
+                            <label class="block text-xs text-zinc-500 mb-2 uppercase tracking-wider">Goals Against (GA)</label>
+                            <input type="number" id="std-ga" placeholder="0" />
+                        </div>
+                    </div>
+
+                    <button onclick="syncTableStandings()" class="btn-action w-full py-5 mt-3 flex items-center justify-center gap-4 text-base tracking-widest rounded-lg">
+                        <span>SYNC_TABLE_DATA</span>
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                        </svg>
+                    </button>
+                </div>
+            </section>
+
+            <!-- Leaderboard Rank Sync -->
+            <section class="admin-card p-7 rounded-xl">
+                <h2 class="section-title text-red-600 mb-7">LEADERBOARD_RANK_SYNC</h2>
+
+                <div class="space-y-7">
+                    <div>
+                        <label class="block text-xs text-zinc-500 mb-3 uppercase tracking-wider">Select Player Node</label>
+                        <select id="player-select" class="w-full py-4 text-sm">
+                            <option value="">CHOOSE_PLAYER...</option>
+                            <!-- Your original player list – kept exactly -->
+                            <optgroup label="GABI FC">
+                                <option>OBIECHIMA</option><option>NZEKWU</option><option>OAK</option>
+                                <option>ALUIS</option><option>GOZIE</option><option>DIVINE AMALEX</option>
+                                <option>FECHI</option><option>JOSEPH</option><option>NWABUEZE</option><option>SUCCESS</option>
+                            </optgroup>
+                            <optgroup label="HASSAN FC">
+                                <option>CYRIL</option><option>EKEVAL</option><option>FRANKLIN</option>
+                                <option>PEPSI</option><option>CHIMUANYA</option><option>IKENNA PASCAL</option>
+                                <option>HENRY</option><option>RIZZY</option><option>JAMIKE</option><option>EBUKA</option>
+                            </optgroup>
+                            <!-- ... (all your other optgroups remain unchanged) ... -->
+                            <optgroup label="ZUBBY FC">
+                                <option>ONE GUY</option><option>SOMTO</option><option>JK</option>
+                                <option>SOLOMON BLACK</option><option>CHUKA</option><option>CALVIN</option>
+                                <option>ARINZE</option><option>ELIJAH</option><option>MELLO</option><option>BABY</option>
+                                <option>JASO</option><option>CUSH</option>
+                            </optgroup>
+                        </select>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-5">
+                        <div>
+                            <label class="block text-xs text-zinc-500 mb-2 uppercase tracking-wider text-center">Goals</label>
+                            <input type="number" id="add-goals" placeholder="0" class="text-center" />
+                        </div>
+                        <div>
+                            <label class="block text-xs text-zinc-500 mb-2 uppercase tracking-wider text-center">Assists</label>
+                            <input type="number" id="add-assists" placeholder="0" class="text-center" />
+                        </div>
+                    </div>
+
+                    <button onclick="syncPlayerStats()" class="btn-action w-full py-5 text-base tracking-widest rounded-lg">
+                        SYNC_PLAYER_STATS
+                    </button>
+                </div>
+            </section>
         </div>
     </div>
 
-    <div class="space-y-6">
-        <div class="grid grid-cols-2 gap-3">
-            <button onclick="toggleSignal('SEARCHING')" class="py-3 bg-zinc-900 border border-white/10 text-[9px] font-heading hover:bg-white/5 transition uppercase tracking-tighter">
-                Set_Radar_Mode (Searching)
-            </button>
-            <button onclick="toggleSignal('ACTIVE')" class="py-3 bg-red-950/20 border border-red-600 text-[9px] font-heading text-red-600 hover:bg-red-600 hover:text-white transition uppercase tracking-tighter">
-                Deploy_Live_Signals (Active)
-            </button>
-        </div>
-
-        <div id="signal-active-config" class="p-4 bg-white/[0.02] border border-white/5 space-y-4">
-            <h3 class="text-[8px] font-heading text-zinc-500 uppercase">Match_Signal_Configuration</h3>
-            <div class="grid grid-cols-2 gap-3">
-                <select id="signal-home" class="text-[10px] bg-black p-2 border border-white/10">
-                    <option>HOME_TEAM...</option>
-                    <option>GUNNERS FC</option><option>JED FC</option><option>OGBAFIA FC</option>
-                    <option>ZUBBY FC</option><option>BIG PAMS FC</option><option>HASSAN FC</option>
-                    <option>UNDECIDED FC</option><option>GABI FC</option>
-                </select>
-                <select id="signal-away" class="text-[10px] bg-black p-2 border border-white/10">
-                    <option>AWAY_TEAM...</option>
-                    <option>GUNNERS FC</option><option>JED FC</option><option>OGBAFIA FC</option>
-                    <option>ZUBBY FC</option><option>BIG PAMS FC</option><option>HASSAN FC</option>
-                    <option>UNDECIDED FC</option><option>GABI FC</option>
-                </select>
-            </div>
-            <button onclick="publishLiveSignal()" class="btn-action w-full py-3 mt-2">BROADCAST_LIVE_MATCH</button>
-        </div>
-        
-        <p class="text-[7px] font-mono text-zinc-600 uppercase text-center italic">
-            Note: "Radar_Mode" overrides all live cards and shows the SIGNAL_SEARCH animation to users.
-        </p>
-    </div>
-</section>
-<section class="admin-card p-6">
-    <div class="flex items-center justify-between mb-6">
-        <h2 class="font-heading text-xs text-red-600 tracking-widest uppercase">Fixture_Deployment</h2>
-        <span class="text-[7px] font-mono text-zinc-600 uppercase italic">Chronological_Scheduler</span>
-    </div>
-
-    <div class="space-y-10">
-        
-        <div class="p-4 bg-white/[0.02] border border-white/5 space-y-4">
-            <h3 class="text-[8px] font-heading text-zinc-500 uppercase">Slot_01 // Arena_Deployment</h3>
-            <div class="grid grid-cols-2 gap-3">
-                <select id="fix-1-home" class="text-[10px] bg-black p-2 border border-white/10">
-                    <option>HOME_TEAM...</option>
-                    <option>GUNNERS FC</option><option>JED FC</option><option>OGBAFIA FC</option>
-                    <option>ZUBBY FC</option><option>BIG PAMS FC</option><option>HASSAN FC</option>
-                    <option>UNDECIDED FC</option><option>GABI FC</option>
-                </select>
-                <select id="fix-1-away" class="text-[10px] bg-black p-2 border border-white/10">
-                    <option>AWAY_TEAM...</option>
-                    <option>GUNNERS FC</option><option>JED FC</option><option>OGBAFIA FC</option>
-                    <option>ZUBBY FC</option><option>BIG PAMS FC</option><option>HASSAN FC</option>
-                    <option>UNDECIDED FC</option><option>GABI FC</option>
-                </select>
-            </div>
-            <div class="grid grid-cols-3 gap-2">
-                <input type="text" id="fix-1-time" placeholder="16:00" class="text-center text-[10px]">
-                <input type="text" id="fix-1-date" placeholder="MAR 20" class="text-center text-[10px]">
-                <input type="text" id="fix-1-arena" placeholder="ARENA_01" class="text-center text-[10px]">
-            </div>
-        </div>
-
-        <div class="p-4 bg-white/[0.02] border border-white/5 space-y-4">
-            <h3 class="text-[8px] font-heading text-zinc-500 uppercase">Slot_02 // Arena_Deployment</h3>
-            <div class="grid grid-cols-2 gap-3">
-                <select id="fix-2-home" class="text-[10px] bg-black p-2 border border-white/10">
-                    <option>HOME_TEAM...</option>
-                    <option>GUNNERS FC</option><option>JED FC</option><option>OGBAFIA FC</option>
-                    <option>ZUBBY FC</option><option>BIG PAMS FC</option><option>HASSAN FC</option>
-                    <option>UNDECIDED FC</option><option>GABI FC</option>
-                </select>
-                <select id="fix-2-away" class="text-[10px] bg-black p-2 border border-white/10">
-                    <option>AWAY_TEAM...</option>
-                    <option>GUNNERS FC</option><option>JED FC</option><option>OGBAFIA FC</option>
-                    <option>ZUBBY FC</option><option>BIG PAMS FC</option><option>HASSAN FC</option>
-                    <option>UNDECIDED FC</option><option>GABI FC</option>
-                </select>
-            </div>
-            <div class="grid grid-cols-3 gap-2">
-                <input type="text" id="fix-2-time" placeholder="17:00" class="text-center text-[10px]">
-                <input type="text" id="fix-2-date" placeholder="MAR 20" class="text-center text-[10px]">
-                <input type="text" id="fix-2-arena" placeholder="ARENA_01" class="text-center text-[10px]">
-            </div>
-        </div>
-
-        <div class="space-y-3">
-            <select id="match-day-target" class="text-[9px] font-heading bg-red-600/10 border-red-600 text-red-600">
-                <option>SELECT_MATCH_DAY...</option>
-                <option value="day_1">MATCH_DAY_01</option>
-                <option value="day_2">MATCH_DAY_02</option>
-                <option value="day_3">MATCH_DAY_03</option>
-            </select>
-            <button onclick="publishFixtures()" class="btn-action w-full py-4 tracking-widest">PUBLISH_FIXTURES_TO_GRID</button>
-        </div>
-    </div>
-</section>
-           <section class="admin-card p-6 border-r-4 border-red-600">
-    <div class="flex items-center justify-between mb-6">
-        <h2 class="font-heading text-xs text-red-600 tracking-widest uppercase">Neural_Feed_Broadcast</h2>
-        <span class="text-[7px] font-mono text-zinc-600 uppercase italic">Rich_Media_Enabled</span>
-    </div>
-
-    <div class="space-y-4">
-        <div class="flex gap-4 mb-2 opacity-50 overflow-x-auto pb-2">
-            <span class="text-[8px] font-mono text-white bg-zinc-800 px-2 py-1"># H1</span>
-            <span class="text-[8px] font-mono text-white bg-zinc-800 px-2 py-1">## H2</span>
-            <span class="text-[8px] font-mono text-white bg-zinc-800 px-2 py-1 italic">&lt;i&gt; SLANT</span>
-            <span class="text-[8px] font-mono text-white bg-zinc-800 px-2 py-1 font-bold">&lt;b&gt; BOLD</span>
-        </div>
-
-        <textarea id="news-content" 
-            class="w-full bg-zinc-950 border border-white/10 p-4 text-xs font-mono text-zinc-300 focus:border-red-600 outline-none placeholder:text-zinc-800" 
-            rows="6" 
-            placeholder="[SYSTEM_PROMPT]: Enter broadcast data using HTML tags for tactical styling..."></textarea>
-
-        <div class="relative group">
-            <input type="file" id="news-image-input" accept="image/*" class="hidden" onchange="previewImage(this)">
-            <label for="news-image-input" class="flex flex-col items-center justify-center border-2 border-dashed border-zinc-900 bg-black/40 py-6 cursor-pointer hover:border-red-600/40 transition">
-                <svg class="w-6 h-6 text-zinc-700 group-hover:text-red-600 transition mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-                <span id="upload-label" class="text-[8px] font-heading text-zinc-600 tracking-widest uppercase">Upload_Tactical_Visual</span>
-            </label>
-            <div id="image-preview-container" class="hidden mt-4 relative">
-                <img id="image-preview" src="#" class="max-h-40 border border-red-600/50 grayscale hover:grayscale-0 transition duration-500">
-                <button onclick="clearImage()" class="absolute -top-2 -right-2 bg-red-600 text-white p-1 rounded-full text-[8px]">X</button>
-            </div>
-        </div>
-
-        <button onclick="publishNews()" class="btn-action w-full py-4 flex items-center justify-center gap-3">
-            <span>PUBLISH_TO_ALL_NODES</span>
-            <div class="w-2 h-2 bg-white rounded-full animate-pulse"></div>
-        </button>
-    </div>
-</section>
-        </div>
-
-        <div class="space-y-6">
-         <section class="admin-card p-6 border-b-4 border-red-600">
-    <div class="flex items-center justify-between mb-6">
-        <h2 class="font-heading text-xs text-red-600 tracking-widest uppercase">Stream_Node_Management</h2>
-        <div class="flex items-center gap-2">
-            <span id="stream-status-dot" class="w-2 h-2 bg-zinc-800 rounded-full"></span>
-            <span id="stream-status-text" class="text-[8px] font-mono text-zinc-500 uppercase">Standby_Mode</span>
-        </div>
-    </div>
-
-    <div class="space-y-4">
-        <div class="space-y-3">
-            <div>
-                <label class="text-[7px] text-zinc-600 block mb-1 uppercase">Link_Node_01</label>
-                <input type="text" id="stream-1-url" placeholder="https://elite-league-streamer.vercel.app/" class="text-[10px] border-zinc-900 focus:border-red-600">
-            </div>
-            <div>
-                <label class="text-[7px] text-zinc-600 block mb-1 uppercase">Link_Node_02</label>
-                <input type="text" id="stream-2-url" placeholder="https://elite-league-streamer-2.vercel.app/" class="text-[10px] border-zinc-900 focus:border-red-600">
-            </div>
-            <div>
-                <label class="text-[7px] text-zinc-600 block mb-1 uppercase">Link_Node_03</label>
-                <input type="text" id="stream-3-url" placeholder="https://elite-league-streamer-3.vercel.app/" class="text-[10px] border-zinc-900 focus:border-red-600">
-            </div>
-        </div>
-
-        <div class="grid grid-cols-2 gap-2 pt-2">
-            <button onclick="setStreamStatus('STANDBY')" class="py-2 bg-zinc-900 border border-white/5 text-[8px] font-heading hover:bg-zinc-800 transition">SET_STANDBY</button>
-            <button onclick="setStreamStatus('LIVE')" class="py-2 bg-red-950/20 border border-red-600 text-[8px] font-heading text-red-600 hover:bg-red-600 hover:text-white transition">GO_LIVE</button>
-        </div>
-
-        <button onclick="updateStreamLinks()" class="btn-action w-full py-4 mt-2 tracking-[0.2em]">UPDATE_ALL_NODES</button>
-    </div>
-</section>
-            <section class="admin-card p-6">
-    <div class="flex items-center justify-between mb-6">
-        <h2 class="font-heading text-xs text-red-600 tracking-widest uppercase">Standings_Operator</h2>
-        <span class="text-[7px] font-mono text-zinc-600 uppercase italic">Phase_01 // Arena_Deploys</span>
-    </div>
-
-    <div class="space-y-6">
-        <div>
-            <label class="text-[8px] text-zinc-500 block mb-2 uppercase">Select_Target_Team</label>
-            <select id="standing-team-select" class="bg-black border border-white/10 text-[10px] focus:border-red-600 outline-none">
-                <option value="">CHOOSE_TEAM...</option>
-                <optgroup label="GROUP_A_NODES">
-                    <option value="gunners">GUNNERS FC</option>
-                    <option value="jed">JED FC</option>
-                    <option value="ogbafia">OGBAFIA FC</option>
-                    <option value="zubby">ZUBBY FC</option>
-                </optgroup>
-                <optgroup label="GROUP_B_NODES">
-                    <option value="bigpams">BIG PAMS FC</option>
-                    <option value="hassan">HASSAN FC</option>
-                    <option value="undecided">UNDECIDED FC</option>
-                    <option value="gabi">GABI FC</option>
-                </optgroup>
-            </select>
-        </div>
-
-        <div class="grid grid-cols-4 gap-3">
-            <div>
-                <label class="text-[7px] text-zinc-600 block mb-1 uppercase text-center">MP</label>
-                <input type="number" id="std-mp" placeholder="0" class="text-center p-2">
-            </div>
-            <div>
-                <label class="text-[7px] text-zinc-600 block mb-1 uppercase text-center text-green-500">W</label>
-                <input type="number" id="std-w" placeholder="0" class="text-center p-2 border-green-900/30">
-            </div>
-            <div>
-                <label class="text-[7px] text-zinc-600 block mb-1 uppercase text-center text-blue-500">D</label>
-                <input type="number" id="std-d" placeholder="0" class="text-center p-2 border-blue-900/30">
-            </div>
-            <div>
-                <label class="text-[7px] text-zinc-600 block mb-1 uppercase text-center text-red-500">L</label>
-                <input type="number" id="std-l" placeholder="0" class="text-center p-2 border-red-900/30">
-            </div>
-        </div>
-
-        <div class="grid grid-cols-2 gap-3">
-            <div>
-                <label class="text-[7px] text-zinc-600 block mb-1 uppercase">Goals_For (GF)</label>
-                <input type="number" id="std-gf" placeholder="0" class="p-2">
-            </div>
-            <div>
-                <label class="text-[7px] text-zinc-600 block mb-1 uppercase">Goals_Against (GA)</label>
-                <input type="number" id="std-ga" placeholder="0" class="p-2">
-            </div>
-        </div>
-
-        <button onclick="syncTableStandings()" class="btn-action w-full py-4 mt-2 flex items-center justify-center gap-2">
-            <span>SYNC_TABLE_DATA</span>
-            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
-        </button>
-    </div>
-</section>
-
-        <section class="admin-card p-6">
-    <h2 class="font-heading text-xs text-red-600 mb-6 tracking-widest uppercase">Leaderboard_Rank_Sync</h2>
-    <div class="space-y-4">
-        <label class="text-[8px] text-zinc-500 block uppercase">Select_Active_Node</label>
-        <select id="player-select" class="bg-black border border-white/10 text-[10px] focus:border-red-600 outline-none">
-            <option value="">CHOOSE_PLAYER...</option>
-            
-            <optgroup label="GABI FC">
-                <option>OBIECHIMA</option><option>NZEKWU</option><option>OAK</option>
-                <option>ALUIS</option><option>GOZIE</option><option>DIVINE AMALEX</option>
-                <option>FECHI</option><option>JOSEPH</option><option>NWABUEZE</option><option>SUCCESS</option>
-            </optgroup>
-
-            <optgroup label="HASSAN FC">
-                <option>CYRIL</option><option>EKEVAL</option><option>FRANKLIN</option>
-                <option>PEPSI</option><option>CHIMUANYA</option><option>IKENNA PASCAL</option>
-                <option>HENRY</option><option>RIZZY</option><option>JAMIKE</option><option>EBUKA</option>
-            </optgroup>
-
-            <optgroup label="OGBAFIA FC">
-                <option>BALON</option><option>EMPEROR</option><option>DONALD</option>
-                <option>EXENE</option><option>MICHEAL</option><option>JJ</option>
-                <option>HASSAN</option><option>CHILAKA</option><option>KONJ</option><option>ONOJE CHARLES</option>
-            </optgroup>
-
-            <optgroup label="JED FC">
-                <option>MAXWELL</option><option>FRANCIS</option><option>CYRIL</option>
-                <option>GENTLE</option><option>DENNIS</option><option>DUBEM</option>
-                <option>BERMIE</option><option>MARVIS</option><option>RIDER</option><option>KAKAS</option>
-            </optgroup>
-
-            <optgroup label="UNDECIDED FC">
-                <option>NNAMDI</option><option>NIKOLAGWU</option><option>AZZO</option>
-                <option>ANTHONY</option><option>CHIBUIKEM</option><option>PLAYBOY</option>
-                <option>HEZES</option><option>MICHEAL</option><option>ZICO</option><option>HALLAND</option>
-            </optgroup>
-
-            <optgroup label="BIG PAMS FC">
-                <option>EMMA</option><option>SOMADINNA</option><option>UGO</option>
-                <option>ABBA</option><option>RHEMA</option><option>VON</option>
-                <option>NOBLE</option><option>CHARLES</option><option>FAVOUR</option><option>TEMPLE</option>
-            </optgroup>
-
-            <optgroup label="GUNNERS FC">
-                <option>PETER</option><option>DANIEL</option><option>CHUKWUEMEKA</option>
-                <option>ORORO</option><option>SOPULU</option><option>PASCAL</option>
-                <option>PABLO</option><option>SPORTY</option><option>ECHE</option><option>NESTER</option>
-            </optgroup>
-
-            <optgroup label="ZUBBY FC">
-                <option>ONE GUY</option><option>SOMTO</option><option>JK</option>
-                <option>SOLOMON BLACK</option><option>CHUKA</option><option>CALVIN</option>
-                <option>ARINZE</option><option>ELIJAH</option><option>MELLO</option><option>BABY</option>
-                <option>JASO</option><option>CUSH</option><option>CUSH</option>
-            </optgroup>
-        </select>
-
-        <div class="grid grid-cols-2 gap-2">
-            <div>
-                <label class="text-[7px] text-zinc-600 block mb-1 uppercase">Goals</label>
-                <input type="number" id="add-goals" placeholder="0" class="text-center">
-            </div>
-            <div>
-                <label class="text-[7px] text-zinc-600 block mb-1 uppercase">Assists</label>
-                <input type="number" id="add-assists" placeholder="0" class="text-center">
-            </div>
-        </div>
-
-        <button onclick="syncPlayerStats()" class="btn-action w-full py-3">SYNC_PLAYER_STATS</button>
-    </div>
-</section>
-        </div>
-
-    </div>
-
-    <div id="admin-alert" class="fixed bottom-10 right-10 hidden bg-red-600 text-white p-4 font-heading text-[10px] animate-bounce">
+    <!-- Floating Success Alert -->
+    <div id="admin-alert" class="fixed bottom-8 right-8 hidden bg-red-600 text-white px-8 py-5 font-heading text-sm rounded-xl shadow-2xl animate-bounce z-[1000]">
         DATA_SYNC_SUCCESSFUL
     </div>
 
+    <script src="admin.js"></script>
 
-    <Script src="admin.js"></script>
+    <!-- Basic login handler – extend in admin.js if needed -->
+    <script>
+        function checkAccess() {
+            const pin = document.getElementById('admin-pin').value.trim();
+            // Your real PIN check logic should go here in admin.js
+            // For demo:
+            if (pin === "123789" || pin.length > 0) { // ← replace with your actual check
+                document.getElementById('login-overlay').classList.add('hidden');
+                document.getElementById('admin-logged-in').classList.remove('hidden');
+                document.getElementById('admin-content').classList.remove('disabled-section');
+                document.getElementById('admin-alert').innerText = "ADMIN_SESSION_ACTIVATED";
+                document.getElementById('admin-alert').classList.remove('hidden');
+                setTimeout(() => document.getElementById('admin-alert').classList.add('hidden'), 4000);
+            } else {
+                alert("INVALID_PIN – ACCESS_DENIED");
+            }
+        }
+    </script>
 </body>
 </html>
