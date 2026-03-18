@@ -156,3 +156,44 @@ function publishLiveSignal() {
         timestamp: firebase.database.ServerValue.TIMESTAMP
     }).then(() => showNotify("LIVE_SIGNAL_BROADCASTED"));
 }
+let currentImageBase64 = null;
+
+function previewImage(input) {
+    if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        
+        reader.onload = function(e) {
+            currentImageBase64 = e.target.result; // This holds the image data
+            document.getElementById('image-preview').src = e.target.result;
+            document.getElementById('image-preview-container').classList.remove('hidden');
+            document.getElementById('upload-label').innerText = "IMAGE_LOADED_SUCCESSFULLY";
+        }
+        
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
+function clearImage() {
+    currentImageBase64 = null;
+    document.getElementById('news-image-input').value = "";
+    document.getElementById('image-preview-container').classList.add('hidden');
+    document.getElementById('upload-label').innerText = "Upload_Tactical_Visual";
+}
+
+// Update your publishNews function to include the image
+async function publishNews() {
+    const content = document.getElementById('news-content').value;
+    
+    if (!content && !currentImageBase64) return;
+
+    db.ref('news_feed').push({
+        text: content, // This supports <h1>, <b>, <i> etc.
+        image: currentImageBase64, // The encoded image
+        timestamp: firebase.database.ServerValue.TIMESTAMP,
+        date: new Date().toLocaleDateString()
+    }).then(() => {
+        showNotify("BROADCAST_PUBLISHED");
+        document.getElementById('news-content').value = '';
+        clearImage();
+    });
+}
