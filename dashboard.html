@@ -5,6 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MIKOKO // NEURAL_DASH_2040</title>
     <link rel="stylesheet" href="style.css">
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-database-compat.js"></script>
+
+<script>
+  // Same config as admin.js
+  const firebaseConfig = {
+    apiKey: "YOUR_API_KEY",
+    authDomain: "mikoko-league.firebaseapp.com",
+    databaseURL: "https://mikoko-league-default-rtdb.firebaseio.com",
+    projectId: "mikoko-league",
+    storageBucket: "mikoko-league.appspot.com",
+    messagingSenderId: "YOUR_ID",
+    appId: "YOUR_APP_ID"
+  };
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.database();
+</script>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@700&family=Space+Grotesk:wght@300;500;700&family=JetBrains+Mono:wght@300&display=swap" rel="stylesheet">
     <style>
