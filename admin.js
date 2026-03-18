@@ -233,3 +233,25 @@ function updateStreamLinks() {
         node_3: s3 || "https://elite-league-streamer-3.vercel.app/"
     }).then(() => showNotify("NODES_SYNCED_TO_BACKEND"));
 }
+function syncTableStandings() {
+    const teamId = document.getElementById('standing-team-select').value;
+    if (!teamId) return alert("SELECT_TEAM_NODE_FIRST");
+
+    const stats = {
+        mp: parseInt(document.getElementById('std-mp').value) || 0,
+        w: parseInt(document.getElementById('std-w').value) || 0,
+        d: parseInt(document.getElementById('std-d').value) || 0,
+        l: parseInt(document.getElementById('std-l').value) || 0,
+        gf: parseInt(document.getElementById('std-gf').value) || 0,
+        ga: parseInt(document.getElementById('std-ga').value) || 0
+    };
+
+    // Push to Firebase under 'standings' node
+    db.ref('standings/' + teamId).set(stats).then(() => {
+        showNotify(`${teamId.toUpperCase()}_STANDINGS_SYNCED`);
+        // Clear inputs for next update
+        ['std-mp', 'std-w', 'std-d', 'std-l', 'std-gf', 'std-ga'].forEach(id => {
+            document.getElementById(id).value = '';
+        });
+    });
+}
