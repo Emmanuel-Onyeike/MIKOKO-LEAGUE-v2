@@ -275,8 +275,8 @@ leaderboard: `
             </div>
             
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                ${renderMatchCard('GUNNERS FC', 'JED FC', '16:00', 'MAR 20', 'ARENA_01')}
-                ${renderMatchCard('OGBAFIA FC', 'ZUBBY FC', '17:00', 'MAR 20', 'ARENA_01')}
+                ${renderMatchCard('ZUBBY FC', 'GUNNERS FC', '16:00', 'MAR NIL', 'ARENA_01')}
+                ${renderMatchCard('JED FC', 'OGBAFIA FC', '17:00', 'MAR NIL', 'ARENA_01')}
             </div>
         </div>
 
@@ -288,8 +288,8 @@ leaderboard: `
             </div>
             
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                ${renderMatchCard('BIG PAMS FC', 'HASSAN FC', '16:00', 'MAR 21', 'ARENA_02')}
-                ${renderMatchCard('UNDECIDED FC', 'GABI FC', '17:00', 'MAR 21', 'ARENA_02')}
+                ${renderMatchCard('BIG PAMS FC', 'ANTHONY FC', '16:00', 'MAR NIL', 'ARENA_02')}
+                ${renderMatchCard('UNDECIDED FC', 'HASSAN FC', '17:00', 'MAR NIL', 'ARENA_02')}
             </div>
         </div>
     </div>
