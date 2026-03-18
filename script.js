@@ -207,7 +207,91 @@ function renderLiveMatchCard(home, away, clock, status, homeScore = 0, awayScore
         `}
     </div>`;
 }
+// ────────────────────────────────────────────────
+// REAL NEWS FEED DISPLAY – shows all posts in FEED tab
+// ────────────────────────────────────────────────
 
+function renderNewsFeed(posts) {
+    if (!posts || posts.length === 0) {
+        return `
+            <div class="text-center py-20 opacity-70">
+                <div class="inline-block w-16 h-16 border-4 border-red-600/30 border-t-red-600 rounded-full animate-spin mb-6"></div>
+                <h3 class="font-heading text-3xl text-zinc-500 uppercase tracking-widest mb-4">NO_BROADCASTS_YET</h3>
+                <p class="font-mono text-[11px] text-zinc-600 max-w-md mx-auto">
+                    Neural feed initializing • First tactical broadcast pending
+                </p>
+            </div>
+        `;
+    }
+
+    return posts.map(post => `
+        <div class="bento-card overflow-hidden border border-red-600/20 bg-black/40 backdrop-blur-sm mb-8 animate-boot">
+            ${post.image ? `
+                <div class="relative h-64 md:h-96 overflow-hidden">
+                    <img src="${post.image}" class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700" alt="Tactical visual" />
+                    <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent"></div>
+                </div>
+            ` : ''}
+            
+            <div class="p-6 md:p-8">
+                <div class="flex justify-between items-center mb-4">
+                    <span class="text-[10px] font-mono text-zinc-500 uppercase tracking-widest">
+                        ${post.date || 'Unknown'} • ${post.time || '--:--:--'}
+                    </span>
+                    <span class="px-3 py-1 bg-red-600/20 text-red-400 text-[9px] font-mono uppercase rounded-full animate-pulse">
+                        LIVE_FEED
+                    </span>
+                </div>
+                
+                <div class="prose prose-invert max-w-none">
+                    ${post.text ? post.text : '<p class="text-zinc-400 italic">[MEDIA_ONLY_POST]</p>'}
+                </div>
+            </div>
+        </div>
+    `).join('');
+}
+
+// Listen for news and update FEED tab when active
+let newsPosts = []; // store all posts
+
+if (typeof db !== 'undefined') {
+    db.ref('news_feed').orderByChild('timestamp').limitToLast(20).on('value', (snapshot) => {
+        newsPosts = [];
+        snapshot.forEach(child => {
+            const post = child.val();
+            post.key = child.key; // optional, for future delete/edit
+            newsPosts.push(post);
+        });
+
+        // If FEED tab is currently active, update it immediately
+        const activeTab = document.querySelector('.nav-link.active, .dock-btn.active');
+        if (activeTab && (activeTab.id === 'nav-news' || activeTab.id === 'dock-news')) {
+            const feedContainer = document.querySelector('#main-content');
+            if (feedContainer) {
+                feedContainer.innerHTML = renderNewsFeed(newsPosts.reverse()); // newest first
+            }
+        }
+
+        console.log(`Loaded ${newsPosts.length} news posts`);
+    });
+}
+
+// When switching to NEWS tab, show current posts
+// (we already have switchTab – just enhance it slightly)
+const originalSwitchTab = switchTab;
+switchTab = function(tab) {
+    originalSwitchTab(tab);
+
+    // After tab switch animation, check if it's news tab
+    setTimeout(() => {
+        if (tab === 'news') {
+            const feedContainer = document.querySelector('#main-content');
+            if (feedContainer) {
+                feedContainer.innerHTML = renderNewsFeed(newsPosts.reverse());
+            }
+        }
+    }, 300);
+};
 // ────────────────────────────────────────────────
 //  ALL VIEWS – strong waiting/initializing states everywhere
 // ────────────────────────────────────────────────
