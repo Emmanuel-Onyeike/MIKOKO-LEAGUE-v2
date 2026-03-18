@@ -338,7 +338,79 @@ leaderboard: `
 </div>`,
 
     
-    'pure-stream': `<div class="animate-boot bento-card h-64 flex items-center justify-center bg-black"><span class="text-zinc-800 font-heading text-xs tracking-widest italic uppercase">Stream_Offline</span></div>`,
+    'pure-stream': `
+<div class="animate-boot space-y-10 pb-28">
+    <div class="bento-card border-b-2 border-red-600 flex justify-between items-center bg-black/60">
+        <div class="flex items-center gap-4">
+            <div class="relative w-3 h-3">
+                <div class="absolute inset-0 bg-red-600 rounded-full animate-ping opacity-20"></div>
+                <div class="absolute inset-0 bg-zinc-800 rounded-full"></div>
+            </div>
+            <div>
+                <h2 class="font-heading text-3xl italic tracking-tighter text-white uppercase">Pure_Stream_v1</h2>
+                <p class="text-[9px] font-mono text-zinc-500 uppercase tracking-[0.4em]">Direct_Neural_Feed // 3_Active_Nodes</p>
+            </div>
+        </div>
+        <div class="bg-red-600/10 px-4 py-1 border border-red-600/20">
+            <span class="font-mono text-[9px] text-red-600 uppercase animate-pulse">Standby_Mode</span>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        
+        <div class="space-y-4">
+            <div class="relative aspect-video bg-zinc-950 border border-white/5 overflow-hidden group">
+                <div class="absolute inset-0 flex flex-col items-center justify-center space-y-2 opacity-40">
+                    <svg class="w-8 h-8 text-zinc-800" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+                    <span class="font-mono text-[8px] text-zinc-700 uppercase tracking-widest">FEED_SIGNAL_LOST</span>
+                </div>
+                <div class="absolute w-full h-[1px] bg-red-600/30 top-0 animate-[scan_4s_linear_infinite]"></div>
+            </div>
+            <button onclick="triggerAlert('STREAM_RESTRICTED', 'Access Denied. Feed 01 will activate 15 minutes prior to Kickoff.')" 
+                class="w-full py-3 bg-white/5 border border-white/10 font-heading text-[9px] tracking-[0.3em] text-zinc-500 hover:border-red-600/50 hover:text-white transition group">
+                LINK_SCREEN_01 <span class="text-red-600 opacity-50 group-hover:opacity-100">[LOCKED]</span>
+            </button>
+        </div>
+
+        <div class="space-y-4">
+            <div class="relative aspect-video bg-zinc-950 border border-white/5 overflow-hidden">
+                <div class="absolute inset-0 flex flex-col items-center justify-center space-y-2 opacity-40">
+                    <svg class="w-8 h-8 text-zinc-800" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+                    <span class="font-mono text-[8px] text-zinc-700 uppercase tracking-widest">FEED_SIGNAL_LOST</span>
+                </div>
+                <div class="absolute w-full h-[1px] bg-red-600/30 top-1/2 animate-[scan_4s_linear_infinite_reverse]"></div>
+            </div>
+            <button onclick="triggerAlert('STREAM_RESTRICTED', 'Access Denied. Feed 02 is currently encrypted. Check Match Day Schedule.')" 
+                class="w-full py-3 bg-white/5 border border-white/10 font-heading text-[9px] tracking-[0.3em] text-zinc-500 hover:border-red-600/50 hover:text-white transition group">
+                LINK_SCREEN_02 <span class="text-red-600 opacity-50 group-hover:opacity-100">[LOCKED]</span>
+            </button>
+        </div>
+
+        <div class="space-y-4">
+            <div class="relative aspect-video bg-zinc-950 border border-white/5 overflow-hidden">
+                <div class="absolute inset-0 flex flex-col items-center justify-center space-y-2 opacity-40">
+                    <svg class="w-8 h-8 text-zinc-800" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+                    <span class="font-mono text-[8px] text-zinc-700 uppercase tracking-widest">FEED_SIGNAL_LOST</span>
+                </div>
+                <div class="absolute w-full h-[1px] bg-red-600/30 bottom-0 animate-[scan_6s_linear_infinite]"></div>
+            </div>
+            <button onclick="triggerAlert('STREAM_RESTRICTED', 'Access Denied. Feed 03 is offline. Satellite link required during live events.')" 
+                class="w-full py-3 bg-white/5 border border-white/10 font-heading text-[9px] tracking-[0.3em] text-zinc-500 hover:border-red-600/50 hover:text-white transition group">
+                LINK_SCREEN_03 <span class="text-red-600 opacity-50 group-hover:opacity-100">[LOCKED]</span>
+            </button>
+        </div>
+
+    </div>
+
+    <div class="bento-card bg-red-600/5 border-red-600/20 text-center py-6">
+        <p class="font-mono text-[10px] text-zinc-400 uppercase tracking-widest">
+            <span class="text-red-600">Note:</span> Pure Stream nodes are high-bandwidth encrypted lines. <br class="hidden md:block">
+            Links only become functional 15-30 minutes before official match deployments.
+        </p>
+    </div>
+</div>`,
+
+    
     'live-center': `<div class="animate-boot space-y-4"><h2 class="font-heading text-4xl italic uppercase">Live_Center</h2><div class="bento-card p-12 text-center text-zinc-500 font-mono text-[10px] uppercase">Node aggregation in progress...</div></div>`
 };
 
