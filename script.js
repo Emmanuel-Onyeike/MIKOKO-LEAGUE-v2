@@ -197,12 +197,61 @@ const views = {
             </div>
         </div>
     </div>`,
+leaderboard: `
+<div class="animate-boot space-y-10 pb-28">
+    <div class="bento-card flex flex-col md:flex-row items-center justify-between gap-6 border-b-2 border-red-600">
+        <div class="flex items-center gap-6">
+            <div class="nexus-core scale-75 md:scale-100"><div class="nexus-inner"></div><div class="nexus-orbit"></div></div>
+            <div>
+                <h2 class="font-heading text-3xl md:text-5xl text-white italic uppercase tracking-tighter">LEADER_BOARDS</h2>
+                <p class="font-mono text-[9px] tracking-[0.3em] text-red-600 uppercase">Neural_Performance_Metrics // S26</p>
+            </div>
+        </div>
+        
+        <div class="flex bg-zinc-900/50 p-1 rounded-full border border-white/5">
+            <button onclick="document.getElementById('goals-sector').scrollIntoView({behavior:'smooth'})" class="px-6 py-2 font-heading text-[8px] tracking-widest text-zinc-500 hover:text-white transition">GOALS</button>
+            <button onclick="document.getElementById('assists-sector').scrollIntoView({behavior:'smooth'})" class="px-6 py-2 font-heading text-[8px] tracking-widest text-zinc-500 hover:text-white transition">ASSISTS</button>
+        </div>
+    </div>
 
-    leaderboard: `<div class="bento-card flex flex-col items-center justify-center py-40">
-        <div class="nexus-core mb-12 scale-150"><div class="nexus-inner"></div><div class="nexus-orbit"></div></div>
-        <h2 class="font-heading text-5xl text-white italic mb-4 uppercase tracking-tighter">MVP_DATA</h2>
-        <p class="font-mono text-[10px] tracking-[1em] text-zinc-600 uppercase animate-pulse">Decoding_Neural_Performance...</p>
-    </div>`,
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        
+        <div id="goals-sector" class="space-y-6">
+            <div class="flex items-center justify-between px-2">
+                <h3 class="font-heading text-lg italic text-white uppercase"><span class="text-red-600">01.</span> GOAL_STRIKERS</h3>
+                <span class="text-[8px] font-mono text-zinc-600 uppercase animate-pulse">Syncing_Nodes...</span>
+            </div>
+            
+            <div class="space-y-3">
+                ${renderNilTopPlayers('GOALS')}
+            </div>
+
+            <div class="bento-card !p-0 overflow-hidden border-zinc-900 bg-black/20">
+                <div class="max-h-[400px] overflow-y-auto roster-scroll p-4 space-y-2">
+                    ${renderNilExtendedList('G')}
+                </div>
+            </div>
+        </div>
+
+        <div id="assists-sector" class="space-y-6">
+            <div class="flex items-center justify-between px-2">
+                <h3 class="font-heading text-lg italic text-white uppercase"><span class="text-red-600">02.</span> TACTICAL_ASSISTS</h3>
+                <span class="text-[8px] font-mono text-zinc-600 uppercase animate-pulse">Syncing_Nodes...</span>
+            </div>
+
+            <div class="space-y-3">
+                ${renderNilTopPlayers('ASSISTS')}
+            </div>
+
+            <div class="bento-card !p-0 overflow-hidden border-zinc-900 bg-black/20">
+                <div class="max-h-[400px] overflow-y-auto roster-scroll p-4 space-y-2">
+                    ${renderNilExtendedList('A')}
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>`,
 
     fixtures: `<div class="animate-boot"><h2 class="font-heading text-4xl italic uppercase">Match_Fixtures</h2><p class="text-zinc-500 font-mono text-[10px] mt-4 uppercase tracking-[0.5em]">Establishing data link...</p></div>`,
     'live-games': `<div class="animate-boot flex flex-col items-center py-20"><div class="w-4 h-4 bg-red-600 rounded-full animate-ping mb-4"></div><h2 class="font-heading text-2xl uppercase">No_Live_Matches</h2></div>`,
@@ -312,3 +361,44 @@ setInterval(() => {
 }, 1000);
 
 window.onload = () => switchTab('home');
+function renderNilTopPlayers(unit) {
+    let placeholders = '';
+    for (let i = 1; i <= 5; i++) {
+        placeholders += `
+            <div class="flex items-center justify-between p-4 bg-white/[0.01] border-l-2 border-zinc-900 hover:border-red-600/30 transition-all group">
+                <div class="flex items-center gap-4">
+                    <span class="font-mono text-[10px] text-zinc-700">0${i}</span>
+                    <div class="w-10 h-10 bg-zinc-900 border border-white/5 rounded-full flex items-center justify-center overflow-hidden grayscale opacity-50">
+                        <div class="w-full h-full bg-gradient-to-tr from-zinc-800 to-zinc-950"></div>
+                    </div>
+                    <div>
+                        <span class="font-heading text-[10px] text-zinc-500 tracking-widest uppercase">NODE_NIL</span>
+                        <p class="text-[7px] font-mono text-zinc-700 uppercase">Waiting_for_deployment</p>
+                    </div>
+                </div>
+                <div class="text-right opacity-30">
+                    <span class="font-heading text-lg italic text-zinc-500">00</span>
+                    <span class="text-[7px] font-mono text-zinc-600 block uppercase">${unit}</span>
+                </div>
+            </div>
+        `;
+    }
+    return placeholders;
+}
+
+function renderNilExtendedList(suffix) {
+    let list = '';
+    for (let i = 6; i <= 50; i++) {
+        list += `
+            <div class="flex items-center justify-between py-2 border-b border-white/5 opacity-40">
+                <div class="flex items-center gap-3">
+                    <span class="font-mono text-[8px] text-zinc-800">${i.toString().padStart(2, '0')}</span>
+                    <div class="w-4 h-4 rounded-sm bg-zinc-900"></div>
+                    <span class="text-[9px] font-bold text-zinc-600 uppercase tracking-tighter italic">UNDEFINED_PLAYER</span>
+                </div>
+                <span class="font-mono text-[9px] text-zinc-800">0 ${suffix}</span>
+            </div>
+        `;
+    }
+    return list;
+}
