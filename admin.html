@@ -93,6 +93,68 @@
                     <button class="btn-action w-full py-3">UPDATE_LINK_NODES</button>
                 </div>
             </section>
+            <section class="admin-card p-6">
+    <div class="flex items-center justify-between mb-6">
+        <h2 class="font-heading text-xs text-red-600 tracking-widest uppercase">Standings_Operator</h2>
+        <span class="text-[7px] font-mono text-zinc-600 uppercase italic">Phase_01 // Arena_Deploys</span>
+    </div>
+
+    <div class="space-y-6">
+        <div>
+            <label class="text-[8px] text-zinc-500 block mb-2 uppercase">Select_Target_Team</label>
+            <select id="standing-team-select" class="bg-black border border-white/10 text-[10px] focus:border-red-600 outline-none">
+                <option value="">CHOOSE_TEAM...</option>
+                <optgroup label="GROUP_A_NODES">
+                    <option value="gunners">GUNNERS FC</option>
+                    <option value="jed">JED FC</option>
+                    <option value="ogbafia">OGBAFIA FC</option>
+                    <option value="zubby">ZUBBY FC</option>
+                </optgroup>
+                <optgroup label="GROUP_B_NODES">
+                    <option value="bigpams">BIG PAMS FC</option>
+                    <option value="hassan">HASSAN FC</option>
+                    <option value="undecided">UNDECIDED FC</option>
+                    <option value="gabi">GABI FC</option>
+                </optgroup>
+            </select>
+        </div>
+
+        <div class="grid grid-cols-4 gap-3">
+            <div>
+                <label class="text-[7px] text-zinc-600 block mb-1 uppercase text-center">MP</label>
+                <input type="number" id="std-mp" placeholder="0" class="text-center p-2">
+            </div>
+            <div>
+                <label class="text-[7px] text-zinc-600 block mb-1 uppercase text-center text-green-500">W</label>
+                <input type="number" id="std-w" placeholder="0" class="text-center p-2 border-green-900/30">
+            </div>
+            <div>
+                <label class="text-[7px] text-zinc-600 block mb-1 uppercase text-center text-blue-500">D</label>
+                <input type="number" id="std-d" placeholder="0" class="text-center p-2 border-blue-900/30">
+            </div>
+            <div>
+                <label class="text-[7px] text-zinc-600 block mb-1 uppercase text-center text-red-500">L</label>
+                <input type="number" id="std-l" placeholder="0" class="text-center p-2 border-red-900/30">
+            </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+            <div>
+                <label class="text-[7px] text-zinc-600 block mb-1 uppercase">Goals_For (GF)</label>
+                <input type="number" id="std-gf" placeholder="0" class="p-2">
+            </div>
+            <div>
+                <label class="text-[7px] text-zinc-600 block mb-1 uppercase">Goals_Against (GA)</label>
+                <input type="number" id="std-ga" placeholder="0" class="p-2">
+            </div>
+        </div>
+
+        <button onclick="syncTableStandings()" class="btn-action w-full py-4 mt-2 flex items-center justify-center gap-2">
+            <span>SYNC_TABLE_DATA</span>
+            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+        </button>
+    </div>
+</section>
 
         <section class="admin-card p-6">
     <h2 class="font-heading text-xs text-red-600 mb-6 tracking-widest uppercase">Leaderboard_Rank_Sync</h2>
