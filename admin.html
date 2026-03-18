@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MIKOKO_ADMIN // COMMAND_CENTER</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@400;700&family=Space+Mono&display=swap" rel="stylesheet">
+    <style>
+        :root { --nxxt-red: #ff0033; }
+        body { background: #050505; color: #eee; font-family: 'Space Mono', monospace; }
+        .font-heading { font-family: 'Syncopate', sans-serif; }
+        .admin-card { border: 1px solid rgba(255,255,255,0.05); background: rgba(10,10,10,0.8); transition: all 0.3s; }
+        .admin-card:hover { border-color: var(--nxxt-red); }
+        .btn-action { background: var(--nxxt-red); color: white; font-family: 'Syncopate'; font-size: 10px; transition: all 0.2s; }
+        .btn-action:active { transform: scale(0.95); opacity: 0.8; }
+        input, select { background: #111; border: 1px solid #222; color: white; padding: 8px; font-size: 12px; width: 100%; }
+    </style>
+</head>
+<body class="p-4 md:p-10">
+
+    <div id="login-overlay" class="fixed inset-0 z-[100] bg-black flex items-center justify-center p-6">
+        <div class="max-w-xs w-full text-center">
+            <h1 class="font-heading text-xl mb-6 tracking-tighter">SECURE_AUTH</h1>
+            <input type="password" id="admin-pin" placeholder="ENTER_PIN" class="text-center tracking-[1em] mb-4">
+            <button onclick="checkAccess()" class="btn-action w-full py-4">INITIALIZE_SESSION</button>
+        </div>
+    </div>
+
+    <header class="mb-10 border-b border-white/10 pb-6 flex justify-between items-center">
+        <div>
+            <h1 class="font-heading text-2xl italic">MIKOKO_DASHBOARD</h1>
+            <p class="text-[9px] text-red-600 tracking-[0.4em]">ADMIN_LEVEL_01 // GLOBAL_SYNC</p>
+        </div>
+        <button onclick="location.reload()" class="text-[8px] border border-white/20 px-4 py-2 hover:bg-white/10">TERMINATE_SESSION</button>
+    </header>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        
+        <div class="lg:col-span-2 space-y-6">
+            <section class="admin-card p-6">
+                <h2 class="font-heading text-xs text-red-600 mb-6 tracking-widest uppercase">Live_Match_Operator</h2>
+                
+                <div class="grid grid-cols-2 gap-4 mb-6">
+                    <div>
+                        <label class="text-[8px] text-zinc-500 block mb-2 uppercase">Team_Alpha</label>
+                        <input type="text" id="live-home-name" placeholder="Home Team">
+                    </div>
+                    <div>
+                        <label class="text-[8px] text-zinc-500 block mb-2 uppercase">Team_Beta</label>
+                        <input type="text" id="live-away-name" placeholder="Away Team">
+                    </div>
+                </div>
+
+                <div class="flex flex-wrap gap-2 mb-6">
+                    <button class="px-4 py-2 bg-zinc-900 border border-white/10 text-[9px] hover:border-red-600">START_CLOCK</button>
+                    <button class="px-4 py-2 bg-zinc-900 border border-white/10 text-[9px] hover:border-red-600">HALF_TIME</button>
+                    <button class="px-4 py-2 bg-zinc-900 border border-white/10 text-[9px] hover:border-red-600">FULL_TIME</button>
+                    <button class="px-4 py-2 bg-red-950/20 border border-red-600 text-[9px] text-red-600">GOAL_HOME +</button>
+                    <button class="px-4 py-2 bg-red-950/20 border border-red-600 text-[9px] text-red-600">GOAL_AWAY +</button>
+                </div>
+
+                <div class="space-y-4">
+                    <h3 class="text-[9px] font-heading text-zinc-500">Event_Logger</h3>
+                    <div class="grid grid-cols-3 gap-2">
+                        <input type="text" placeholder="Player Name" class="col-span-1">
+                        <select class="col-span-1">
+                            <option>GOAL</option>
+                            <option>ASSIST</option>
+                            <option>YELLOW_CARD</option>
+                            <option>RED_CARD</option>
+                        </select>
+                        <button class="btn-action">LOG_EVENT</button>
+                    </div>
+                </div>
+            </section>
+
+            <section class="admin-card p-6">
+                <h2 class="font-heading text-xs text-red-600 mb-6 tracking-widest uppercase">Neural_Feed_Broadcast</h2>
+                <textarea class="w-full bg-zinc-900 border border-white/10 p-4 text-xs mb-4" rows="3" placeholder="Write league update..."></textarea>
+                <button class="btn-action px-8 py-3">PUBLISH_TO_ALL_NODES</button>
+            </section>
+        </div>
+
+        <div class="space-y-6">
+            <section class="admin-card p-6">
+                <h2 class="font-heading text-xs text-red-600 mb-6 tracking-widest uppercase">Stream_Management</h2>
+                <div class="space-y-4">
+                    <input type="text" placeholder="Stream 1 URL">
+                    <input type="text" placeholder="Stream 2 URL">
+                    <button class="btn-action w-full py-3">UPDATE_LINK_NODES</button>
+                </div>
+            </section>
+
+            <section class="admin-card p-6">
+                <h2 class="font-heading text-xs text-red-600 mb-6 tracking-widest uppercase">Leaderboard_Rank</h2>
+                <div class="space-y-4">
+                    <select>
+                        <option>Select Player</option>
+                        <option>ZUBBY</option>
+                        <option>GABI</option>
+                    </select>
+                    <input type="number" placeholder="Add Goals">
+                    <button class="btn-action w-full py-3">SYNC_PLAYER_STATS</button>
+                </div>
+            </section>
+        </div>
+
+    </div>
+
+    <div id="admin-alert" class="fixed bottom-10 right-10 hidden bg-red-600 text-white p-4 font-heading text-[10px] animate-bounce">
+        DATA_SYNC_SUCCESSFUL
+    </div>
+
+</body>
+</html>
