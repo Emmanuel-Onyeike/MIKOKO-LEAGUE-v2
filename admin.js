@@ -4,16 +4,16 @@
 // ────────────────────────────────────────────────
 
 // Firebase Config – REPLACE THESE WITH YOUR REAL VALUES
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-    apiKey: "YOUR_API_KEY",
-    authDomain: "mikoko-league.firebaseapp.com",
-    databaseURL: "https://mikoko-league-default-rtdb.firebaseio.com",
-    projectId: "mikoko-league",
-    storageBucket: "mikoko-league.appspot.com",
-    messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-    appId: "YOUR_APP_ID"
+  apiKey: "AIzaSyDwu7gufqSKAnMutOs_cv6_xhYZQ9s6tQw",
+  authDomain: "goteach-276b6.firebaseapp.com",
+  projectId: "goteach-276b6",
+  storageBucket: "goteach-276b6.firebasestorage.app",
+  messagingSenderId: "270747208183",
+  appId: "1:270747208183:web:42a884509da5e14f4406f2",
+  measurementId: "G-KQLHT74L1Q"
 };
-
 // Initialize Firebase
 let db;
 try {
