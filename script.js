@@ -142,6 +142,12 @@ const views = {
             </div>
         </div>
     </div>`,
+
+
+
+
+
+    
     news: `
     <div class="animate-boot space-y-10 pb-28">
         <div class="relative group rounded-3xl overflow-hidden border border-red-600/20 h-[500px]">
@@ -522,7 +528,11 @@ function closeModal() {
     if (modal) modal.style.display = 'none';
 }
 
-function renderGroupTable(teams) {
+
+
+
+//////// for the Standing 
+function renderGroupTable(teams, groupData = {}) {
     return `
         <div class="overflow-x-auto no-scrollbar">
             <table class="w-full text-left border-collapse min-w-[500px]">
@@ -541,24 +551,54 @@ function renderGroupTable(teams) {
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-white/5">
-                    ${teams.map((team, i) => `
-                        <tr class="group hover:bg-white/[0.02] transition-colors">
-                            <td class="p-2 font-mono text-[10px] text-zinc-600">${i + 1}</td>
-                            <td class="p-2 font-heading text-[9px] uppercase italic tracking-tighter text-zinc-300 group-hover:text-white">${team}</td>
-                            <td class="p-2 font-mono text-[10px] text-center text-zinc-500">0</td>
-                            <td class="p-2 font-mono text-[10px] text-center text-zinc-500">0</td>
-                            <td class="p-2 font-mono text-[10px] text-center text-zinc-500">0</td>
-                            <td class="p-2 font-mono text-[10px] text-center text-zinc-500">0</td>
-                            <td class="p-2 font-mono text-[10px] text-center text-zinc-500">0</td>
-                            <td class="p-2 font-mono text-[10px] text-center text-zinc-500">0</td>
-                            <td class="p-2 font-mono text-[10px] text-center text-zinc-400">0</td>
-                            <td class="p-2 font-heading text-[10px] text-right italic text-red-600 font-bold">0</td>
-                        </tr>
-                    `).join('')}
+                    ${teams.map((team, i) => {
+                        // Normalize team name to match Firebase keys (e.g., "GUNNERS FC" -> "gunners")
+                        const teamKey = team.split(' ')[0].toLowerCase();
+                        const s = groupData[teamKey] || { mp:0, w:0, d:0, l:0, gf:0, ga:0 };
+                        
+                        // Tactical Calculations
+                        const gd = s.gf - s.ga;
+                        const points = (s.w * 3) + (s.d * 1);
+
+                        return `
+                            <tr class="group hover:bg-white/[0.02] transition-colors">
+                                <td class="p-2 font-mono text-[10px] text-zinc-600">${i + 1}</td>
+                                <td class="p-2 font-heading text-[9px] uppercase italic tracking-tighter text-zinc-300 group-hover:text-white">${team}</td>
+                                <td class="p-2 font-mono text-[10px] text-center text-zinc-500">${s.mp}</td>
+                                <td class="p-2 font-mono text-[10px] text-center text-zinc-500">${s.w}</td>
+                                <td class="p-2 font-mono text-[10px] text-center text-zinc-500">${s.d}</td>
+                                <td class="p-2 font-mono text-[10px] text-center text-zinc-500">${s.l}</td>
+                                <td class="p-2 font-mono text-[10px] text-center text-zinc-500">${s.gf}</td>
+                                <td class="p-2 font-mono text-[10px] text-center text-zinc-500">${s.ga}</td>
+                                <td class="p-2 font-mono text-[10px] text-center ${gd > 0 ? 'text-green-500' : gd < 0 ? 'text-red-500' : 'text-zinc-400'}">${gd > 0 ? '+' + gd : gd}</td>
+                                <td class="p-2 font-heading text-[10px] text-right italic text-red-600 font-bold">${points}</td>
+                            </tr>
+                        `;
+                    }).join('')}
                 </tbody>
             </table>
         </div>`;
 }
+
+db.ref('standings').on('value', (snapshot) => {
+    const allStats = snapshot.val() || {};
+    
+    // Update Group A Container
+    const groupAContainer = document.querySelector('#group-a-node-container'); // Add this ID to your HTML
+    if (groupAContainer) {
+        groupAContainer.innerHTML = renderGroupTable(['GUNNERS FC', 'JED FC', 'OGBAFIA FC', 'ZUBBY FC'], allStats);
+    }
+
+    // Update Group B Container
+    const groupBContainer = document.querySelector('#group-b-node-container'); // Add this ID to your HTML
+    if (groupBContainer) {
+        groupBContainer.innerHTML = renderGroupTable(['BIG PAMS FC', 'HASSAN FC', 'UNDECIDED FC', 'GABI FC'], allStats);
+    }
+});
+
+
+
+
 setInterval(() => {
     const timer = document.getElementById('live-timer');
     if (timer) timer.innerText = new Date().toLocaleTimeString('en-GB');
