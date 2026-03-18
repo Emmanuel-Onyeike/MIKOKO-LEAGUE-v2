@@ -1,136 +1,153 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MIKOKO // NEURAL_DASH_2040</title>
-    <link rel="stylesheet" href="style.css">
-    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-database-compat.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MIKOKO // NEURAL_DASH_2040</title>
 
-<script>
-  // Same config as admin.js
-  const firebaseConfig = {
-    apiKey: "YOUR_API_KEY",
-    authDomain: "mikoko-league.firebaseapp.com",
-    databaseURL: "https://mikoko-league-default-rtdb.firebaseio.com",
-    projectId: "mikoko-league",
-    storageBucket: "mikoko-league.appspot.com",
-    messagingSenderId: "YOUR_ID",
-    appId: "YOUR_APP_ID"
-  };
-  firebase.initializeApp(firebaseConfig);
-  const db = firebase.database();
-</script>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@700&family=Space+Grotesk:wght@300;500;700&family=JetBrains+Mono:wght@300&display=swap" rel="stylesheet">
-    <style>
-        /* Essential Menu Styles */
-        .menu-link {
-            width: 100%;
-            text-align: left;
-            font-family: 'Syncopate', sans-serif;
-            font-size: 10px;
-            padding: 1rem 0;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-            color: #71717a;
-            text-transform: uppercase;
-            letter-spacing: 0.2em;
-            transition: all 0.3s ease;
-        }
-        .menu-link:hover { color: #dc2626; padding-left: 10px; }
-        #side-menu.active { pointer-events: auto; }
-        #side-menu.active #menu-overlay { opacity: 1; }
-        #side-menu.active #menu-drawer { transform: translateX(0); }
-    </style>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@700&family=Space+Grotesk:wght@300;500;700&family=JetBrains+Mono:wght@300;400;700&display=swap" rel="stylesheet">
+
+  <!-- Firebase compat (v9 – matches your current admin.js usage) -->
+  <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-database-compat.js"></script>
+
+  <!-- Custom styles (must come after Tailwind) -->
+  <link rel="stylesheet" href="style.css" />
+
+  <!-- Inline fixes for menu drawer (you can move these to style.css later) -->
+  <style>
+    #side-menu.active { pointer-events: auto; }
+    #menu-overlay { opacity: 0; transition: opacity 0.4s ease; }
+    #side-menu.active #menu-overlay { opacity: 1; }
+    #menu-drawer { transform: translateX(100%); transition: transform 0.5s cubic-bezier(0.32, 0.72, 0, 1); }
+    #side-menu.active #menu-drawer { transform: translateX(0); }
+  </style>
 </head>
-<body class="bg-[#020202] text-white overflow-x-hidden">
+<body class="bg-[#020202] text-white font-sans overflow-x-hidden relative">
 
-    <div class="neural-bg"></div>
-    <div class="vignette"></div>
-    <div class="fixed top-0 left-0 w-full h-1 bg-red-600 z-[110] scanline-fast"></div>
+  <!-- Background effects -->
+  <div class="neural-bg"></div>
+  <div class="vignette"></div>
 
-    <nav class="fixed top-6 left-1/2 -translate-x-1/2 z-[100] w-[95%] max-w-6xl hidden md:flex items-center justify-between px-8 py-4 glass-ultra rounded-2xl border border-white/10 shadow-2xl">
-        <div class="flex items-center gap-3">
-            <div class="w-1 h-8 bg-red-600 animate-pulse"></div>
-            <h1 class="font-heading text-xl tracking-[0.3em] italic">MIKOKO<span class="text-red-600">.NX</span></h1>
-        </div>
+  <!-- Top scanline -->
+  <div class="fixed top-0 left-0 w-full h-1 bg-red-600 z-[110] scanline-fast"></div>
 
-       <div class="menu-container flex items-center justify-start md:justify-center gap-4 sm:gap-6 overflow-x-auto no-scrollbar py-4 px-6 border-b border-white/5 bg-black/40 backdrop-blur-md">
-    
-    <button onclick="switchTab('home')" class="nav-link active whitespace-nowrap" id="nav-home">CORE</button>
-    
-    <button onclick="switchTab('standings')" class="nav-link whitespace-nowrap" id="nav-standings">ARENA</button>
-    
-    <button onclick="switchTab('fixtures')" class="nav-link whitespace-nowrap" id="nav-fixtures">FIXTURES</button>
-    
-    <button onclick="switchTab('live-games')" class="nav-link whitespace-nowrap flex items-center gap-2" id="nav-live-games">
+  <!-- Desktop Navigation -->
+  <nav class="fixed top-6 left-1/2 -translate-x-1/2 z-[100] w-[95%] max-w-6xl hidden md:flex items-center justify-between px-8 py-4 glass-ultra rounded-2xl border border-white/10 shadow-2xl backdrop-blur-xl">
+    <div class="flex items-center gap-3">
+      <div class="w-1 h-8 bg-red-600 animate-pulse"></div>
+      <h1 class="font-heading text-xl tracking-[0.3em] italic">MIKOKO<span class="text-red-600">.NX</span></h1>
+    </div>
+
+    <div class="menu-container flex items-center justify-center gap-4 sm:gap-6 overflow-x-auto no-scrollbar py-4 px-6 border-b border-white/5 bg-black/40 backdrop-blur-md rounded-full">
+      <button onclick="switchTab('home')" class="nav-link active whitespace-nowrap" id="nav-home">CORE</button>
+      <button onclick="switchTab('standings')" class="nav-link whitespace-nowrap" id="nav-standings">ARENA</button>
+      <button onclick="switchTab('fixtures')" class="nav-link whitespace-nowrap" id="nav-fixtures">FIXTURES</button>
+      <button onclick="switchTab('live-games')" class="nav-link whitespace-nowrap flex items-center gap-2" id="nav-live-games">
         <span class="w-1.5 h-1.5 bg-red-600 rounded-full animate-pulse"></span>
         LIVE
-    </button>
-    
-    <button onclick="switchTab('news')" class="nav-link whitespace-nowrap" id="nav-news">FEED</button>
-            <button onclick="switchTab('live-center')" class="nav-link whitespace-nowrap" id="nav-news">LIVE CENTER</button>
-    
-    <button onclick="switchTab('pure-stream')" class="nav-link whitespace-nowrap" id="nav-pure-stream">STREAM</button>
-    
-    <button onclick="switchTab('leaderboard')" class="nav-link whitespace-nowrap" id="nav-leaderboard">RANK</button>
-
-</div>
-
-        <div class="flex items-center gap-4 pl-6 border-l border-white/10">
-            <div class="text-[9px] font-mono text-zinc-500 text-right uppercase">
-                Latency: 0.002ms<br><span class="text-red-600 font-bold" id="live-timer">00:00:00</span>
-            </div>
-            <div class="avatar-ring cursor-pointer" onclick="showAlert('BIO_SYNC', 'Neural metrics stable.')">
-                <img src="https://ui-avatars.com/api/?name=NX&background=000&color=f00" class="w-10 h-10 rounded-full border border-red-600/50" alt="User">
-            </div>
-        </div>
-    </nav>
-
-    <div class="md:hidden fixed bottom-8 left-1/2 -translate-x-1/2 z-[100] w-[90%] max-w-[420px]">
-        <div class="bio-dock px-6 py-4 flex justify-between items-center rounded-3xl border border-white/10 shadow-[0_0_40px_rgba(255,0,0,0.1)] backdrop-blur-xl bg-black/50">
-            <button onclick="switchTab('home')" class="dock-btn active" id="dock-home"><span class="text-lg">▣</span><span class="text-[7px] font-heading mt-1 uppercase">CORE</span></button>
-            <button onclick="switchTab('standings')" class="dock-btn" id="dock-standings"><span class="text-lg">▤</span><span class="text-[7px] font-heading mt-1 uppercase">ARENA</span></button>
-            
-            <div class="nexus-core" onclick="showAlert('NXXT_AI', 'Unified link established.')">
-                <div class="nexus-inner"></div>
-                <div class="nexus-orbit"></div>
-            </div>
-    
-            <button onclick="switchTab('news')" class="dock-btn" id="dock-news"><span class="text-lg">◈</span><span class="text-[7px] font-heading mt-1 uppercase">FEED</span></button>
-            <button onclick="toggleMenu(true)" class="dock-btn" id="dock-menu"><span class="text-lg">≡</span><span class="text-[7px] font-heading mt-1 uppercase">MENU</span></button>
-        </div>
+      </button>
+      <button onclick="switchTab('news')" class="nav-link whitespace-nowrap" id="nav-news">FEED</button>
+      <button onclick="switchTab('live-center')" class="nav-link whitespace-nowrap" id="nav-live-center">LIVE CENTER</button>
+      <button onclick="switchTab('pure-stream')" class="nav-link whitespace-nowrap" id="nav-pure-stream">STREAM</button>
+      <button onclick="switchTab('leaderboard')" class="nav-link whitespace-nowrap" id="nav-leaderboard">RANK</button>
     </div>
 
-    <main id="main-content" class="pt-28 pb-44 md:pt-40 px-4 md:px-6 max-w-7xl mx-auto min-h-screen">
-        </main>
-
-    <div id="side-menu" class="fixed inset-0 z-[200] pointer-events-none transition-all">
-        <div id="menu-overlay" onclick="toggleMenu(false)" class="absolute inset-0 bg-black/80 backdrop-blur-sm opacity-0 transition-opacity duration-300"></div>
-        <div id="menu-drawer" class="absolute top-0 right-0 h-full w-72 bg-zinc-950 border-l border-white/10 p-10 translate-x-full transition-transform duration-500 pointer-events-auto shadow-[-50px_0_100px_rgba(0,0,0,0.9)]">
-            <div class="flex flex-col gap-2 mt-16">
-                <p class="font-heading text-[8px] tracking-[0.4em] text-red-600 uppercase mb-6 animate-pulse">// SYSTEM_EXPANSION</p>
-                <button onclick="switchTab('leaderboard'); toggleMenu(false)" class="menu-link">Rankings</button>
-                <button onclick="switchTab('fixtures'); toggleMenu(false)" class="menu-link">Fixtures</button>
-                <button onclick="switchTab('live-games'); toggleMenu(false)" class="menu-link text-white font-bold tracking-tighter italic">● Live_Games</button>
-                <button onclick="switchTab('pure-stream'); toggleMenu(false)" class="menu-link">Pure_Stream</button>
-                <button onclick="switchTab('live-center'); toggleMenu(false)" class="menu-link">Live_Center</button>
-            </div>
-            <button onclick="toggleMenu(false)" class="absolute top-8 right-8 text-zinc-700 hover:text-white transition-colors text-2xl font-light">CLOSE ×</button>
-        </div>
+    <div class="flex items-center gap-4 pl-6 border-l border-white/10">
+      <div class="text-[9px] font-mono text-zinc-500 text-right uppercase">
+        Latency: 0.002ms<br>
+        <span class="text-red-600 font-bold" id="live-timer">00:00:00</span>
+      </div>
+      <div class="avatar-ring cursor-pointer" onclick="showAlert('BIO_SYNC', 'Neural metrics stable.')">
+        <img src="https://ui-avatars.com/api/?name=NX&background=000&color=f00" class="w-10 h-10 rounded-full border border-red-600/50" alt="User">
+      </div>
     </div>
+  </nav>
 
-    <div id="modalOverlay" class="fixed inset-0 z-[300] hidden items-center justify-center p-6 backdrop-blur-md bg-black/40">
-        <div class="w-full max-w-sm bg-zinc-950 border border-white/10 rounded-3xl p-8 text-center shadow-2xl scale-95 transition-transform duration-300" id="modalBox">
-            <div class="w-12 h-1 bg-red-600 mx-auto mb-6"></div>
-            <h3 id="modalTitle" class="font-heading text-lg mb-2 italic text-white uppercase tracking-tighter"></h3>
-            <p id="modalBody" class="text-zinc-500 font-mono text-[9px] tracking-widest uppercase mb-10 leading-relaxed"></p>
-            <button onclick="closeModal()" class="w-full py-4 bg-white text-black font-heading text-[10px] tracking-widest uppercase rounded-xl hover:bg-red-600 hover:text-white transition-all">ACKNOWLEDGE</button>
-        </div>
+  <!-- Mobile Bottom Dock -->
+  <div class="md:hidden fixed bottom-8 left-1/2 -translate-x-1/2 z-[100] w-[90%] max-w-[420px]">
+    <div class="bio-dock px-6 py-4 flex justify-between items-center rounded-3xl border border-white/10 shadow-[0_0_40px_rgba(255,0,0,0.1)] backdrop-blur-xl bg-black/50">
+      <button onclick="switchTab('home')" class="dock-btn active flex flex-col items-center" id="dock-home">
+        <span class="text-lg">▣</span>
+        <span class="text-[7px] font-heading mt-1 uppercase">CORE</span>
+      </button>
+      <button onclick="switchTab('standings')" class="dock-btn flex flex-col items-center" id="dock-standings">
+        <span class="text-lg">▤</span>
+        <span class="text-[7px] font-heading mt-1 uppercase">ARENA</span>
+      </button>
+
+      <div class="nexus-core" onclick="showAlert('NXXT_AI', 'Unified link established.')">
+        <div class="nexus-inner"></div>
+        <div class="nexus-orbit"></div>
+      </div>
+
+      <button onclick="switchTab('news')" class="dock-btn flex flex-col items-center" id="dock-news">
+        <span class="text-lg">◈</span>
+        <span class="text-[7px] font-heading mt-1 uppercase">FEED</span>
+      </button>
+      <button onclick="toggleMenu(true)" class="dock-btn flex flex-col items-center" id="dock-menu">
+        <span class="text-lg">≡</span>
+        <span class="text-[7px] font-heading mt-1 uppercase">MENU</span>
+      </button>
     </div>
+  </div>
 
-    <script src="script.js"></script>
-      <script src="admin.js"></script>
+  <!-- Main Content Area (dynamic) -->
+  <main id="main-content" class="pt-28 pb-44 md:pt-40 px-4 md:px-6 max-w-7xl mx-auto min-h-screen">
+    <!-- Content injected here by script.js -->
+  </main>
+
+  <!-- Side Menu Drawer (mobile) -->
+  <div id="side-menu" class="fixed inset-0 z-[200] pointer-events-none transition-all">
+    <div id="menu-overlay" onclick="toggleMenu(false)" class="absolute inset-0 bg-black/80 backdrop-blur-sm"></div>
+    <div id="menu-drawer" class="absolute top-0 right-0 h-full w-72 bg-zinc-950 border-l border-white/10 p-10 shadow-[-50px_0_100px_rgba(0,0,0,0.9)]">
+      <div class="flex flex-col gap-2 mt-16">
+        <p class="font-heading text-[8px] tracking-[0.4em] text-red-600 uppercase mb-6 animate-pulse">// SYSTEM_EXPANSION</p>
+        <button onclick="switchTab('leaderboard'); toggleMenu(false)" class="menu-link">Rankings</button>
+        <button onclick="switchTab('fixtures'); toggleMenu(false)" class="menu-link">Fixtures</button>
+        <button onclick="switchTab('live-games'); toggleMenu(false)" class="menu-link text-white font-bold tracking-tighter italic">● Live_Games</button>
+        <button onclick="switchTab('pure-stream'); toggleMenu(false)" class="menu-link">Pure_Stream</button>
+        <button onclick="switchTab('live-center'); toggleMenu(false)" class="menu-link">Live_Center</button>
+      </div>
+      <button onclick="toggleMenu(false)" class="absolute top-8 right-8 text-zinc-700 hover:text-white transition-colors text-2xl font-light">CLOSE ×</button>
+    </div>
+  </div>
+
+  <!-- Alert Modal -->
+  <div id="modalOverlay" class="fixed inset-0 z-[300] hidden items-center justify-center p-6 backdrop-blur-md bg-black/40">
+    <div class="w-full max-w-sm bg-zinc-950 border border-white/10 rounded-3xl p-8 text-center shadow-2xl scale-95 transition-transform duration-300" id="modalBox">
+      <div class="w-12 h-1 bg-red-600 mx-auto mb-6"></div>
+      <h3 id="modalTitle" class="font-heading text-lg mb-2 italic text-white uppercase tracking-tighter"></h3>
+      <p id="modalBody" class="text-zinc-500 font-mono text-[9px] tracking-widest uppercase mb-10 leading-relaxed"></p>
+      <button onclick="closeModal()" class="w-full py-4 bg-white text-black font-heading text-[10px] tracking-widest uppercase rounded-xl hover:bg-red-600 hover:text-white transition-all">ACKNOWLEDGE</button>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script>
+    // Temporary Firebase initialization (move to separate file later)
+    const firebaseConfig = {
+      apiKey: "YOUR_API_KEY",
+      authDomain: "mikoko-league.firebaseapp.com",
+      databaseURL: "https://mikoko-league-default-rtdb.firebaseio.com",
+      projectId: "mikoko-league",
+      storageBucket: "mikoko-league.appspot.com",
+      messagingSenderId: "YOUR_ID",
+      appId: "YOUR_APP_ID"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+  </script>
+
+  <!-- Your main dashboard logic -->
+  <script src="script.js"></script>
+
+  <!-- IMPORTANT: Do NOT include admin.js here -->
+  <!-- <script src="admin.js"></script> -->
+
 </body>
 </html>
