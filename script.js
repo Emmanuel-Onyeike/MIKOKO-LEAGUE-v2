@@ -296,7 +296,48 @@ leaderboard: `
 </div>`,
 
     
-    'live-games': `<div class="animate-boot flex flex-col items-center py-20"><div class="w-4 h-4 bg-red-600 rounded-full animate-ping mb-4"></div><h2 class="font-heading text-2xl uppercase">No_Live_Matches</h2></div>`,
+   'live-games': `
+<div class="animate-boot flex flex-col items-center justify-center py-24 min-h-[60vh] relative overflow-hidden">
+    <div class="absolute inset-0 flex items-center justify-center opacity-10 pointer-events-none">
+        <div class="w-[300px] h-[300px] border border-red-600 rounded-full animate-ping"></div>
+        <div class="absolute w-[500px] h-[500px] border border-zinc-800 rounded-full"></div>
+    </div>
+
+    <div class="relative mb-10">
+        <div class="w-16 h-16 border-2 border-red-600/20 rounded-full flex items-center justify-center">
+            <div class="w-4 h-4 bg-red-600 rounded-full animate-pulse shadow-[0_0_20px_#ff0033]"></div>
+        </div>
+        <div class="absolute inset-0 border-t-2 border-red-600 rounded-full animate-[spin_3s_linear_infinite] opacity-40"></div>
+    </div>
+
+    <div class="text-center z-10 space-y-4">
+        <h2 class="font-heading text-3xl md:text-5xl text-white italic uppercase tracking-tighter">SIGNAL_SEARCH</h2>
+        
+        <div class="flex flex-col items-center gap-2">
+            <p class="font-mono text-[10px] tracking-[0.4em] text-red-600 uppercase">Status: Scanning_Arena_Matches...</p>
+            <div class="flex gap-1">
+                <span class="w-1 h-1 bg-zinc-800 rounded-full animate-bounce [animation-delay:-0.3s]"></span>
+                <span class="w-1 h-1 bg-zinc-800 rounded-full animate-bounce [animation-delay:-0.15s]"></span>
+                <span class="w-1 h-1 bg-zinc-800 rounded-full animate-bounce"></span>
+            </div>
+        </div>
+
+        <div class="bento-card bg-black/40 border-white/5 mt-10 py-3 px-8">
+            <p class="text-[9px] font-mono text-zinc-500 uppercase tracking-widest leading-relaxed">
+                No active matches detected in the <span class="text-white">Mikoko_Unified_Grid</span>. <br>
+                Next deployment scheduled for <span class="text-red-600">MAR 20 // 16:00</span>.
+            </p>
+        </div>
+    </div>
+
+    <div class="mt-12 opacity-20 font-mono text-[8px] text-zinc-600 uppercase flex gap-8">
+        <span>🛰️ Satellite: Stable</span>
+        <span>📡 Latency: 0.04ms</span>
+        <span>🔒 Secure: Enabled</span>
+    </div>
+</div>`,
+
+    
     'pure-stream': `<div class="animate-boot bento-card h-64 flex items-center justify-center bg-black"><span class="text-zinc-800 font-heading text-xs tracking-widest italic uppercase">Stream_Offline</span></div>`,
     'live-center': `<div class="animate-boot space-y-4"><h2 class="font-heading text-4xl italic uppercase">Live_Center</h2><div class="bento-card p-12 text-center text-zinc-500 font-mono text-[10px] uppercase">Node aggregation in progress...</div></div>`
 };
