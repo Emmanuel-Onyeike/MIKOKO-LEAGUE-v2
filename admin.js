@@ -1,176 +1,233 @@
-// --- MIKOKO_ADMIN_CORE_V1 ---
-// Initialize Firebase (Replace the config below with your actual Firebase Project keys)
+// ────────────────────────────────────────────────
+// MIKOKO ADMIN CORE v2 – Fully Updated & Production-Ready
+// Emmanuel – Mikoko League Admin Dashboard
+// ────────────────────────────────────────────────
+
+// Firebase Config – REPLACE THESE WITH YOUR REAL VALUES
 const firebaseConfig = {
     apiKey: "YOUR_API_KEY",
     authDomain: "mikoko-league.firebaseapp.com",
     databaseURL: "https://mikoko-league-default-rtdb.firebaseio.com",
     projectId: "mikoko-league",
     storageBucket: "mikoko-league.appspot.com",
-    messagingSenderId: "YOUR_ID",
+    messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
     appId: "YOUR_APP_ID"
 };
 
-// Initialize Firebase App and Database
-const app = firebase.initializeApp(firebaseConfig);
-const db = firebase.database();
+// Initialize Firebase
+let db;
+try {
+    firebase.initializeApp(firebaseConfig);
+    db = firebase.database();
+    console.log("Firebase initialized successfully");
+} catch (error) {
+    console.error("Firebase initialization failed:", error);
+    alert("CRITICAL: Firebase connection failed. Check your config keys.");
+}
 
-// Security Gate
-const ENCRYPTED_PIN = "123789"; 
+// ────────────────────────────────────────────────
+// SECURITY & LOGIN
+// ────────────────────────────────────────────────
+const ENCRYPTED_PIN = "123789"; // Change this in production!
 
 function checkAccess() {
-    const pinInput = document.getElementById('admin-pin').value;
+    const pinInput = document.getElementById('admin-pin')?.value?.trim();
+    
+    if (!pinInput) {
+        showNotify("ERROR: PIN required", "error");
+        return;
+    }
+
     if (pinInput === ENCRYPTED_PIN) {
-        document.getElementById('login-overlay').classList.add('hidden');
-        showNotify("ACCESS_GRANTED // NEURAL_LINK_STABLE");
-        syncCurrentState(); // Load existing data into admin fields
+        const overlay = document.getElementById('login-overlay');
+        if (overlay) overlay.classList.add('hidden');
+        
+        showNotify("ACCESS_GRANTED // NEURAL_LINK_STABLE", "success");
+        document.getElementById('admin-logged-in')?.classList.remove('hidden');
+        document.getElementById('admin-content')?.classList.remove('disabled-section');
+        
+        syncCurrentState(); // Load existing data
     } else {
-        alert("SECURITY_BREACH: INVALID_PIN");
+        showNotify("SECURITY_BREACH: INVALID_PIN", "error");
     }
 }
 
-// --- 1. LIVE_CENTER_CONTROL ---
-function updateLiveMatch(node) {
-    const homeName = document.getElementById(`live-home-name`).value;
-    const awayName = document.getElementById(`live-away-name`).value;
-    
-    db.ref('live_matches/' + node).update({
-        home: homeName,
-        away: awayName,
-        timestamp: Date.now()
-    }).then(() => showNotify(`NODE_${node}_UPDATED`));
-}
-
-function updateScore(node, team, increment) {
-    const scoreRef = db.ref(`live_matches/${node}/${team}_score`);
-    scoreRef.transaction((currentScore) => {
-        return (currentScore || 0) + increment;
-    }).then(() => showNotify(`SCORE_SYNCED`));
-}
-
-function setMatchStatus(node, status) {
-    db.ref(`live_matches/${node}`).update({
-        status: status, // e.g., 'LIVE', 'HT', 'FT', 'ET'
-        last_update: new Date().toLocaleTimeString()
-    }).then(() => showNotify(`STATUS: ${status}`));
-}
-
-// --- 2. LEADERBOARD & RANKING ---
-function syncPlayerStats() {
-    const playerName = document.getElementById('player-select').value;
-    const goalsToAdd = parseInt(document.getElementById('add-goals').value) || 0;
-    const assistsToAdd = parseInt(document.getElementById('add-assists').value) || 0;
-
-    const playerRef = db.ref('leaderboard/' + playerName);
-    playerRef.transaction((stats) => {
-        if (stats) {
-            stats.goals += goalsToAdd;
-            stats.assists += assistsToAdd;
-        }
-        return stats;
-    }).then(() => {
-        showNotify(`${playerName}_STATS_SYNCED`);
-        document.getElementById('add-goals').value = '';
-    });
-}
-
-// --- 3. NEWS_FEED_BROADCAST ---
-function publishNews() {
-    const content = document.getElementById('news-content').value;
-    if (!content) return;
-
-    const newPostRef = db.ref('news_feed').push();
-    newPostRef.set({
-        text: content,
-        date: new Date().toLocaleDateString(),
-        time: new Date().toLocaleTimeString(),
-        timestamp: firebase.database.ServerValue.TIMESTAMP
-    }).then(() => {
-        showNotify("BROADCAST_PUBLISHED");
-        document.getElementById('news-content').value = '';
-    });
-}
-
-// --- 4. STREAM_LINK_CONTROL ---
-function updateStreamLinks() {
-    const s1 = document.getElementById('stream-1-url').value;
-    const s2 = document.getElementById('stream-2-url').value;
-    const s3 = document.getElementById('stream-3-url').value;
-
-    db.ref('streams').set({
-        link1: s1,
-        link2: s2,
-        link3: s3,
-        active: true
-    }).then(() => showNotify("STREAM_NODES_CONFIGURED"));
-}
-
-// --- UI_HELPER_FUNCTIONS ---
-function showNotify(msg) {
+// ────────────────────────────────────────────────
+// UI NOTIFICATION HELPER
+// ────────────────────────────────────────────────
+function showNotify(message, type = "info") {
     const alertBox = document.getElementById('admin-alert');
-    alertBox.innerText = msg;
+    if (!alertBox) return;
+
+    // Reset classes
+    alertBox.className = "fixed bottom-10 right-10 px-6 py-4 font-heading text-sm rounded-xl shadow-2xl animate-bounce z-[1000]";
+
+    // Set color & message
+    if (type === "success") {
+        alertBox.classList.add("bg-green-600", "text-white");
+    } else if (type === "error") {
+        alertBox.classList.add("bg-red-700", "text-white");
+    } else {
+        alertBox.classList.add("bg-red-600", "text-white");
+    }
+
+    alertBox.innerText = message;
     alertBox.classList.remove('hidden');
-    
-    // Auto-hide after 3 seconds
-    setTimeout(() => {
-        alertBox.classList.add('hidden');
-    }, 3000);
+
+    setTimeout(() => alertBox.classList.add('hidden'), 4500);
 }
 
-// Fetch current data from Firebase to populate admin inputs on login
+// ────────────────────────────────────────────────
+// LOAD EXISTING DATA ON LOGIN
+// ────────────────────────────────────────────────
 function syncCurrentState() {
-    db.ref('live_matches/node_alpha').once('value', (snapshot) => {
-        const data = snapshot.val();
-        if (data) {
-            document.getElementById('live-home-name').value = data.home;
-            document.getElementById('live-away-name').value = data.away;
-        }
-    });
+    // Live match (Node Alpha example)
+    db.ref('live_matches/node_alpha').once('value')
+        .then(snapshot => {
+            const data = snapshot.val();
+            if (data) {
+                document.getElementById('live-home-name').value = data.home || '';
+                document.getElementById('live-away-name').value = data.away || '';
+            }
+        })
+        .catch(err => console.error("Failed to sync live match:", err));
+
+    // Broadcast settings (radar/active mode)
+    db.ref('broadcast_settings').once('value')
+        .then(snapshot => {
+            const data = snapshot.val();
+            if (data?.mode === 'SEARCHING') {
+                const config = document.getElementById('signal-active-config');
+                if (config) {
+                    config.style.opacity = '0.3';
+                    config.style.pointerEvents = 'none';
+                }
+            }
+        })
+        .catch(err => console.error("Failed to sync broadcast settings:", err));
+
+    // Stream links
+    db.ref('stream_links').once('value')
+        .then(snapshot => {
+            const data = snapshot.val();
+            if (data) {
+                document.getElementById('stream-1-url').value = data.node_1 || '';
+                document.getElementById('stream-2-url').value = data.node_2 || '';
+                document.getElementById('stream-3-url').value = data.node_3 || '';
+            }
+        })
+        .catch(err => console.error("Failed to sync streams:", err));
+
+    showNotify("ADMIN_STATE_SYNCED // FULL_CONTROL_GRANTED", "success");
 }
-function toggleSignal(status) {
-    // status can be 'SEARCHING' or 'ACTIVE'
-    db.ref('broadcast_settings').update({
-        mode: status,
-        last_toggle: firebase.database.ServerValue.TIMESTAMP
-    }).then(() => {
-        showNotify(`SIGNAL_MODE: ${status}`);
-        
-        // Visual UI feedback in Admin
-        if(status === 'SEARCHING') {
-            document.getElementById('signal-active-config').style.opacity = '0.3';
-            document.getElementById('signal-active-config').style.pointerEvents = 'none';
-        } else {
-            document.getElementById('signal-active-config').style.opacity = '1';
-            document.getElementById('signal-active-config').style.pointerEvents = 'auto';
-        }
+
+// ────────────────────────────────────────────────
+// 1. LIVE MATCH CONTROL
+// ────────────────────────────────────────────────
+function updateLiveMatch() {
+    const home = document.getElementById('live-home-name')?.value?.trim();
+    const away = document.getElementById('live-away-name')?.value?.trim();
+
+    if (!home || !away) {
+        showNotify("ERROR: Both team names required", "error");
+        return;
+    }
+
+    const loadingBtn = event.target;
+    loadingBtn.disabled = true;
+    loadingBtn.innerText = "UPDATING...";
+
+    db.ref('live_matches/node_alpha').update({
+        home,
+        away,
+        timestamp: Date.now()
+    })
+    .then(() => {
+        showNotify("LIVE_MATCH_UPDATED // NODE_ALPHA", "success");
+    })
+    .catch(err => {
+        showNotify("UPDATE_FAILED: " + err.message, "error");
+        console.error(err);
+    })
+    .finally(() => {
+        loadingBtn.disabled = false;
+        loadingBtn.innerText = "UPDATE_LIVE_MATCH";
     });
 }
 
-function publishLiveSignal() {
-    const home = document.getElementById('signal-home').value;
-    const away = document.getElementById('signal-away').value;
+function setMatchStatus(status) {
+    const loading = event.target;
+    loading.disabled = true;
+    loading.innerText = "SETTING...";
 
-    db.ref('broadcast_settings').update({
-        mode: 'ACTIVE',
-        active_home: home,
-        active_away: away,
-        timestamp: firebase.database.ServerValue.TIMESTAMP
-    }).then(() => showNotify("LIVE_SIGNAL_BROADCASTED"));
+    db.ref('live_matches/node_alpha').update({
+        status,
+        last_update: new Date().toLocaleTimeString()
+    })
+    .then(() => showNotify(`MATCH_STATUS: ${status}`, "success"))
+    .catch(err => showNotify("STATUS_UPDATE_FAILED", "error"))
+    .finally(() => {
+        loading.disabled = false;
+        loading.innerText = status;
+    });
 }
+
+// ────────────────────────────────────────────────
+// 2. PLAYER STATS (LEADERBOARD)
+// ────────────────────────────────────────────────
+function syncPlayerStats() {
+    const player = document.getElementById('player-select')?.value?.trim();
+    const goals = parseInt(document.getElementById('add-goals')?.value) || 0;
+    const assists = parseInt(document.getElementById('add-assists')?.value) || 0;
+
+    if (!player) {
+        showNotify("ERROR: Select a player first", "error");
+        return;
+    }
+    if (goals === 0 && assists === 0) {
+        showNotify("WARNING: No changes detected", "info");
+        return;
+    }
+
+    const btn = event.target;
+    btn.disabled = true;
+    btn.innerText = "SYNCING...";
+
+    const playerRef = db.ref('leaderboard/' + player);
+    playerRef.transaction(current => {
+        if (!current) current = { goals: 0, assists: 0 };
+        current.goals = (current.goals || 0) + goals;
+        current.assists = (current.assists || 0) + assists;
+        return current;
+    })
+    .then(() => {
+        showNotify(`${player.toUpperCase()} STATS_SYNCED`, "success");
+        document.getElementById('add-goals').value = '';
+        document.getElementById('add-assists').value = '';
+    })
+    .catch(err => showNotify("SYNC_FAILED: " + err.message, "error"))
+    .finally(() => {
+        btn.disabled = false;
+        btn.innerText = "SYNC_PLAYER_STATS";
+    });
+}
+
+// ────────────────────────────────────────────────
+// 3. NEWS / FEED BROADCAST
+// ────────────────────────────────────────────────
 let currentImageBase64 = null;
 
 function previewImage(input) {
-    if (input.files && input.files[0]) {
-        const reader = new FileReader();
-        
-        reader.onload = function(e) {
-            currentImageBase64 = e.target.result; // This holds the image data
-            document.getElementById('image-preview').src = e.target.result;
-            document.getElementById('image-preview-container').classList.remove('hidden');
-            document.getElementById('upload-label').innerText = "IMAGE_LOADED_SUCCESSFULLY";
-        }
-        
-        reader.readAsDataURL(input.files[0]);
-    }
+    if (!input.files?.[0]) return;
+    
+    const reader = new FileReader();
+    reader.onload = e => {
+        currentImageBase64 = e.target.result;
+        document.getElementById('image-preview').src = currentImageBase64;
+        document.getElementById('image-preview-container').classList.remove('hidden');
+        document.getElementById('upload-label').innerText = "IMAGE_READY";
+    };
+    reader.readAsDataURL(input.files[0]);
 }
 
 function clearImage() {
@@ -180,78 +237,228 @@ function clearImage() {
     document.getElementById('upload-label').innerText = "Upload_Tactical_Visual";
 }
 
-// Update your publishNews function to include the image
 async function publishNews() {
-    const content = document.getElementById('news-content').value;
+    const content = document.getElementById('news-content')?.value?.trim();
     
-    if (!content && !currentImageBase64) return;
+    if (!content && !currentImageBase64) {
+        showNotify("ERROR: Content or image required", "error");
+        return;
+    }
 
-    db.ref('news_feed').push({
-        text: content, // This supports <h1>, <b>, <i> etc.
-        image: currentImageBase64, // The encoded image
-        timestamp: firebase.database.ServerValue.TIMESTAMP,
-        date: new Date().toLocaleDateString()
-    }).then(() => {
-        showNotify("BROADCAST_PUBLISHED");
+    if (!confirm("Publish this broadcast to all users?")) return;
+
+    const btn = event.target;
+    btn.disabled = true;
+    btn.innerText = "PUBLISHING...";
+
+    try {
+        await db.ref('news_feed').push({
+            text: content || "[MEDIA_ONLY]",
+            image: currentImageBase64 || null,
+            timestamp: firebase.database.ServerValue.TIMESTAMP,
+            date: new Date().toLocaleDateString(),
+            time: new Date().toLocaleTimeString()
+        });
+
+        showNotify("BROADCAST_PUBLISHED_SUCCESSFULLY", "success");
         document.getElementById('news-content').value = '';
         clearImage();
-    });
-}
-function setStreamStatus(status) {
-    const isLive = status === 'LIVE';
-    
-    db.ref('stream_settings').update({
-        broadcast_status: status, // 'STANDBY' or 'LIVE'
-        is_unlocked: isLive
-    }).then(() => {
-        showNotify(`BROADCAST_MODIFIED: ${status}`);
-        
-        // Update Admin UI feedback
-        const dot = document.getElementById('stream-status-dot');
-        const text = document.getElementById('stream-status-text');
-        
-        if (isLive) {
-            dot.className = "w-2 h-2 bg-red-600 rounded-full animate-ping";
-            text.innerText = "Live_Broadcast";
-            text.classList.replace('text-zinc-500', 'text-red-600');
-        } else {
-            dot.className = "w-2 h-2 bg-zinc-800 rounded-full";
-            text.innerText = "Standby_Mode";
-            text.classList.replace('text-red-600', 'text-zinc-500');
-        }
-    });
+    } catch (err) {
+        showNotify("PUBLISH_FAILED: " + err.message, "error");
+        console.error(err);
+    } finally {
+        btn.disabled = false;
+        btn.innerText = "PUBLISH_TO_ALL_NODES";
+    }
 }
 
+// ────────────────────────────────────────────────
+// 4. STREAM LINKS & STATUS
+// ────────────────────────────────────────────────
 function updateStreamLinks() {
-    const s1 = document.getElementById('stream-1-url').value;
-    const s2 = document.getElementById('stream-2-url').value;
-    const s3 = document.getElementById('stream-3-url').value;
+    const s1 = document.getElementById('stream-1-url')?.value?.trim();
+    const s2 = document.getElementById('stream-2-url')?.value?.trim();
+    const s3 = document.getElementById('stream-3-url')?.value?.trim();
+
+    if (!s1 && !s2 && !s3) {
+        showNotify("WARNING: At least one stream link required", "info");
+        return;
+    }
+
+    const btn = event.target;
+    btn.disabled = true;
+    btn.innerText = "UPDATING...";
 
     db.ref('stream_links').set({
-        node_1: s1 || "https://elite-league-streamer.vercel.app/",
-        node_2: s2 || "https://elite-league-streamer-2.vercel.app/",
-        node_3: s3 || "https://elite-league-streamer-3.vercel.app/"
-    }).then(() => showNotify("NODES_SYNCED_TO_BACKEND"));
-}
-function syncTableStandings() {
-    const teamId = document.getElementById('standing-team-select').value;
-    if (!teamId) return alert("SELECT_TEAM_NODE_FIRST");
-
-    const stats = {
-        mp: parseInt(document.getElementById('std-mp').value) || 0,
-        w: parseInt(document.getElementById('std-w').value) || 0,
-        d: parseInt(document.getElementById('std-d').value) || 0,
-        l: parseInt(document.getElementById('std-l').value) || 0,
-        gf: parseInt(document.getElementById('std-gf').value) || 0,
-        ga: parseInt(document.getElementById('std-ga').value) || 0
-    };
-
-    // Push to Firebase under 'standings' node
-    db.ref('standings/' + teamId).set(stats).then(() => {
-        showNotify(`${teamId.toUpperCase()}_STANDINGS_SYNCED`);
-        // Clear inputs for next update
-        ['std-mp', 'std-w', 'std-d', 'std-l', 'std-gf', 'std-ga'].forEach(id => {
-            document.getElementById(id).value = '';
-        });
+        node_1: s1 || null,
+        node_2: s2 || null,
+        node_3: s3 || null,
+        updated: Date.now()
+    })
+    .then(() => showNotify("STREAM_LINKS_UPDATED", "success"))
+    .catch(err => showNotify("STREAM_UPDATE_FAILED", "error"))
+    .finally(() => {
+        btn.disabled = false;
+        btn.innerText = "UPDATE_ALL_NODES";
     });
 }
+
+function setStreamStatus(status) {
+    const isLive = status === 'LIVE';
+    const btn = event.target;
+    btn.disabled = true;
+
+    db.ref('stream_settings').update({
+        broadcast_status: status,
+        is_unlocked: isLive,
+        last_change: Date.now()
+    })
+    .then(() => {
+        showNotify(`STREAM_STATUS: ${status}`, "success");
+
+        const dot = document.getElementById('stream-status-dot');
+        const text = document.getElementById('stream-status-text');
+
+        if (isLive) {
+            dot.className = "w-3 h-3 bg-red-600 rounded-full animate-ping";
+            text.innerText = "LIVE_BROADCAST";
+            text.classList.replace('text-zinc-500', 'text-red-600');
+        } else {
+            dot.className = "w-3 h-3 bg-zinc-700 rounded-full";
+            text.innerText = "STANDBY_MODE";
+            text.classList.replace('text-red-600', 'text-zinc-500');
+        }
+    })
+    .catch(err => showNotify("STATUS_CHANGE_FAILED", "error"))
+    .finally(() => btn.disabled = false);
+}
+
+// ────────────────────────────────────────────────
+// 5. FIXTURES PUBLISH
+// ────────────────────────────────────────────────
+function publishFixtures() {
+    const day = document.getElementById('match-day-target')?.value;
+    if (!day || day === "SELECT_MATCH_DAY...") {
+        showNotify("ERROR: Select a match day first", "error");
+        return;
+    }
+
+    const slot1Home = document.getElementById('fix-1-home')?.value?.trim();
+    const slot1Away = document.getElementById('fix-1-away')?.value?.trim();
+    const slot1Time = document.getElementById('fix-1-time')?.value?.trim();
+    const slot1Date = document.getElementById('fix-1-date')?.value?.trim();
+    const slot1Arena = document.getElementById('fix-1-arena')?.value?.trim();
+
+    const slot2Home = document.getElementById('fix-2-home')?.value?.trim();
+    const slot2Away = document.getElementById('fix-2-away')?.value?.trim();
+    const slot2Time = document.getElementById('fix-2-time')?.value?.trim();
+    const slot2Date = document.getElementById('fix-2-date')?.value?.trim();
+    const slot2Arena = document.getElementById('fix-2-arena')?.value?.trim();
+
+    if (!slot1Home || !slot1Away || !slot1Time || !slot1Date) {
+        showNotify("ERROR: Slot 01 incomplete", "error");
+        return;
+    }
+
+    if (!confirm(`Publish fixtures for ${day.toUpperCase()}?`)) return;
+
+    const btn = event.target;
+    btn.disabled = true;
+    btn.innerText = "PUBLISHING...";
+
+    const fixtures = {
+        [day]: {
+            slot_01: {
+                home: slot1Home,
+                away: slot1Away,
+                time: slot1Time,
+                date: slot1Date,
+                arena: slot1Arena || "ARENA_DEFAULT"
+            },
+            slot_02: slot2Home && slot2Away ? {
+                home: slot2Home,
+                away: slot2Away,
+                time: slot2Time || "TBD",
+                date: slot2Date || slot1Date,
+                arena: slot2Arena || "ARENA_DEFAULT"
+            } : null
+        }
+    };
+
+    db.ref('fixtures').update(fixtures)
+        .then(() => showNotify(`FIXTURES_PUBLISHED // ${day.toUpperCase()}`, "success"))
+        .catch(err => showNotify("FIXTURE_PUBLISH_FAILED", "error"))
+        .finally(() => {
+            btn.disabled = false;
+            btn.innerText = "PUBLISH_FIXTURES_TO_GRID";
+        });
+}
+
+// ────────────────────────────────────────────────
+// 6. SIGNAL TOGGLE
+// ────────────────────────────────────────────────
+function toggleSignal(status) {
+    const btn = event.target;
+    btn.disabled = true;
+
+    db.ref('broadcast_settings').update({
+        mode: status,
+        last_toggle: firebase.database.ServerValue.TIMESTAMP
+    })
+    .then(() => {
+        showNotify(`SIGNAL_MODE_CHANGED: ${status}`, "success");
+
+        const config = document.getElementById('signal-active-config');
+        if (status === 'SEARCHING') {
+            config.style.opacity = '0.35';
+            config.style.pointerEvents = 'none';
+        } else {
+            config.style.opacity = '1';
+            config.style.pointerEvents = 'auto';
+        }
+    })
+    .catch(err => showNotify("SIGNAL_TOGGLE_FAILED", "error"))
+    .finally(() => btn.disabled = false);
+}
+
+// ────────────────────────────────────────────────
+// 7. STANDINGS SYNC
+// ────────────────────────────────────────────────
+function syncTableStandings() {
+    const teamId = document.getElementById('standing-team-select')?.value?.trim();
+    if (!teamId) {
+        showNotify("ERROR: Select a team first", "error");
+        return;
+    }
+
+    const stats = {
+        mp: parseInt(document.getElementById('std-mp')?.value) || 0,
+        w: parseInt(document.getElementById('std-w')?.value) || 0,
+        d: parseInt(document.getElementById('std-d')?.value) || 0,
+        l: parseInt(document.getElementById('std-l')?.value) || 0,
+        gf: parseInt(document.getElementById('std-gf')?.value) || 0,
+        ga: parseInt(document.getElementById('std-ga')?.value) || 0
+    };
+
+    const btn = event.target;
+    btn.disabled = true;
+    btn.innerText = "SYNCING...";
+
+    db.ref(`standings/${teamId}`).set(stats)
+        .then(() => {
+            showNotify(`${teamId.toUpperCase()} STANDINGS_SYNCED`, "success");
+            // Clear form
+            ['std-mp','std-w','std-d','std-l','std-gf','std-ga'].forEach(id => {
+                document.getElementById(id).value = '';
+            });
+        })
+        .catch(err => showNotify("STANDINGS_SYNC_FAILED", "error"))
+        .finally(() => {
+            btn.disabled = false;
+            btn.innerText = "SYNC_TABLE_DATA";
+        });
+}
+
+// ────────────────────────────────────────────────
+// END OF ADMIN.JS – All functions now fully implemented
+// ────────────────────────────────────────────────
