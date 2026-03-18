@@ -7,69 +7,67 @@
 
 const mainContent = document.getElementById('main-content');
 
-// ────────────────────────────────────────────────
-// HELPER RENDER FUNCTIONS (with your strong waiting states)
-// ────────────────────────────────────────────────
-
-function renderGroupTable(teams, groupData = {}) {
-    const hasRealData = Object.keys(groupData).length > 0 && Object.values(groupData).some(s => s.mp > 0 || s.w > 0);
-
-    return `
-        <div class="overflow-x-auto no-scrollbar">
-            <table class="w-full text-left border-collapse min-w-[500px]">
-                <thead class="bg-zinc-900/80 border-b border-white/10">
-                    <tr>
-                        <th class="p-2 font-heading text-[7px] text-zinc-500 uppercase">Pos</th>
-                        <th class="p-2 font-heading text-[7px] text-zinc-500 uppercase">Team</th>
-                        <th class="p-2 font-mono text-[8px] text-zinc-500 uppercase text-center">MP</th>
-                        <th class="p-2 font-mono text-[8px] text-zinc-500 uppercase text-center">W</th>
-                        <th class="p-2 font-mono text-[8px] text-zinc-500 uppercase text-center">D</th>
-                        <th class="p-2 font-mono text-[8px] text-zinc-500 uppercase text-center">L</th>
-                        <th class="p-2 font-mono text-[8px] text-zinc-500 uppercase text-center">GF</th>
-                        <th class="p-2 font-mono text-[8px] text-zinc-500 uppercase text-center">GA</th>
-                        <th class="p-2 font-mono text-[8px] text-zinc-500 uppercase text-center">GD</th>
-                        <th class="p-2 font-heading text-[8px] text-red-600 uppercase text-right">P</th>
-                    </tr>
-                </thead>
-                <tbody class="divide-y divide-white/5">
-                    ${teams.map((team, i) => {
-                        const teamKey = team.split(' ')[0].toLowerCase();
-                        const s = groupData[teamKey] || { mp:0, w:0, d:0, l:0, gf:0, ga:0 };
-                        const gd = s.gf - s.ga;
-                        const points = (s.w * 3) + (s.d * 1);
-                        const isWaiting = !hasRealData || (s.mp === 0 && s.w === 0 && s.d === 0 && s.l === 0);
-
-                        return `
-                            <tr class="${isWaiting ? 'opacity-65' : 'hover:bg-white/[0.02]'} transition-colors">
-                                <td class="p-2 font-mono text-[10px] ${isWaiting ? 'text-zinc-700 animate-pulse' : 'text-zinc-600'}">${i + 1}</td>
-                                <td class="p-2 font-heading text-[9px] uppercase italic tracking-tighter ${isWaiting ? 'text-zinc-500' : 'text-zinc-300 group-hover:text-white'}">${team}</td>
-                                <td class="p-2 font-mono text-[10px] text-center ${isWaiting ? 'text-zinc-700 animate-pulse' : 'text-zinc-500'}">${isWaiting ? '–' : s.mp}</td>
-                                <td class="p-2 font-mono text-[10px] text-center ${isWaiting ? 'text-zinc-700 animate-pulse' : 'text-zinc-500'}">${isWaiting ? '–' : s.w}</td>
-                                <td class="p-2 font-mono text-[10px] text-center ${isWaiting ? 'text-zinc-700 animate-pulse' : 'text-zinc-500'}">${isWaiting ? '–' : s.d}</td>
-                                <td class="p-2 font-mono text-[10px] text-center ${isWaiting ? 'text-zinc-700 animate-pulse' : 'text-zinc-500'}">${isWaiting ? '–' : s.l}</td>
-                                <td class="p-2 font-mono text-[10px] text-center ${isWaiting ? 'text-zinc-700 animate-pulse' : 'text-zinc-500'}">${isWaiting ? '–' : s.gf}</td>
-                                <td class="p-2 font-mono text-[10px] text-center ${isWaiting ? 'text-zinc-700 animate-pulse' : 'text-zinc-500'}">${isWaiting ? '–' : s.ga}</td>
-                                <td class="p-2 font-mono text-[10px] text-center ${isWaiting ? 'text-zinc-700 animate-pulse' : (gd > 0 ? 'text-green-400' : gd < 0 ? 'text-red-400' : 'text-zinc-500')}">
-                                    ${isWaiting ? '–' : (gd > 0 ? '+' + gd : gd)}
-                                </td>
-                                <td class="p-2 font-heading text-[10px] text-right italic ${isWaiting ? 'text-zinc-700 animate-pulse' : 'text-red-600 font-bold'}">
-                                    ${isWaiting ? 'PENDING' : points}
-                                </td>
+        // ────────────────────────────────────────────────
+        // HELPER RENDER FUNCTIONS (unchanged – perfect as before)
+        // ────────────────────────────────────────────────
+        function renderGroupTable(teams, groupData = {}) {
+            const hasRealData = Object.keys(groupData).length > 0 && Object.values(groupData).some(s => s.mp > 0 || s.w > 0);
+            return `
+                <div class="overflow-x-auto no-scrollbar">
+                    <table class="w-full text-left border-collapse min-w-[500px]">
+                        <thead class="bg-zinc-900/80 border-b border-white/10">
+                            <tr>
+                                <th class="p-2 font-heading text-[7px] text-zinc-500 uppercase">Pos</th>
+                                <th class="p-2 font-heading text-[7px] text-zinc-500 uppercase">Team</th>
+                                <th class="p-2 font-mono text-[8px] text-zinc-500 uppercase text-center">MP</th>
+                                <th class="p-2 font-mono text-[8px] text-zinc-500 uppercase text-center">W</th>
+                                <th class="p-2 font-mono text-[8px] text-zinc-500 uppercase text-center">D</th>
+                                <th class="p-2 font-mono text-[8px] text-zinc-500 uppercase text-center">L</th>
+                                <th class="p-2 font-mono text-[8px] text-zinc-500 uppercase text-center">GF</th>
+                                <th class="p-2 font-mono text-[8px] text-zinc-500 uppercase text-center">GA</th>
+                                <th class="p-2 font-mono text-[8px] text-zinc-500 uppercase text-center">GD</th>
+                                <th class="p-2 font-heading text-[8px] text-red-600 uppercase text-right">P</th>
                             </tr>
-                        `;
-                    }).join('')}
-                </tbody>
-            </table>
-            ${!hasRealData ? `
-                <div class="py-10 text-center">
-                    <div class="inline-block w-10 h-10 border-4 border-red-600/30 border-t-red-600 rounded-full animate-spin mb-4"></div>
-                    <p class="font-mono text-[10px] text-zinc-500 uppercase tracking-[0.3em]">
-                        Standings node initializing • No match data received yet
-                    </p>
-                </div>
-            ` : ''}
-        </div>`;
-}
+                        </thead>
+                        <tbody class="divide-y divide-white/5">
+                            ${teams.map((team, i) => {
+                                const teamKey = team.split(' ')[0].toLowerCase();
+                                const s = groupData[teamKey] || { mp:0, w:0, d:0, l:0, gf:0, ga:0 };
+                                const gd = s.gf - s.ga;
+                                const points = (s.w * 3) + (s.d * 1);
+                                const isWaiting = !hasRealData || (s.mp === 0 && s.w === 0 && s.d === 0 && s.l === 0);
+
+                                return `
+                                    <tr class="${isWaiting ? 'opacity-65' : 'hover:bg-white/[0.02]'} transition-colors">
+                                        <td class="p-2 font-mono text-[10px] ${isWaiting ? 'text-zinc-700 animate-pulse' : 'text-zinc-600'}">${i + 1}</td>
+                                        <td class="p-2 font-heading text-[9px] uppercase italic tracking-tighter ${isWaiting ? 'text-zinc-500' : 'text-zinc-300 group-hover:text-white'}">${team}</td>
+                                        <td class="p-2 font-mono text-[10px] text-center ${isWaiting ? 'text-zinc-700 animate-pulse' : 'text-zinc-500'}">${isWaiting ? '–' : s.mp}</td>
+                                        <td class="p-2 font-mono text-[10px] text-center ${isWaiting ? 'text-zinc-700 animate-pulse' : 'text-zinc-500'}">${isWaiting ? '–' : s.w}</td>
+                                        <td class="p-2 font-mono text-[10px] text-center ${isWaiting ? 'text-zinc-700 animate-pulse' : 'text-zinc-500'}">${isWaiting ? '–' : s.d}</td>
+                                        <td class="p-2 font-mono text-[10px] text-center ${isWaiting ? 'text-zinc-700 animate-pulse' : 'text-zinc-500'}">${isWaiting ? '–' : s.l}</td>
+                                        <td class="p-2 font-mono text-[10px] text-center ${isWaiting ? 'text-zinc-700 animate-pulse' : 'text-zinc-500'}">${isWaiting ? '–' : s.gf}</td>
+                                        <td class="p-2 font-mono text-[10px] text-center ${isWaiting ? 'text-zinc-700 animate-pulse' : 'text-zinc-500'}">${isWaiting ? '–' : s.ga}</td>
+                                        <td class="p-2 font-mono text-[10px] text-center ${isWaiting ? 'text-zinc-700 animate-pulse' : (gd > 0 ? 'text-green-400' : gd < 0 ? 'text-red-400' : 'text-zinc-500')}">
+                                            ${isWaiting ? '–' : (gd > 0 ? '+' + gd : gd)}
+                                        </td>
+                                        <td class="p-2 font-heading text-[10px] text-right italic ${isWaiting ? 'text-zinc-700 animate-pulse' : 'text-red-600 font-bold'}">
+                                            ${isWaiting ? 'PENDING' : points}
+                                        </td>
+                                    </tr>
+                                `;
+                            }).join('')}
+                        </tbody>
+                    </table>
+                    ${!hasRealData ? `
+                        <div class="py-10 text-center">
+                            <div class="inline-block w-10 h-10 border-4 border-red-600/30 border-t-red-600 rounded-full animate-spin mb-4"></div>
+                            <p class="font-mono text-[10px] text-zinc-500 uppercase tracking-[0.3em]">
+                                Standings node initializing • No match data received yet
+                            </p>
+                        </div>
+                    ` : ''}
+                </div>`;
+        }
 
 function renderNilTopPlayers(unit) {
     let html = '';
@@ -485,37 +483,18 @@ const views = {
             </div>
             <div>
                 <h2 class="font-heading text-3xl italic tracking-tighter text-zinc-400 uppercase">Live_Center</h2>
-                <p class="text-[9px] font-mono text-zinc-500 uppercase tracking-[0.4em] animate-pulse">Real-Time Control • Port Harcourt Node • Offline</p>
+                <p class="text-[9px] font-mono text-zinc-500 uppercase tracking-[0.4em] animate-pulse">Real-Time Control • Port Harcourt Node</p>
             </div>
-        </div>
-        <div class="text-right hidden sm:block">
-            <span class="font-mono text-[8px] text-zinc-600 uppercase block">Encryption</span>
-            <span class="font-mono text-[10px] text-red-600/70 uppercase animate-pulse">No Active Link</span>
         </div>
     </div>
 
-    <div class="grid grid-cols-1 gap-12">
-        <div class="space-y-6">
-            <div class="flex items-center justify-between px-2">
-                <span class="font-heading text-[10px] text-zinc-500 tracking-widest uppercase italic">NODE_ALPHA // PITCH_01</span>
-                <span class="px-4 py-1 bg-red-600/5 border border-red-600/20 text-red-600/80 font-mono text-[9px] uppercase animate-pulse">Standby</span>
-            </div>
-            ${renderLiveMatchCard('NODE_A', 'NODE_B', '00:00', 'PENDING')}
-        </div>
-
-        <div class="space-y-6">
-            <div class="flex items-center justify-between px-2">
-                <span class="font-heading text-[10px] text-zinc-500 tracking-widest uppercase italic">NODE_BETA // PITCH_02</span>
-                <span class="px-4 py-1 bg-zinc-900 border border-white/5 text-zinc-600 font-mono text-[9px] uppercase">Inactive</span>
-            </div>
-            ${renderLiveMatchCard('NODE_C', 'NODE_D', '00:00', 'PENDING')}
-        </div>
+    <div id="live-center-dynamic" class="grid grid-cols-1 gap-12">
+        <!-- Will be replaced instantly by real data -->
     </div>
 
     <div class="bento-card border-white/5 bg-black/40 text-center p-8 mt-12">
         <p class="font-mono text-[10px] text-zinc-500 uppercase tracking-[0.3em] leading-relaxed">
-            Live center awaiting official match initialization.<br>
-            Real-time events, clock, and discipline logs will activate upon admin activation.
+            Live center now fully synced with admin • Real-time clock & scores active
         </p>
     </div>
 </div>`,
@@ -554,7 +533,77 @@ function switchTab(tab) {
         }
     }, 250);
 }
+// ────────────────────────────────────────────────
+        // REAL MOBILE ALERT – slides down like real phone notification
+        // Appears in phone notification center even if tab is in background
+        // ────────────────────────────────────────────────
+        function showAlert(title, message) {
+            // 1. Browser/System Notification (shows in phone notification center)
+            if ("Notification" in window && Notification.permission === "granted") {
+                new Notification(title, {
+                    body: message,
+                    icon: "https://mikoko.neural/icon-192.png", // replace with your icon if you have one
+                    tag: "mikoko-alert",
+                    requireInteraction: false
+                });
+            }
 
+            // 2. In-app slide-down toast (exactly like iPhone/Android top banner)
+            let toast = document.getElementById('mikoko-toast');
+            if (!toast) {
+                toast = document.createElement('div');
+                toast.id = 'mikoko-toast';
+                toast.style.cssText = `
+                    position: fixed;
+                    top: -120px;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    width: 92%;
+                    max-width: 380px;
+                    background: linear-gradient(90deg, #111, #1a1a1a);
+                    color: white;
+                    padding: 18px 20px;
+                    border-radius: 14px;
+                    box-shadow: 0 20px 40px rgba(255,0,51,0.3);
+                    font-family: system-ui, -apple-system, sans-serif;
+                    font-size: 15px;
+                    z-index: 99999;
+                    display: flex;
+                    align-items: center;
+                    gap: 14px;
+                    border: 1px solid #ff0033;
+                    transition: all 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+                `;
+                document.body.appendChild(toast);
+            }
+
+            toast.innerHTML = `
+                <div style="flex:1">
+                    <div style="font-weight: 700; font-size: 16px; letter-spacing: -0.3px;">${title}</div>
+                    <div style="opacity: 0.95; margin-top: 3px; line-height: 1.35;">${message}</div>
+                </div>
+                <button onclick="closeToast()" style="background:none;border:none;color:#ff0033;font-size:28px;line-height:1;padding:0 8px;cursor:pointer;">×</button>
+            `;
+
+            // POP DOWN ANIMATION
+            setTimeout(() => { toast.style.top = '24px'; }, 10);
+
+            // Auto dismiss after 5.5 seconds (real phone behaviour)
+            setTimeout(() => {
+                if (toast) {
+                    toast.style.top = '-120px';
+                    setTimeout(() => { if (toast.parentNode) toast.parentNode.removeChild(toast); }, 500);
+                }
+            }, 5500);
+        }
+
+        window.closeToast = function() {
+            const toast = document.getElementById('mikoko-toast');
+            if (toast) {
+                toast.style.top = '-120px';
+                setTimeout(() => { if (toast.parentNode) toast.parentNode.removeChild(toast); }, 500);
+            }
+        };
 function toggleMenu(isOpen) {
     const menu = document.getElementById('side-menu');
     const drawer = document.getElementById('menu-drawer');
@@ -591,66 +640,59 @@ function closeModal() {
 }
 
 // ────────────────────────────────────────────────
-// REAL-TIME LISTENERS – update EVERYTHING from admin instantly
-// ────────────────────────────────────────────────
+        // REAL-TIME LISTENERS – EVERY CATEGORY UPDATES INSTANTLY
+        // ────────────────────────────────────────────────
+        let newsPosts = [];
+        let standingsData = {};
+        let liveMatchData = {};
 
-let newsPosts = [];
-let standingsData = {};
-let fixturesData = {};
-let liveMatchData = {};
-let leaderboardData = {};
-let streamStatus = 'STANDBY';
+        if (typeof db !== 'undefined') {
+            // News
+            db.ref('news_feed').orderByChild('timestamp').limitToLast(10).on('value', (snap) => {
+                newsPosts = [];
+                snap.forEach(c => newsPosts.push(c.val()));
+                newsPosts.reverse();
+                if (document.querySelector('#nav-news.active')) updateNewsTab(newsPosts);
+            });
 
-// News Feed
-if (typeof db !== 'undefined') {
-    db.ref('news_feed').orderByChild('timestamp').limitToLast(10).on('value', (snapshot) => {
-        newsPosts = [];
-        snapshot.forEach(child => {
-            newsPosts.push(child.val());
-        });
-        newsPosts.reverse();
+            // Standings (both groups)
+            db.ref('standings').on('value', (snap) => {
+                standingsData = snap.val() || {};
+                const ga = document.getElementById('group-a-node-container');
+                const gb = document.getElementById('group-b-node-container');
+                if (ga) ga.innerHTML = renderGroupTable(['GUNNERS FC','JED FC','OGBAFIA FC','ZUBBY FC'], standingsData);
+                if (gb) gb.innerHTML = renderGroupTable(['BIG PAMS FC','HASSAN FC','UNDECIDED FC','GABI FC'], standingsData);
+            });
 
-        // If NEWS tab is active, update now
-        if (document.querySelector('#nav-news.active, #dock-news.active')) {
-            updateNewsTab(newsPosts);
+            // LIVE MATCH – powers Live Center + Live Games
+            db.ref('live_matches/node_alpha').on('value', (snap) => {
+                liveMatchData = snap.val() || {home:"NODE_A", away:"NODE_B", clock:"00:00", status:"PENDING", homeScore:0, awayScore:0};
+                if (document.querySelector('#nav-live-center.active')) updateLiveCenter();
+            });
         }
-    });
 
-    // Standings
-    db.ref('standings').on('value', (snapshot) => {
-        standingsData = snapshot.val() || {};
-        const groupA = document.getElementById('group-a-node-container');
-        if (groupA) groupA.innerHTML = renderGroupTable(['GUNNERS FC', 'JED FC', 'OGBAFIA FC', 'ZUBBY FC'], standingsData);
-        const groupB = document.getElementById('group-b-node-container');
-        if (groupB) groupB.innerHTML = renderGroupTable(['BIG PAMS FC', 'HASSAN FC', 'UNDECIDED FC', 'GABI FC'], standingsData);
-    });
+        // Live Center real-time render
+        function updateLiveCenter() {
+            const container = document.getElementById('live-center-dynamic');
+            if (!container) return;
 
-    // Fixtures (example – extend as needed)
-    db.ref('fixtures').on('value', (snapshot) => {
-        fixturesData = snapshot.val() || {};
-        // You can add dynamic fixtures render here later
-    });
-
-    // Live match
-    db.ref('live_matches/node_alpha').on('value', (snapshot) => {
-        liveMatchData = snapshot.val() || {};
-        // Update live-center or live-games if you want
-    });
-
-    // Leaderboard
-    db.ref('leaderboard').on('value', (snapshot) => {
-        leaderboardData = snapshot.val() || {};
-        // Update leaderboard tab if active
-    });
-
-    // Stream status
-    db.ref('stream_settings').on('value', (snapshot) => {
-        const data = snapshot.val() || {};
-        streamStatus = data.broadcast_status || 'STANDBY';
-        // You can show/hide stream links based on this
-    });
-}
-
+            container.innerHTML = `
+                <div class="space-y-6">
+                    <div class="flex items-center justify-between px-2">
+                        <span class="font-heading text-[10px] text-zinc-500 tracking-widest uppercase italic">NODE_ALPHA // PITCH_01</span>
+                        <span class="px-4 py-1 bg-red-600/5 border border-red-600/20 text-red-600/80 font-mono text-[9px] uppercase animate-pulse">${liveMatchData.status || 'LIVE'}</span>
+                    </div>
+                    ${renderLiveMatchCard(
+                        liveMatchData.home || 'NODE_A',
+                        liveMatchData.away || 'NODE_B',
+                        liveMatchData.clock || '00:00',
+                        liveMatchData.status || 'LIVE',
+                        liveMatchData.homeScore || 0,
+                        liveMatchData.awayScore || 0
+                    )}
+                </div>
+            `;
+        }
 // ────────────────────────────────────────────────
 // NEWS TAB – keep your UI until real posts exist
 // ────────────────────────────────────────────────
@@ -703,7 +745,28 @@ function updateNewsTab(posts) {
 // ────────────────────────────────────────────────
 // INIT
 // ────────────────────────────────────────────────
+// ────────────────────────────────────────────────
+        // INIT – Request real phone notifications + start on home
+        // ────────────────────────────────────────────────
+        window.onload = () => {
+            // Ask for notification permission once (real phone alerts)
+            if ("Notification" in window && Notification.permission === "default") {
+                Notification.requestPermission();
+            }
 
+            switchTab('home');
+
+            // Initial news check
+            if (typeof db !== 'undefined') {
+                db.ref('news_feed').once('value').then(snap => {
+                    const p = [];
+                    snap.forEach(c => p.push(c.val()));
+                    p.reverse();
+                    newsPosts = p;
+                    if (document.querySelector('#nav-news.active') && p.length > 0) updateNewsTab(p);
+                });
+            }
+        };
 window.onload = () => {
     switchTab('home');
     // Initial check for news on load
