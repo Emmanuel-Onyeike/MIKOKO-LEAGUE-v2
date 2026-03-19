@@ -651,40 +651,45 @@ function updateNewsTab(posts) {
 // ────────────────────────────────────────────────
 
 if (typeof db !== 'undefined') {
-    // Standings - update both groups dynamically
-    db.ref('standings').on('value', (snapshot) => {
-        const standingsData = snapshot.val() || {};
+    // 1. News Feed – already good
+    db.ref('news_feed').orderByChild('timestamp').limitToLast(15).on('value', snapshot => {
+        newsPosts = [];
+        snapshot.forEach(child => newsPosts.push(child.val()));
+        newsPosts.reverse();
 
-        // Re-render Group A
-        const groupAData = {};
-        ['gunners fc', 'jed fc', 'ogbafia fc', 'zubby fc'].forEach(team => {
-            const key = team.toLowerCase().replace(/\s+/g, '');
-            if (standingsData[key]) groupAData[key] = standingsData[key];
-        });
-        const groupAContainer = document.getElementById('group-a-standings');
-        if (groupAContainer) {
-            groupAContainer.innerHTML = renderGroupTable(['GUNNERS FC', 'JED FC', 'OGBAFIA FC', 'ZUBBY FC'], groupAData);
-        }
-
-        // Re-render Group B
-        const groupBData = {};
-        ['big pams fc', 'hassan fc', 'undecided fc', 'gabi fc'].forEach(team => {
-            const key = team.toLowerCase().replace(/\s+/g, '');
-            if (standingsData[key]) groupBData[key] = standingsData[key];
-        });
-        const groupBContainer = document.getElementById('group-b-standings');
-        if (groupBContainer) {
-            groupBContainer.innerHTML = renderGroupTable(['BIG PAMS FC', 'HASSAN FC', 'UNDECIDED FC', 'GABI FC'], groupBData);
+        if (document.querySelector('#nav-news.active')) {
+            updateNewsTab(newsPosts);
         }
     });
 
-    // Live match - real-time update
-    db.ref('live_matches/node_alpha').on('value', (snapshot) => {
+    // 2. Standings – updates instantly for ANY team
+    db.ref('standings').on('value', snapshot => {
         const data = snapshot.val() || {};
-        const liveContainer = document.getElementById('live-center-dynamic');
-        if (liveContainer) {
+
+        // Group A
+        const groupA = {};
+        ['gunnersfc', 'jedfc', 'ogbafiafc', 'zubbyfc'].forEach(k => {
+            if (data[k]) groupA[k] = data[k];
+        });
+        const aContainer = document.getElementById('group-a-standings');
+        if (aContainer) aContainer.innerHTML = renderGroupTable(['GUNNERS FC', 'JED FC', 'OGBAFIA FC', 'ZUBBY FC'], groupA);
+
+        // Group B
+        const groupB = {};
+        ['bigpamsfc', 'hassanfc', 'undecidedfc', 'gabifc'].forEach(k => {
+            if (data[k]) groupB[k] = data[k];
+        });
+        const bContainer = document.getElementById('group-b-standings');
+        if (bContainer) bContainer.innerHTML = renderGroupTable(['BIG PAMS FC', 'HASSAN FC', 'UNDECIDED FC', 'GABI FC'], groupB);
+    });
+
+    // 3. Live Match – updates live-center tab
+    db.ref('live_matches/node_alpha').on('value', snapshot => {
+        const data = snapshot.val() || {};
+        const container = document.getElementById('live-center-dynamic');
+        if (container) {
             if (data.home && data.away) {
-                liveContainer.innerHTML = renderLiveMatchCard(
+                container.innerHTML = renderLiveMatchCard(
                     data.home,
                     data.away,
                     data.clock || '00:00',
@@ -693,30 +698,19 @@ if (typeof db !== 'undefined') {
                     data.awayScore || 0
                 );
             } else {
-                liveContainer.innerHTML = `
-                    <div class="p-12 text-center">
-                        <div class="inline-block w-16 h-16 border-4 border-red-600/30 border-t-red-600 rounded-full animate-spin mb-6"></div>
-                        <p class="font-mono text-[10px] text-zinc-500 uppercase tracking-widest">
-                            Live feed node • Awaiting official activation
-                        </p>
-                    </div>
-                `;
+                container.innerHTML = views['live-center'].match(/<div id="live-center-dynamic"[\s\S]*?<\/div>/)[0]; // reset to waiting
             }
         }
     });
 
-    // Fixtures - refresh tab when changed
+    // 4. Fixtures – refresh tab when changed
     db.ref('fixtures').on('value', () => {
-        if (document.querySelector('#nav-fixtures.active, #dock-fixtures.active')) {
-            switchTab('fixtures');
-        }
+        if (document.querySelector('#nav-fixtures.active')) switchTab('fixtures');
     });
 
-    // Leaderboard - refresh sector when goals/assists change
+    // 5. Leaderboard – refresh when goals/assists change
     db.ref('leaderboard').on('value', () => {
-        if (document.querySelector('#nav-leaderboard.active, #dock-leaderboard.active')) {
-            switchTab('leaderboard');
-        }
+        if (document.querySelector('#nav-leaderboard.active')) switchTab('leaderboard');
     });
 }
 
