@@ -1,10 +1,24 @@
 /**
- * MIKOKO // NEURAL_DASH_2040
- * FULL_CORE_ENGINE_RESTORATION_V3 – Real-time updates from admin + preserved waiting UI
- * All tabs update instantly when admin changes anything
- * NEWS tab keeps your exact offline/waiting UI until posts exist
+ * MIKOKO // NEURAL_DASH_2040 – Final Working Dashboard
+ * Real-time updates from admin to all tabs
+ * Menu modal fixed, syntax clean, push ready
  */
-const mainContent = document.getElementById('main-content')
+
+const mainContent = document.getElementById('main-content');
+let newsPosts = [];
+
+// ────────────────────────────────────────────────
+// MENU MODAL CONTROL – Fixed & Working
+// ────────────────────────────────────────────────
+function toggleMenu(open) {
+  const modal = document.getElementById('menu-modal');
+  if (!modal) return;
+  if (open) {
+    modal.classList.add('active');
+  } else {
+    modal.classList.remove('active');
+  }
+}
 
 // ────────────────────────────────────────────────
 // HELPER RENDER FUNCTIONS
@@ -199,7 +213,7 @@ function renderLiveMatchCard(home, away, clock, status, homeScore = 0, awayScore
 }
 
 // ────────────────────────────────────────────────
-// VIEWS – every single one fully written
+// ALL VIEWS – complete & self-contained
 // ────────────────────────────────────────────────
 
 const views = {
@@ -473,7 +487,7 @@ const views = {
 };
 
 // ────────────────────────────────────────────────
-// CORE TAB SWITCH
+// TAB SWITCH FUNCTION
 // ────────────────────────────────────────────────
 
 function switchTab(tab) {
@@ -498,7 +512,7 @@ function switchTab(tab) {
 }
 
 // ────────────────────────────────────────────────
-// NEWS UPDATE FUNCTION
+// NEWS TAB UPDATE
 // ────────────────────────────────────────────────
 
 function updateNewsTab(posts) {
@@ -530,121 +544,113 @@ function updateNewsTab(posts) {
 }
 
 // ────────────────────────────────────────────────
-// REAL-TIME LISTENERS – EVERY CATEGORY UPDATES LIVE
+// REAL-TIME DATA LISTENERS – ALL CATEGORIES
 // ────────────────────────────────────────────────
 
 if (typeof db !== 'undefined') {
-  // News
-  db.ref('news_feed').orderByChild('timestamp').limitToLast(15).on('value', s => {
-    newsPosts = s.val() ? Object.values(s.val()) : [];
-    newsPosts.sort((a,b) => b.timestamp - a.timestamp);
-    if (document.querySelector('#nav-news.active')) updateNewsTab(newsPosts);
+  // News Feed
+  db.ref('news_feed').orderByChild('timestamp').limitToLast(15).on('value', snapshot => {
+    newsPosts = snapshot.val() ? Object.values(snapshot.val()) : [];
+    newsPosts.sort((a,b) => (b.timestamp || 0) - (a.timestamp || 0));
+    if (document.querySelector('#nav-news.active, #dock-news.active')) {
+      updateNewsTab(newsPosts);
+    }
   });
 
-  // Standings
-  db.ref('standings').on('value', s => {
-    const data = s.val() || {};
-    const ga = document.getElementById('group-a-standings');
-    const gb = document.getElementById('group-b-standings');
-    if (ga) ga.innerHTML = renderGroupTable(['GUNNERS FC','JED FC','OGBAFIA FC','ZUBBY FC'], data);
-    if (gb) gb.innerHTML = renderGroupTable(['BIG PAMS FC','HASSAN FC','UNDECIDED FC','GABI FC'], data);
+  // Standings (both groups)
+  db.ref('standings').on('value', snapshot => {
+    const data = snapshot.val() || {};
+    const groupAContainer = document.getElementById('group-a-standings');
+    const groupBContainer = document.getElementById('group-b-standings');
+    if (groupAContainer) {
+      groupAContainer.innerHTML = renderGroupTable(['GUNNERS FC', 'JED FC', 'OGBAFIA FC', 'ZUBBY FC'], data);
+    }
+    if (groupBContainer) {
+      groupBContainer.innerHTML = renderGroupTable(['BIG PAMS FC', 'HASSAN FC', 'UNDECIDED FC', 'GABI FC'], data);
+    }
   });
 
   // Live Match
-  db.ref('live_matches/node_alpha').on('value', s => {
-    const d = s.val() || {};
-    const c = document.getElementById('live-center-dynamic');
-    if (c) c.innerHTML = d.home ? renderLiveMatchCard(d.home, d.away, d.clock || '00:00', d.status || 'PENDING', d.homeScore || 0, d.awayScore || 0) : 'Awaiting live data...';
+  db.ref('live_matches/node_alpha').on('value', snapshot => {
+    const data = snapshot.val() || {};
+    const container = document.getElementById('live-center-dynamic');
+    if (container) {
+      container.innerHTML = data.home && data.away
+        ? renderLiveMatchCard(data.home, data.away, data.clock || '00:00', data.status || 'PENDING', data.homeScore || 0, data.awayScore || 0)
+        : '<div class="p-12 text-center">Awaiting live match data...</div>';
+    }
   });
 
-  // Other tabs refresh when active
-  ['fixtures','leaderboard','stream_settings','broadcast_settings','stream_links'].forEach(p => {
-    db.ref(p).on('value', () => {
-      const active = document.querySelector('.active')?.id?.replace(/nav-|dock-/,'');
-      if (active && ['fixtures','leaderboard'].includes(active)) switchTab(active);
+  // Refresh other tabs when data changes and tab is active
+  ['fixtures', 'leaderboard', 'stream_settings', 'broadcast_settings', 'stream_links'].forEach(path => {
+    db.ref(path).on('value', () => {
+      const activeTab = document.querySelector('.nav-link.active, .dock-btn.active')?.id?.replace('nav-', '').replace('dock-', '');
+      if (activeTab && ['fixtures', 'leaderboard'].includes(activeTab)) {
+        switchTab(activeTab);
+      }
     });
   });
 }
 
 // ────────────────────────────────────────────────
-// WEB PUSH (unchanged)
-// ────────────────────────────────────────────────
-
-// ────────────────────────────────────────────────
-// WEB PUSH SUBSCRIPTION – Full & Production-Ready
-// Works even when tab/browser is closed (after permission)
+// PUSH NOTIFICATIONS – Complete
 // ────────────────────────────────────────────────
 
 function urlBase64ToUint8Array(base64String) {
-    const padding = '='.repeat((4 - base64String.length % 4) % 4);
-    const base64 = (base64String + padding)
-        .replace(/-/g, '+')
-        .replace(/_/g, '/');
-    const rawData = window.atob(base64);
-    const outputArray = new Uint8Array(rawData.length);
-    for (let i = 0; i < rawData.length; ++i) {
-        outputArray[i] = rawData.charCodeAt(i);
-    }
-    return outputArray;
+  const padding = '='.repeat((4 - base64String.length % 4) % 4);
+  const base64 = (base64String + padding).replace(/-/g, '+').replace(/_/g, '/');
+  const rawData = window.atob(base64);
+  const outputArray = new Uint8Array(rawData.length);
+  for (let i = 0; i < rawData.length; ++i) {
+    outputArray[i] = rawData.charCodeAt(i);
+  }
+  return outputArray;
 }
 
 async function subscribeToPush() {
-    // 1. Check if browser supports service workers & push
-    if (!('serviceWorker' in navigator) || !('PushManager' in window)) {
-        console.warn("Push notifications are not supported in this browser");
-        return;
+  if (!('serviceWorker' in navigator) || !('PushManager' in window)) {
+    console.warn("Push not supported");
+    return;
+  }
+
+  try {
+    const registration = await navigator.serviceWorker.register('/sw.js', { scope: '/' });
+    console.log('Service Worker registered');
+
+    let permission = Notification.permission;
+    if (permission === 'default') {
+      permission = await Notification.requestPermission();
     }
 
-    try {
-        // 2. Register the service worker (must be in root)
-        const registration = await navigator.serviceWorker.register('/sw.js', { scope: '/' });
-        console.log('Service Worker registered successfully with scope:', registration.scope);
-
-        // 3. Request / check notification permission
-        let permission = Notification.permission;
-        if (permission === 'default') {
-            permission = await Notification.requestPermission();
-        }
-
-        if (permission !== 'granted') {
-            console.log('Notification permission was denied or not granted');
-            return;
-        }
-
-        // 4. Subscribe with your VAPID public key
-        const vapidPublicKey = 'BKBPpzP5k3KxgrWtQZbeQVllNkC2b0hZ80hjqzVEitg6DIdElmEJSo5SteugGU3kHw2jSYOnGwJ3ICmjg_67PnA';
-
-        const subscription = await registration.pushManager.subscribe({
-            userVisibleOnly: true,
-            applicationServerKey: urlBase64ToUint8Array(vapidPublicKey)
-        });
-
-        // 5. Save subscription to Firebase (so Cloud Function can send pushes)
-        const subRef = db.ref('push_subscriptions').push();
-        await subRef.set({
-            subscription: subscription.toJSON(),
-            userAgent: navigator.userAgent,
-            timestamp: firebase.database.ServerValue.TIMESTAMP,
-            added: new Date().toISOString()
-        });
-
-        console.log("Push subscription successfully saved to Firebase!");
-        // Optional: visual feedback
-        // showAlert("Notifications Enabled", "Mikoko updates will now reach you even when offline.");
-
-    } catch (err) {
-        console.error("Push subscription process failed:", err);
-        // Optional: show error to user
-        showAlert("Push Setup Failed", "Could not enable notifications. Error: " + err.message);
+    if (permission !== 'granted') {
+      console.log('Notification permission denied');
+      return;
     }
+
+    const vapidPublicKey = 'BKBPpzP5k3KxgrWtQZbeQVllNkC2b0hZ80hjqzVEitg6DIdElmEJSo5SteugGU3kHw2jSYOnGwJ3ICmjg_67PnA';
+    const subscription = await registration.pushManager.subscribe({
+      userVisibleOnly: true,
+      applicationServerKey: urlBase64ToUint8Array(vapidPublicKey)
+    });
+
+    const subRef = db.ref('push_subscriptions').push();
+    await subRef.set({
+      subscription: subscription.toJSON(),
+      userAgent: navigator.userAgent,
+      timestamp: firebase.database.ServerValue.TIMESTAMP
+    });
+
+    console.log("Push subscription saved!");
+  } catch (err) {
+    console.error("Push setup failed:", err);
+  }
 }
 
 // ────────────────────────────────────────────────
-// INIT
+// START THE APP
 // ────────────────────────────────────────────────
 
 window.onload = () => {
   switchTab('home');
   subscribeToPush();
-};
 };
