@@ -489,7 +489,6 @@ const views = {
 // ────────────────────────────────────────────────
 // TAB SWITCH FUNCTION
 // ────────────────────────────────────────────────
-
 function switchTab(tab) {
   if (!mainContent) return;
   mainContent.style.opacity = '0';
@@ -498,23 +497,28 @@ function switchTab(tab) {
     mainContent.innerHTML = views[tab] || views.home;
     mainContent.style.opacity = '1';
     mainContent.style.transform = 'translateY(0)';
+
+    // Re-activate nav/dock buttons
     document.querySelectorAll('.nav-link, .dock-btn').forEach(b => b.classList.remove('active'));
-    const nav = document.getElementById(`nav-${tab}`);
-    const dock = document.getElementById(`dock-${tab}`);
-    if (nav) nav.classList.add('active');
-    if (dock) dock.classList.add('active');
+    document.getElementById(`nav-${tab}`)?.classList.add('active');
+    document.getElementById(`dock-${tab}`)?.classList.add('active');
+
     window.scrollTo({ top: 0, behavior: 'smooth' });
 
+    // Force immediate update for news if already loaded
     if (tab === 'news' && newsPosts.length > 0) {
       updateNewsTab(newsPosts);
     }
+
+    // Force immediate update for other tabs that need it
+    if (tab === 'standings') updateStandingsUI();
+    if (tab === 'live-center') updateLiveMatchUI();
   }, 250);
 }
 
 // ────────────────────────────────────────────────
-// NEWS TAB UPDATE
+// NEWS UPDATE (already perfect – keeping it)
 // ────────────────────────────────────────────────
-
 function updateNewsTab(posts) {
   if (!mainContent) return;
   if (posts.length > 0) {
@@ -544,49 +548,75 @@ function updateNewsTab(posts) {
 }
 
 // ────────────────────────────────────────────────
-// REAL-TIME DATA LISTENERS – ALL CATEGORIES
+// NEW: STANDINGS UI UPDATE FUNCTION (called live + on tab switch)
 // ────────────────────────────────────────────────
+function updateStandingsUI() {
+  const ga = document.getElementById('group-a-standings');
+  const gb = document.getElementById('group-b-standings');
+  if (!ga || !gb) return;
 
+  // We'll get the latest data from the listener cache or Firebase
+  db.ref('standings').once('value').then(snap => {
+    const data = snap.val() || {};
+    ga.innerHTML = renderGroupTable(['GUNNERS FC', 'JED FC', 'OGBAFIA FC', 'ZUBBY FC'], data);
+    gb.innerHTML = renderGroupTable(['BIG PAMS FC', 'HASSAN FC', 'UNDECIDED FC', 'GABI FC'], data);
+  });
+}
+
+// ────────────────────────────────────────────────
+// NEW: LIVE MATCH UI UPDATE FUNCTION
+// ────────────────────────────────────────────────
+function updateLiveMatchUI() {
+  const container = document.getElementById('live-center-dynamic');
+  if (!container) return;
+
+  db.ref('live_matches/node_alpha').once('value').then(snap => {
+    const data = snap.val() || {};
+    container.innerHTML = data.home && data.away
+      ? renderLiveMatchCard(data.home, data.away, data.clock || '00:00', data.status || 'PENDING', data.homeScore || 0, data.awayScore || 0)
+      : '<div class="p-12 text-center text-zinc-500">Awaiting live match data...</div>';
+  });
+}
+
+// ────────────────────────────────────────────────
+// REAL-TIME LISTENERS – ALL SECTIONS UPDATE INSTANTLY
+// ────────────────────────────────────────────────
 if (typeof db !== 'undefined') {
-  // News Feed
+  // ── News (already perfect)
   db.ref('news_feed').orderByChild('timestamp').limitToLast(15).on('value', snapshot => {
     newsPosts = snapshot.val() ? Object.values(snapshot.val()) : [];
-    newsPosts.sort((a,b) => (b.timestamp || 0) - (a.timestamp || 0));
+    newsPosts.sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
     if (document.querySelector('#nav-news.active, #dock-news.active')) {
       updateNewsTab(newsPosts);
     }
   });
 
-  // Standings (both groups)
+  // ── Standings (update both groups instantly – even if not on tab)
   db.ref('standings').on('value', snapshot => {
     const data = snapshot.val() || {};
-    const groupAContainer = document.getElementById('group-a-standings');
-    const groupBContainer = document.getElementById('group-b-standings');
-    if (groupAContainer) {
-      groupAContainer.innerHTML = renderGroupTable(['GUNNERS FC', 'JED FC', 'OGBAFIA FC', 'ZUBBY FC'], data);
-    }
-    if (groupBContainer) {
-      groupBContainer.innerHTML = renderGroupTable(['BIG PAMS FC', 'HASSAN FC', 'UNDECIDED FC', 'GABI FC'], data);
-    }
+    const ga = document.getElementById('group-a-standings');
+    const gb = document.getElementById('group-b-standings');
+    if (ga) ga.innerHTML = renderGroupTable(['GUNNERS FC', 'JED FC', 'OGBAFIA FC', 'ZUBBY FC'], data);
+    if (gb) gb.innerHTML = renderGroupTable(['BIG PAMS FC', 'HASSAN FC', 'UNDECIDED FC', 'GABI FC'], data);
   });
 
-  // Live Match
+  // ── Live Match (update live-center instantly)
   db.ref('live_matches/node_alpha').on('value', snapshot => {
     const data = snapshot.val() || {};
     const container = document.getElementById('live-center-dynamic');
     if (container) {
       container.innerHTML = data.home && data.away
         ? renderLiveMatchCard(data.home, data.away, data.clock || '00:00', data.status || 'PENDING', data.homeScore || 0, data.awayScore || 0)
-        : '<div class="p-12 text-center">Awaiting live match data...</div>';
+        : '<div class="p-12 text-center text-zinc-500">Awaiting live match data...</div>';
     }
   });
 
-  // Refresh other tabs when data changes and tab is active
+  // ── Fixtures, Leaderboard, Stream/Broadcast settings (refresh tab content instantly)
   ['fixtures', 'leaderboard', 'stream_settings', 'broadcast_settings', 'stream_links'].forEach(path => {
     db.ref(path).on('value', () => {
-      const activeTab = document.querySelector('.nav-link.active, .dock-btn.active')?.id?.replace('nav-', '').replace('dock-', '');
+      const activeTab = document.querySelector('.nav-link.active, .dock-btn.active')?.id?.replace(/nav-|dock-/g, '');
       if (activeTab && ['fixtures', 'leaderboard'].includes(activeTab)) {
-        switchTab(activeTab);
+        switchTab(activeTab); // re-render whole tab with fresh data
       }
     });
   });
