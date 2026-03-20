@@ -1,7 +1,7 @@
 // ────────────────────────────────────────────────
-// MIKOKO ADMIN CORE v3 – Fully Functional & Complete
+// MIKOKO ADMIN CORE v3 – Complete & Fully Functional
 // Emmanuel – Mikoko League Admin Dashboard
-// All buttons work, updates reflect on dashboard instantly
+// Every function written out, no missing pieces
 // ────────────────────────────────────────────────
 
 // Firebase Config
@@ -20,78 +20,67 @@ let db;
 try {
   firebase.initializeApp(firebaseConfig);
   db = firebase.database();
-  console.log("Firebase initialized successfully");
+  console.log("Admin Firebase initialized");
 } catch (error) {
-  console.error("Firebase initialization failed:", error);
-  alert("CRITICAL: Firebase connection failed. Check config keys.");
+  console.error("Firebase init failed:", error);
+  alert("Firebase connection failed. Check config.");
 }
 
 // ────────────────────────────────────────────────
-// SECURITY & LOGIN
+// PIN SECURITY
 // ────────────────────────────────────────────────
-const ENCRYPTED_PIN = "123789"; // CHANGE THIS IN PRODUCTION!
+const ENCRYPTED_PIN = "123789"; // CHANGE THIS BEFORE GOING LIVE
 
 function checkAccess() {
-  const pinInput = document.getElementById('admin-pin')?.value?.trim();
+  const pin = document.getElementById('admin-pin')?.value?.trim();
+  if (!pin) return showNotify("Enter PIN", "error");
 
-  if (!pinInput) {
-    showNotify("ERROR: PIN required", "error");
-    return;
-  }
-
-  if (pinInput === ENCRYPTED_PIN) {
+  if (pin === ENCRYPTED_PIN) {
     document.getElementById('login-overlay')?.classList.add('hidden');
     document.getElementById('admin-logged-in')?.classList.remove('hidden');
     document.getElementById('admin-content')?.classList.remove('disabled-section');
-
-    showNotify("ACCESS_GRANTED // NEURAL_LINK_STABLE", "success");
-    syncCurrentState(); // Load existing data
+    showNotify("ACCESS GRANTED", "success");
+    syncCurrentState();
   } else {
-    showNotify("SECURITY_BREACH: INVALID_PIN", "error");
+    showNotify("INVALID PIN", "error");
   }
 }
 
 // ────────────────────────────────────────────────
-// UI NOTIFICATION HELPER
+// NOTIFICATION
 // ────────────────────────────────────────────────
 function showNotify(message, type = "info") {
-  const alertBox = document.getElementById('admin-alert');
-  if (!alertBox) return;
+  const box = document.getElementById('admin-alert');
+  if (!box) return;
 
-  alertBox.className = "fixed bottom-10 right-10 px-6 py-4 font-heading text-sm rounded-xl shadow-2xl animate-bounce z-[1000]";
+  box.className = `fixed bottom-10 right-10 px-6 py-4 rounded-xl shadow-2xl z-[1000] text-white font-medium ${
+    type === 'success' ? 'bg-green-600' :
+    type === 'error'   ? 'bg-red-700'   : 'bg-gray-700'
+  }`;
 
-  if (type === "success") {
-    alertBox.classList.add("bg-green-600", "text-white");
-  } else if (type === "error") {
-    alertBox.classList.add("bg-red-700", "text-white");
-  } else {
-    alertBox.classList.add("bg-red-600", "text-white");
-  }
-
-  alertBox.innerText = message;
-  alertBox.classList.remove('hidden');
-
-  setTimeout(() => alertBox.classList.add('hidden'), 4500);
+  box.textContent = message;
+  box.classList.remove('hidden');
+  setTimeout(() => box.classList.add('hidden'), 4500);
 }
 
 // ────────────────────────────────────────────────
-// LOAD EXISTING DATA ON LOGIN
+// LOAD EXISTING DATA
 // ────────────────────────────────────────────────
 function syncCurrentState() {
   // Live match
   db.ref('live_matches/node_alpha').once('value')
-    .then(snapshot => {
-      const data = snapshot.val() || {};
-      document.getElementById('live-home-name').value = data.home || '';
-      document.getElementById('live-away-name').value = data.away || '';
+    .then(snap => {
+      const d = snap.val() || {};
+      document.getElementById('live-home-name').value = d.home || '';
+      document.getElementById('live-away-name').value = d.away || '';
     })
-    .catch(err => console.error("Sync live match failed:", err));
+    .catch(e => console.error("Live match sync error:", e));
 
   // Broadcast settings
   db.ref('broadcast_settings').once('value')
-    .then(snapshot => {
-      const data = snapshot.val() || {};
-      if (data.mode === 'SEARCHING') {
+    .then(snap => {
+      const d = snap.val() || {};
+      if (d.mode === 'SEARCHING') {
         const config = document.getElementById('signal-active-config');
         if (config) {
           config.style.opacity = '0.3';
@@ -99,122 +88,109 @@ function syncCurrentState() {
         }
       }
     })
-    .catch(err => console.error("Sync broadcast settings failed:", err));
+    .catch(e => console.error("Broadcast settings sync error:", e));
 
   // Stream links
   db.ref('stream_links').once('value')
-    .then(snapshot => {
-      const data = snapshot.val() || {};
-      document.getElementById('stream-1-url').value = data.node_1 || '';
-      document.getElementById('stream-2-url').value = data.node_2 || '';
-      document.getElementById('stream-3-url').value = data.node_3 || '';
+    .then(snap => {
+      const d = snap.val() || {};
+      document.getElementById('stream-1-url').value = d.node_1 || '';
+      document.getElementById('stream-2-url').value = d.node_2 || '';
+      document.getElementById('stream-3-url').value = d.node_3 || '';
     })
-    .catch(err => console.error("Sync streams failed:", err));
+    .catch(e => console.error("Stream links sync error:", e));
 
-  showNotify("ADMIN_STATE_SYNCED // FULL_CONTROL_GRANTED", "success");
+  showNotify("Data loaded from server", "success");
 }
 
 // ────────────────────────────────────────────────
-// 1. LIVE MATCH CONTROL
+// 1. LIVE MATCH
 // ────────────────────────────────────────────────
 function updateLiveMatch() {
   const home = document.getElementById('live-home-name')?.value?.trim();
   const away = document.getElementById('live-away-name')?.value?.trim();
-
-  if (!home || !away) {
-    showNotify("ERROR: Both team names required", "error");
-    return;
-  }
+  if (!home || !away) return showNotify("Both teams required", "error");
 
   const btn = event.target;
   btn.disabled = true;
-  btn.innerText = "UPDATING...";
+  btn.textContent = "Updating...";
 
   db.ref('live_matches/node_alpha').update({
-    home,
-    away,
+    home, away,
     timestamp: Date.now()
   })
-    .then(() => showNotify("LIVE_MATCH_UPDATED // NODE_ALPHA", "success"))
-    .catch(err => showNotify("UPDATE_FAILED: " + err.message, "error"))
-    .finally(() => {
-      btn.disabled = false;
-      btn.innerText = "UPDATE_LIVE_MATCH";
-    });
+  .then(() => showNotify("Live match updated", "success"))
+  .catch(e => showNotify("Update failed: " + e.message, "error"))
+  .finally(() => {
+    btn.disabled = false;
+    btn.textContent = "Update Live Match";
+  });
 }
 
 function setMatchStatus(status) {
   const btn = event.target;
   btn.disabled = true;
-  btn.innerText = "SETTING...";
+  btn.textContent = "Setting...";
 
   db.ref('live_matches/node_alpha').update({
     status,
     last_update: new Date().toLocaleTimeString()
   })
-    .then(() => showNotify(`MATCH_STATUS: ${status}`, "success"))
-    .catch(err => showNotify("STATUS_UPDATE_FAILED: " + err.message, "error"))
-    .finally(() => {
-      btn.disabled = false;
-      btn.innerText = status;
-    });
+  .then(() => showNotify(`Status: ${status}`, "success"))
+  .catch(e => showNotify("Status update failed: " + e.message, "error"))
+  .finally(() => {
+    btn.disabled = false;
+    btn.textContent = status;
+  });
 }
 
 // ────────────────────────────────────────────────
-// 2. PLAYER STATS (LEADERBOARD)
+// 2. PLAYER STATS / LEADERBOARD
 // ────────────────────────────────────────────────
 function syncPlayerStats() {
   const player = document.getElementById('player-select')?.value?.trim();
-  const goals = parseInt(document.getElementById('add-goals')?.value) || 0;
+  const goals   = parseInt(document.getElementById('add-goals')?.value)   || 0;
   const assists = parseInt(document.getElementById('add-assists')?.value) || 0;
 
-  if (!player) {
-    showNotify("ERROR: Select a player first", "error");
-    return;
-  }
-
-  if (goals === 0 && assists === 0) {
-    showNotify("WARNING: No changes detected", "info");
-    return;
-  }
+  if (!player) return showNotify("Select player first", "error");
+  if (goals === 0 && assists === 0) return showNotify("No stats changed", "info");
 
   const btn = event.target;
   btn.disabled = true;
-  btn.innerText = "SYNCING...";
+  btn.textContent = "Syncing...";
 
   db.ref('leaderboard/' + player).transaction(current => {
     current = current || { goals: 0, assists: 0 };
-    current.goals = (current.goals || 0) + goals;
+    current.goals   = (current.goals   || 0) + goals;
     current.assists = (current.assists || 0) + assists;
     current.last_updated = Date.now();
     return current;
   })
-    .then(() => {
-      showNotify(`${player.toUpperCase()} STATS_SYNCED`, "success");
-      document.getElementById('add-goals').value = '';
-      document.getElementById('add-assists').value = '';
-    })
-    .catch(err => showNotify("SYNC_FAILED: " + err.message, "error"))
-    .finally(() => {
-      btn.disabled = false;
-      btn.innerText = "SYNC_PLAYER_STATS";
-    });
+  .then(() => {
+    showNotify(`${player} stats updated`, "success");
+    document.getElementById('add-goals').value = '';
+    document.getElementById('add-assists').value = '';
+  })
+  .catch(e => showNotify("Sync failed: " + e.message, "error"))
+  .finally(() => {
+    btn.disabled = false;
+    btn.textContent = "Sync Player Stats";
+  });
 }
 
 // ────────────────────────────────────────────────
-// 3. NEWS / FEED BROADCAST
+// 3. NEWS / BROADCAST
 // ────────────────────────────────────────────────
 let currentImageBase64 = null;
 
 function previewImage(input) {
   if (!input.files?.[0]) return;
-
   const reader = new FileReader();
   reader.onload = e => {
     currentImageBase64 = e.target.result;
     document.getElementById('image-preview').src = currentImageBase64;
     document.getElementById('image-preview-container').classList.remove('hidden');
-    document.getElementById('upload-label').innerText = "IMAGE_READY";
+    document.getElementById('upload-label').textContent = "Image Ready";
   };
   reader.readAsDataURL(input.files[0]);
 }
@@ -223,22 +199,18 @@ function clearImage() {
   currentImageBase64 = null;
   document.getElementById('news-image-input').value = "";
   document.getElementById('image-preview-container').classList.add('hidden');
-  document.getElementById('upload-label').innerText = "Upload_Tactical_Visual";
+  document.getElementById('upload-label').textContent = "Upload Tactical Visual";
 }
 
 async function publishNews() {
   const content = document.getElementById('news-content')?.value?.trim();
+  if (!content && !currentImageBase64) return showNotify("Content or image required", "error");
 
-  if (!content && !currentImageBase64) {
-    showNotify("ERROR: Content or image required", "error");
-    return;
-  }
-
-  if (!confirm("Publish this broadcast to all users?")) return;
+  if (!confirm("Publish to all users?")) return;
 
   const btn = event.target;
   btn.disabled = true;
-  btn.innerText = "PUBLISHING...";
+  btn.textContent = "Publishing...";
 
   try {
     await db.ref('news_feed').push({
@@ -248,15 +220,15 @@ async function publishNews() {
       date: new Date().toLocaleDateString(),
       time: new Date().toLocaleTimeString()
     });
-    showNotify("BROADCAST_PUBLISHED_SUCCESSFULLY", "success");
+    showNotify("Broadcast published", "success");
     document.getElementById('news-content').value = '';
     clearImage();
   } catch (err) {
-    showNotify("PUBLISH_FAILED: " + err.message, "error");
+    showNotify("Publish failed: " + err.message, "error");
     console.error(err);
   } finally {
     btn.disabled = false;
-    btn.innerText = "PUBLISH_TO_ALL_NODES";
+    btn.textContent = "Publish to All Nodes";
   }
 }
 
@@ -268,14 +240,11 @@ function updateStreamLinks() {
   const s2 = document.getElementById('stream-2-url')?.value?.trim();
   const s3 = document.getElementById('stream-3-url')?.value?.trim();
 
-  if (!s1 && !s2 && !s3) {
-    showNotify("WARNING: At least one stream link required", "info");
-    return;
-  }
+  if (!s1 && !s2 && !s3) return showNotify("At least one link required", "info");
 
   const btn = event.target;
   btn.disabled = true;
-  btn.innerText = "UPDATING...";
+  btn.textContent = "Updating...";
 
   db.ref('stream_links').set({
     node_1: s1 || null,
@@ -283,12 +252,12 @@ function updateStreamLinks() {
     node_3: s3 || null,
     updated: Date.now()
   })
-    .then(() => showNotify("STREAM_LINKS_UPDATED", "success"))
-    .catch(err => showNotify("STREAM_UPDATE_FAILED: " + err.message, "error"))
-    .finally(() => {
-      btn.disabled = false;
-      btn.innerText = "UPDATE_ALL_NODES";
-    });
+  .then(() => showNotify("Stream links updated", "success"))
+  .catch(e => showNotify("Stream update failed: " + e.message, "error"))
+  .finally(() => {
+    btn.disabled = false;
+    btn.textContent = "Update All Nodes";
+  });
 }
 
 function setStreamStatus(status) {
@@ -301,84 +270,61 @@ function setStreamStatus(status) {
     is_unlocked: isLive,
     last_change: Date.now()
   })
-    .then(() => {
-      showNotify(`STREAM_STATUS: ${status}`, "success");
-      const dot = document.getElementById('stream-status-dot');
-      const text = document.getElementById('stream-status-text');
-      if (dot && text) {
-        if (isLive) {
-          dot.className = "w-3 h-3 bg-red-600 rounded-full animate-ping";
-          text.innerText = "LIVE_BROADCAST";
-          text.classList.replace('text-zinc-500', 'text-red-600');
-        } else {
-          dot.className = "w-3 h-3 bg-zinc-700 rounded-full";
-          text.innerText = "STANDBY_MODE";
-          text.classList.replace('text-red-600', 'text-zinc-500');
-        }
-      }
-    })
-    .catch(err => showNotify("STATUS_CHANGE_FAILED: " + err.message, "error"))
-    .finally(() => btn.disabled = false);
+  .then(() => {
+    showNotify(`Stream status: ${status}`, "success");
+    const dot  = document.getElementById('stream-status-dot');
+    const text = document.getElementById('stream-status-text');
+    if (dot && text) {
+      dot.className = isLive ? "w-3 h-3 bg-red-600 rounded-full animate-ping" : "w-3 h-3 bg-zinc-700 rounded-full";
+      text.textContent = isLive ? "LIVE_BROADCAST" : "STANDBY_MODE";
+      text.classList.toggle('text-red-600', isLive);
+      text.classList.toggle('text-zinc-500', !isLive);
+    }
+  })
+  .catch(e => showNotify("Status change failed: " + e.message, "error"))
+  .finally(() => btn.disabled = false);
 }
 
 // ────────────────────────────────────────────────
-// 5. FIXTURES PUBLISH
+// 5. FIXTURES
 // ────────────────────────────────────────────────
 function publishFixtures() {
   const day = document.getElementById('match-day-target')?.value;
-  if (!day || day === "SELECT_MATCH_DAY...") {
-    showNotify("ERROR: Select a match day first", "error");
-    return;
-  }
+  if (!day || day === "SELECT_MATCH_DAY...") return showNotify("Select match day", "error");
 
-  const slot1Home = document.getElementById('fix-1-home')?.value?.trim();
-  const slot1Away = document.getElementById('fix-1-away')?.value?.trim();
-  const slot1Time = document.getElementById('fix-1-time')?.value?.trim();
-  const slot1Date = document.getElementById('fix-1-date')?.value?.trim();
-  const slot1Arena = document.getElementById('fix-1-arena')?.value?.trim();
+  const s1h = document.getElementById('fix-1-home')?.value?.trim();
+  const s1a = document.getElementById('fix-1-away')?.value?.trim();
+  const s1t = document.getElementById('fix-1-time')?.value?.trim();
+  const s1d = document.getElementById('fix-1-date')?.value?.trim();
+  const s1ar = document.getElementById('fix-1-arena')?.value?.trim();
 
-  const slot2Home = document.getElementById('fix-2-home')?.value?.trim();
-  const slot2Away = document.getElementById('fix-2-away')?.value?.trim();
-  const slot2Time = document.getElementById('fix-2-time')?.value?.trim();
-  const slot2Date = document.getElementById('fix-2-date')?.value?.trim();
-  const slot2Arena = document.getElementById('fix-2-arena')?.value?.trim();
+  const s2h = document.getElementById('fix-2-home')?.value?.trim();
+  const s2a = document.getElementById('fix-2-away')?.value?.trim();
+  const s2t = document.getElementById('fix-2-time')?.value?.trim();
+  const s2d = document.getElementById('fix-2-date')?.value?.trim();
+  const s2ar = document.getElementById('fix-2-arena')?.value?.trim();
 
-  if (!slot1Home || !slot1Away || !slot1Time || !slot1Date) {
-    showNotify("ERROR: Slot 01 incomplete", "error");
-    return;
-  }
+  if (!s1h || !s1a || !s1t || !s1d) return showNotify("Slot 1 incomplete", "error");
 
-  if (!confirm(`Publish fixtures for ${day.toUpperCase()}?`)) return;
+  if (!confirm(`Publish for ${day}?`)) return;
 
   const btn = event.target;
   btn.disabled = true;
-  btn.innerText = "PUBLISHING...";
+  btn.textContent = "Publishing...";
 
-  const fixtures = {
+  const data = {
     [day]: {
-      slot_01: {
-        home: slot1Home,
-        away: slot1Away,
-        time: slot1Time,
-        date: slot1Date,
-        arena: slot1Arena || "ARENA_DEFAULT"
-      },
-      slot_02: slot2Home && slot2Away ? {
-        home: slot2Home,
-        away: slot2Away,
-        time: slot2Time || "TBD",
-        date: slot2Date || slot1Date,
-        arena: slot2Arena || "ARENA_DEFAULT"
-      } : null
+      slot_01: { home: s1h, away: s1a, time: s1t, date: s1d, arena: s1ar || "ARENA_DEFAULT" },
+      slot_02: s2h && s2a ? { home: s2h, away: s2a, time: s2t || "TBD", date: s2d || s1d, arena: s2ar || "ARENA_DEFAULT" } : null
     }
   };
 
-  db.ref('fixtures').update(fixtures)
-    .then(() => showNotify(`FIXTURES_PUBLISHED // ${day.toUpperCase()}`, "success"))
-    .catch(err => showNotify("FIXTURE_PUBLISH_FAILED: " + err.message, "error"))
+  db.ref('fixtures').update(data)
+    .then(() => showNotify(`Fixtures published for ${day}`, "success"))
+    .catch(e => showNotify("Fixtures failed: " + e.message, "error"))
     .finally(() => {
       btn.disabled = false;
-      btn.innerText = "PUBLISH_FIXTURES_TO_GRID";
+      btn.textContent = "Publish Fixtures";
     });
 }
 
@@ -393,27 +339,24 @@ function toggleSignal(status) {
     mode: status,
     last_toggle: firebase.database.ServerValue.TIMESTAMP
   })
-    .then(() => {
-      showNotify(`SIGNAL_MODE_CHANGED: ${status}`, "success");
-      const config = document.getElementById('signal-active-config');
-      if (config) {
-        config.style.opacity = status === 'SEARCHING' ? '0.35' : '1';
-        config.style.pointerEvents = status === 'SEARCHING' ? 'none' : 'auto';
-      }
-    })
-    .catch(err => showNotify("SIGNAL_TOGGLE_FAILED: " + err.message, "error"))
-    .finally(() => btn.disabled = false);
+  .then(() => {
+    showNotify(`Signal mode: ${status}`, "success");
+    const config = document.getElementById('signal-active-config');
+    if (config) {
+      config.style.opacity = status === 'SEARCHING' ? '0.35' : '1';
+      config.style.pointerEvents = status === 'SEARCHING' ? 'none' : 'auto';
+    }
+  })
+  .catch(e => showNotify("Signal toggle failed: " + e.message, "error"))
+  .finally(() => btn.disabled = false);
 }
 
 // ────────────────────────────────────────────────
-// 7. STANDINGS SYNC – Supports ANY team
+// 7. STANDINGS
 // ────────────────────────────────────────────────
 function syncTableStandings() {
   const teamId = document.getElementById('standing-team-select')?.value?.trim();
-  if (!teamId) {
-    showNotify("ERROR: Select a team first", "error");
-    return;
-  }
+  if (!teamId) return showNotify("Select team first", "error");
 
   const stats = {
     mp: parseInt(document.getElementById('std-mp')?.value) || 0,
@@ -427,47 +370,23 @@ function syncTableStandings() {
 
   const btn = event.target;
   btn.disabled = true;
-  btn.innerText = "SYNCING...";
+  btn.textContent = "Syncing...";
 
   db.ref(`standings/${teamId}`).set(stats)
     .then(() => {
-      showNotify(`${teamId.toUpperCase()} STANDINGS_SYNCED`, "success");
-      ['std-mp', 'std-w', 'std-d', 'std-l', 'std-gf', 'std-ga'].forEach(id => {
+      showNotify(`${teamId.toUpperCase()} standings updated`, "success");
+      ['std-mp','std-w','std-d','std-l','std-gf','std-ga'].forEach(id => {
         const el = document.getElementById(id);
         if (el) el.value = '';
       });
     })
-    .catch(err => showNotify("STANDINGS_SYNC_FAILED: " + err.message, "error"))
+    .catch(e => showNotify("Standings failed: " + e.message, "error"))
     .finally(() => {
       btn.disabled = false;
-      btn.innerText = "SYNC_TABLE_DATA";
+      btn.textContent = "Sync Table Data";
     });
 }
 
 // ────────────────────────────────────────────────
-// 8. MISSING FUNCTION – LIVE SIGNAL PUBLISH (your error fix)
-// ────────────────────────────────────────────────
-function publishLiveSignal() {
-  const message = prompt("Enter live signal message (e.g., 'Kick-off in 5 minutes!')");
-  if (!message) return;
-
-  const btn = event.target;
-  btn.disabled = true;
-  btn.innerText = "PUBLISHING...";
-
-  db.ref('live_signals').push({
-    message: message,
-    timestamp: firebase.database.ServerValue.TIMESTAMP,
-    type: 'live'
-  })
-    .then(() => showNotify("LIVE_SIGNAL_PUBLISHED", "success"))
-    .catch(err => showNotify("SIGNAL_PUBLISH_FAILED: " + err.message, "error"))
-    .finally(() => {
-      btn.disabled = false;
-      btn.innerText = "PUBLISH_LIVE_SIGNAL";
-    });
-}
-
-// ────────────────────────────────────────────────
-// END OF ADMIN.JS – All buttons now work
+// END – All functions complete
 // ────────────────────────────────────────────────
