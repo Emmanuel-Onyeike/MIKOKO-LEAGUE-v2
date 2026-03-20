@@ -4,8 +4,7 @@
  * All tabs update instantly when admin changes anything
  * NEWS tab keeps your exact offline/waiting UI until posts exist
  */
-
-const mainContent = document.getElementById('main-content');
+const mainContent = document.getElementById('main-content')
 
 // ────────────────────────────────────────────────
 // HELPER RENDER FUNCTIONS
