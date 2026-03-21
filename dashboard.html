@@ -89,10 +89,10 @@
         <span class="text-lg">◈</span>
         <span class="text-[7px] font-heading mt-1 uppercase">FEED</span>
       </button>
-      <button onclick="toggleMenu(true)" class="dock-btn flex flex-col items-center" id="dock-menu">
-        <span class="text-lg">≡</span>
-        <span class="text-[7px] font-heading mt-1 uppercase">MENU</span>
-      </button>
+    <button onclick="toggleMenu(true)" class="dock-btn flex flex-col items-center" id="dock-menu">
+      <span class="text-lg">≡</span>
+      <span class="text-[7px] font-heading mt-1 uppercase">MENU</span>
+    </button>
     </div>
   </div>
 
@@ -102,20 +102,20 @@
   </main>
 
   <!-- Side Menu Drawer (mobile) -->
-  <div id="side-menu" class="fixed inset-0 z-[200] pointer-events-none transition-all">
-    <div id="menu-overlay" onclick="toggleMenu(false)" class="absolute inset-0 bg-black/80 backdrop-blur-sm"></div>
-    <div id="menu-drawer" class="absolute top-0 right-0 h-full w-72 bg-zinc-950 border-l border-white/10 p-10 shadow-[-50px_0_100px_rgba(0,0,0,0.9)]">
-      <div class="flex flex-col gap-2 mt-16">
-        <p class="font-heading text-[8px] tracking-[0.4em] text-red-600 uppercase mb-6 animate-pulse">// SYSTEM_EXPANSION</p>
-        <button onclick="switchTab('leaderboard'); toggleMenu(false)" class="menu-link">Rankings</button>
-        <button onclick="switchTab('fixtures'); toggleMenu(false)" class="menu-link">Fixtures</button>
-        <button onclick="switchTab('live-games'); toggleMenu(false)" class="menu-link text-white font-bold tracking-tighter italic">● Live_Games</button>
-        <button onclick="switchTab('pure-stream'); toggleMenu(false)" class="menu-link">Pure_Stream</button>
-        <button onclick="switchTab('live-center'); toggleMenu(false)" class="menu-link">Live_Center</button>
-      </div>
-      <button onclick="toggleMenu(false)" class="absolute top-8 right-8 text-zinc-700 hover:text-white transition-colors text-2xl font-light">CLOSE ×</button>
+<div id="side-menu" class="fixed inset-0 z-[200] pointer-events-none transition-all duration-300">
+  <div id="menu-overlay" onclick="toggleMenu(false)" class="absolute inset-0 bg-black/80 backdrop-blur-sm transition-opacity duration-300"></div>
+  <div id="menu-drawer" class="absolute top-0 right-0 h-full w-72 bg-zinc-950 border-l border-white/10 p-10 shadow-[-50px_0_100px_rgba(0,0,0,0.9)] transform translate-x-full transition-transform duration-500 ease-in-out">
+    <div class="flex flex-col gap-2 mt-16">
+      <p class="font-heading text-[8px] tracking-[0.4em] text-red-600 uppercase mb-6 animate-pulse">// SYSTEM_EXPANSION</p>
+      <button onclick="switchTab('leaderboard'); toggleMenu(false)" class="menu-link hover:text-red-500 transition-colors">Rankings</button>
+      <button onclick="switchTab('fixtures'); toggleMenu(false)" class="menu-link hover:text-red-500 transition-colors">Fixtures</button>
+      <button onclick="switchTab('live-games'); toggleMenu(false)" class="menu-link text-white font-bold tracking-tighter italic hover:text-red-500 transition-colors">● Live_Games</button>
+      <button onclick="switchTab('pure-stream'); toggleMenu(false)" class="menu-link hover:text-red-500 transition-colors">Pure_Stream</button>
+      <button onclick="switchTab('live-center'); toggleMenu(false)" class="menu-link hover:text-red-500 transition-colors">Live_Center</button>
     </div>
+    <button onclick="toggleMenu(false)" class="absolute top-8 right-8 text-zinc-700 hover:text-white transition-colors text-2xl font-light">CLOSE ×</button>
   </div>
+</div>
 
   <!-- Alert Modal -->
   <div id="modalOverlay" class="fixed inset-0 z-[300] hidden items-center justify-center p-6 backdrop-blur-md bg-black/40">
