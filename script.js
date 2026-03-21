@@ -684,3 +684,8 @@ window.onload = () => {
   switchTab('home');
   subscribeToPush();
 };
+function toggleMenu(open) {
+  const menu = document.getElementById('side-menu');
+  if (!menu) return;
+  menu.classList.toggle('active', open);
+}
