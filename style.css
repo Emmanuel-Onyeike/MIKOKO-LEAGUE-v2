@@ -222,3 +222,35 @@ td:last-child {
     from { width: 0; opacity: 0; }
     to { width: 100%; opacity: 1; }
 }
+#side-menu.active {
+  pointer-events: auto;
+}
+
+#side-menu.active #menu-overlay {
+  opacity: 1;
+}
+
+#side-menu.active #menu-drawer {
+  transform: translateX(0);
+}
+
+/* Smooth transitions */
+#menu-overlay {
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+#menu-drawer {
+  transform: translateX(100%);
+  transition: transform 0.5s cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+/* Optional: hover effects on menu items */
+.menu-link {
+  display: block;
+  padding: 12px 0;
+  text-align: left;
+  font-size: 1.1rem;
+  color: #d1d5db;
+  transition: all 0.2s;
+}
