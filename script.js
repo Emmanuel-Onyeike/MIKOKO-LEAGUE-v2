@@ -219,24 +219,110 @@ function renderLiveMatchCard(home, away, clock, status, homeScore = 0, awayScore
 const views = {
   home: `
     <div class="animate-boot space-y-6">
-      <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <div class="bento-card !p-6 flex flex-col items-center border-l-4 border-l-red-600">
-          <p class="text-[8px] font-heading text-zinc-600 uppercase mb-1">Teams_Loaded</p>
-          <span class="text-4xl font-bold italic tracking-tighter animate-pulse">08</span>
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <div class="bento-card !p-6 flex flex-col items-center border-l-4 border-l-red-600">
+                <p class="text-[8px] font-heading text-zinc-600 uppercase mb-1">Teams_Loaded</p>
+                <span class="text-4xl font-bold italic tracking-tighter">08</span>
+            </div>
+            <div class="bento-card !p-6 flex flex-col items-center">
+                <p class="text-[8px] font-heading text-zinc-600 uppercase mb-1">Live_Matches</p>
+                <span class="text-4xl font-bold italic tracking-tighter text-zinc-500">00</span>
+            </div>
+            <div class="bento-card !p-6 flex flex-col items-center">
+                <p class="text-[8px] font-heading text-zinc-600 uppercase mb-1">Session_Goals</p>
+                <span class="text-4xl font-bold italic tracking-tighter text-zinc-500">00</span>
+            </div>
+            <div class="bento-card !p-6 flex flex-col items-center bg-red-600/5">
+                <p class="text-[8px] font-heading text-red-600 uppercase mb-1">Arena_State</p>
+                <p class="text-sm font-bold italic uppercase animate-pulse">Waiting...</p>
+            </div>
         </div>
-        <div class="bento-card !p-6 flex flex-col items-center">
-          <p class="text-[8px] font-heading text-zinc-600 uppercase mb-1">Live_Matches</p>
-          <span class="text-4xl font-bold italic tracking-tighter text-zinc-500 animate-pulse">00</span>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="md:col-span-2 bento-card min-h-[250px] flex items-center justify-around relative overflow-hidden">
+                <div class="absolute inset-0 opacity-5 flex items-center justify-center pointer-events-none">
+                    <span class="text-[120px] font-heading italic">VS</span>
+                </div>
+                <div class="text-center z-10">
+                    <div class="w-16 h-16 bg-zinc-900 rounded-full mb-3 border border-red-600/20 mx-auto"></div>
+                    <p class="font-heading text-[9px] tracking-widest uppercase">GABI FC</p>
+                </div>
+                <div class="text-center z-10">
+                    <span class="text-red-600 font-mono text-[10px] tracking-[0.4em] block mb-2">PENDING</span>
+                    <div class="waveform justify-center"><div class="bar"></div><div class="bar"></div><div class="bar"></div></div>
+                </div>
+                <div class="text-center z-10">
+                    <div class="w-16 h-16 bg-zinc-900 rounded-full mb-3 border border-red-600/20 mx-auto"></div>
+                    <p class="font-heading text-[9px] tracking-widest uppercase">HASSAN FC</p>
+                </div>
+            </div>
+
+            <div class="bento-card">
+                <h3 class="font-heading text-[9px] text-zinc-500 tracking-widest mb-4 uppercase">Rankings_Preview</h3>
+                <div class="space-y-3">
+                    ${['GABI FC', 'OGBAFIA FC', 'HASSAN FC'].map((team, i) => `
+                        <div class="flex justify-between text-[10px] border-b border-white/5 pb-1">
+                            <span class="text-zinc-600 font-mono">0${i+1}</span>
+                            <span class="font-bold italic uppercase">${team}</span>
+                            <span class="text-red-600 font-bold">--</span>
+                        </div>
+                    `).join('')}
+                </div>
+            </div>
         </div>
-        <div class="bento-card !p-6 flex flex-col items-center">
-          <p class="text-[8px] font-heading text-zinc-600 uppercase mb-1">Session_Goals</p>
-          <span class="text-4xl font-bold italic tracking-tighter text-zinc-500 animate-pulse">00</span>
+
+        <h3 class="font-heading text-[10px] text-red-600 tracking-[0.5em] pt-8">NEURAL_ROSTER_DEPLOYS</h3>
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 pb-20">
+            ${Object.entries({
+                "GABI FC": ["OBIECHIMA- GK", "NZEKWU", "OAK", "ALUIS", "GOZIE", "DIVINE AMALEX", "FECHI", "JOSEPH", "NWABUEZE", "SUCCESS", "BOUYKA", "KENDO", "NISSI", "IGALA"],
+                "HASSAN FC": ["CYRIL - GK", "EKEVAL", "FRANKLIN", "PEPSI", "CHIMUANYA", "IKENNA PASCAL", "HENRY", "RIZZY", "JAMIKE", "EBUKA", "MEZIE", "MICHEAL MBAPPE", "SMITH", "ISIAH"],
+                "OGBAFIA FC": ["BALON- GK", "EMPEROR", "DONALD", "EKENE", "MICHEAL", "JJ", "HASSAN", "CHILAKA", "KONJ", "ONOYE CHARLES", "BANJO", "IDIBIA", "KALA", "SIRKEN"],
+                "JED FC": ["MAXWELL - GK", "FRANCIS", "CYRIL", "GENTLE", "DENNIS", "DUBEM", "BERNIE", "MARVIS", "RIDER", "KAKAS", "MILLER", "NELLY", "DIOR", "ZAKI"],
+                "UNDECIDED FC": ["NNAMDI - GK", "NKOLAGWU", "AZZO", "ANTHONY", "CHIBUIKEM", "PLAYBOY", "HEZES", "MICHEAL", "ZICO", "HALLAND", "A1", "AMA", "ELVIS", "ARIEL", "JOSH"],
+                "BIG PAMS FC": ["EMMA - GK", "SOMADINNA", "UGO", "ABBA", "RHEMA", "VON", "NOBLE", "CHARLES", "FAVOUR", "TEMPLE", "JOHN", "VICTOR JIZZY", "JP (LAW)", "JP (MAIN CAMP)", "CHUKWUMA"],
+                "GUNNERS FC": ["PETER- GK", "DANIEL", "CHUKWUEMEKA", "ORORO", "SOPULU", "PASCAL", "PABLO", "SPORTY", "ECHE", "NESTER", "CHIMAOBI", "DAMMY", "MITCHELL", "DOMINIC"],
+                "ZUBBY FC": ["ONE GUY - GK", "SOMTO", "JK", "SOLOMON BLACK", "CHUKA", "CALVIN", "ARINZE", "ELIJAH", "MELLO", "BABY", "GRANDSON", "CHINEMEREM", "JASO", "MARSHAL", "CUSH"]
+            }).map(([teamName, players]) => `
+                <div class="bento-card !p-0 overflow-hidden border-zinc-800 hover:border-red-600/30 transition-all">
+                    <div class="bg-zinc-900/50 p-4 border-b border-white/5 flex justify-between items-center">
+                        <p class="text-[9px] font-heading text-red-600 italic tracking-tighter">${teamName}</p>
+                        <div class="w-1.5 h-1.5 rounded-full bg-red-600 animate-pulse"></div>
+                    </div>
+                    <div class="p-4 h-56 overflow-y-auto roster-scroll space-y-2">
+                        ${players.map((player, i) => `
+                            <div class="flex items-center gap-3 group/item">
+                                <span class="text-[8px] font-mono text-zinc-700">${(i + 1).toString().padStart(2, '0')}</span>
+                                <span class="text-[9px] font-bold text-zinc-400 group-hover/item:text-white transition-colors uppercase">${player}</span>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `).join('')}
         </div>
-        <div class="bento-card !p-6 flex flex-col items-center bg-red-600/5">
-          <p class="text-[8px] font-heading text-red-600 uppercase mb-1">Arena_State</p>
-          <p class="text-sm font-bold italic uppercase animate-pulse text-red-400">Awaiting Deployment</p>
+
+        <div class="mt-12 bento-card !p-0 overflow-hidden border-t border-red-600/20">
+            <div class="flex items-stretch h-12">
+                <div class="bg-red-600 px-6 flex items-center justify-center z-10">
+                    <span class="text-[10px] font-heading text-white tracking-[0.2em] uppercase whitespace-nowrap">Neural_Breaking</span>
+                </div>
+                <div class="flex-1 bg-zinc-900/80 flex items-center overflow-hidden relative">
+                    <div class="flex whitespace-nowrap animate-ticker gap-12">
+                        <span class="text-[10px] font-mono text-zinc-400 uppercase tracking-widest flex items-center gap-2">
+                            <span class="text-red-600">●</span> GABI FC SECURES STAR SIGNING OBIECHIMA FOR GOALKEEPER NODE
+                        </span>
+                        <span class="text-[10px] font-mono text-zinc-400 uppercase tracking-widest flex items-center gap-2">
+                            <span class="text-red-600">●</span> OGBAFIA FC CORE STABILITY AT 98% AFTER TRAINING DEPLOYMENT
+                        </span>
+                        <span class="text-[10px] font-mono text-zinc-400 uppercase tracking-widest flex items-center gap-2">
+                            <span class="text-red-600">●</span> HASSAN FC MBAPPE VARIANT SPOTTED IN OPTIMIZATION DRILLS
+                        </span>
+                        <span class="text-[10px] font-mono text-zinc-400 uppercase tracking-widest flex items-center gap-2">
+                            <span class="text-red-600">●</span> ZUBBY FC READY FOR KICK-OFF: "ONE GUY" TAKES THE GLOVES
+                        </span>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
     </div>`,
 
   standings: `
