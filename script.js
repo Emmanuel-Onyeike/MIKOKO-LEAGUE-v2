@@ -306,69 +306,109 @@ const views = {
       </div>
     </div>`,
 
-  fixtures: `
-    <div class="animate-boot space-y-10 pb-28">
-      <div class="bento-card border-b-2 border-red-600/30 flex justify-between items-center">
+ fixtures: `
+   <div class="animate-boot space-y-10 pb-28">
+      <!-- Header -->
+      <div class="bento-card border-b-2 border-red-600/30 flex justify-between items-center p-6">
         <div>
           <h2 class="font-heading text-4xl italic tracking-tighter text-zinc-400 uppercase">Match Fixtures</h2>
-          <p class="text-[9px] font-mono text-green-500/70 uppercase tracking-[0.4em]">Season 26 • Deployment Active</p>
+          <p class="text-[9px] font-mono text-green-500/70 uppercase tracking-[0.4em]">Season 26 • Game Week 01 • Port Harcourt Node</p>
         </div>
         <div class="hidden md:block text-right">
           <span class="font-mono text-[10px] text-zinc-600 uppercase block">System Time</span>
-          <span class="font-heading text-xl text-zinc-500 italic">15:30:00</span>
+          <span class="font-heading text-xl text-zinc-500 italic" id="system-time">15:30:00</span>
         </div>
       </div>
-      <div class="flex items-center space-x-4 px-2">
+
+      <!-- Fixtures Section -->
+      <div class="flex items-center space-x-4 px-2 mb-6">
         <div class="h-[1px] flex-grow bg-zinc-800"></div>
-        <h3 class="font-mono text-xs text-red-600 uppercase tracking-[0.5em]">Game Week 01</h3>
+        <h3 class="font-mono text-xs text-red-600 uppercase tracking-[0.5em]">GAME WEEK 01</h3>
         <div class="h-[1px] flex-grow bg-zinc-800"></div>
       </div>
-      <div class="grid gap-4 md:grid-cols-2">
-        <div class="bento-card border-l-2 border-zinc-800 hover:border-red-600/50 transition-colors group">
+
+      <div class="grid gap-5 md:grid-cols-2">
+        <div class="bento-card border-l-2 border-zinc-800 hover:border-red-600/50 transition-colors group p-6">
           <div class="flex justify-between items-start mb-4">
             <span class="font-mono text-[9px] text-zinc-500 uppercase">30 MAR 2026 // 15:30</span>
             <span class="font-mono text-[9px] text-red-600/70 uppercase tracking-widest">Law Faculty Pitch</span>
           </div>
           <div class="flex items-center justify-around text-center">
             <div class="w-1/3 font-heading text-lg text-zinc-300 uppercase italic">Undecided FC</div>
-            <div class="font-mono text-zinc-600 text-xs px-4">VS</div>
+            <div class="font-mono text-red-600 text-xs px-4 font-bold">VS</div>
             <div class="w-1/3 font-heading text-lg text-zinc-300 uppercase italic">Gabi FC</div>
           </div>
         </div>
-        <!-- Similar cards for other fixtures as in your original -->
-        <div class="bento-card border-l-2 border-zinc-800 hover:border-red-600/50 transition-colors">
+
+        <div class="bento-card border-l-2 border-zinc-800 hover:border-red-600/50 transition-colors p-6">
           <div class="flex justify-between items-start mb-4">
             <span class="font-mono text-[9px] text-zinc-500 uppercase">31 MAR 2026 // 15:30</span>
             <span class="font-mono text-[9px] text-red-600/70 uppercase tracking-widest">Law Faculty Pitch</span>
           </div>
           <div class="flex items-center justify-around text-center">
             <div class="w-1/3 font-heading text-lg text-zinc-300 uppercase italic">Jed FC</div>
-            <div class="font-mono text-zinc-600 text-xs px-4">VS</div>
+            <div class="font-mono text-red-600 text-xs px-4 font-bold">VS</div>
             <div class="w-1/3 font-heading text-lg text-zinc-300 uppercase italic">Ogbafia FC</div>
           </div>
         </div>
-        <div class="bento-card border-l-2 border-zinc-800 hover:border-red-600/50 transition-colors">
+
+        <div class="bento-card border-l-2 border-zinc-800 hover:border-red-600/50 transition-colors p-6">
           <div class="flex justify-between items-start mb-4">
             <span class="font-mono text-[9px] text-zinc-500 uppercase">01 APR 2026 // 15:30</span>
             <span class="font-mono text-[9px] text-red-600/70 uppercase tracking-widest">Law Faculty Pitch</span>
           </div>
           <div class="flex items-center justify-around text-center">
             <div class="w-1/3 font-heading text-lg text-zinc-300 uppercase italic">Big Pams FC</div>
-            <div class="font-mono text-zinc-600 text-xs px-4">VS</div>
+            <div class="font-mono text-red-600 text-xs px-4 font-bold">VS</div>
             <div class="w-1/3 font-heading text-lg text-zinc-300 uppercase italic">Hassan FC</div>
           </div>
         </div>
-        <div class="bento-card border-l-2 border-zinc-800 hover:border-red-600/50 transition-colors">
+
+        <div class="bento-card border-l-2 border-zinc-800 hover:border-red-600/50 transition-colors p-6">
           <div class="flex justify-between items-start mb-4">
             <span class="font-mono text-[9px] text-zinc-500 uppercase">06 APR 2026 // 15:30</span>
             <span class="font-mono text-[9px] text-red-600/70 uppercase tracking-widest">Law Faculty Pitch</span>
           </div>
           <div class="flex items-center justify-around text-center">
             <div class="w-1/3 font-heading text-lg text-zinc-300 uppercase italic">Gunners FC</div>
-            <div class="font-mono text-zinc-600 text-xs px-4">VS</div>
+            <div class="font-mono text-red-600 text-xs px-4 font-bold">VS</div>
             <div class="w-1/3 font-heading text-lg text-zinc-300 uppercase italic">Zubby FC</div>
           </div>
         </div>
+      </div>
+
+      <!-- STANDINGS INTEGRATED INSIDE FIXTURES -->
+      <div class="mt-12">
+        <div class="flex items-center justify-between mb-6 px-2">
+          <h3 class="font-heading text-xl italic tracking-tighter text-red-500">CURRENT STANDINGS</h3>
+          <span class="text-[10px] font-mono text-zinc-500">Updated live from admin</span>
+        </div>
+
+        <div class="grid grid-cols-1 xl:grid-cols-2 gap-8">
+          <!-- Group A -->
+          <div class="bento-card !p-0 overflow-hidden border-zinc-900">
+            <div class="bg-zinc-900/40 p-5 border-b border-white/10">
+              <h4 class="font-heading text-sm uppercase tracking-widest text-red-400">GROUP A</h4>
+            </div>
+            <div id="fixtures-group-a" class="p-6">
+              ${renderGroupTable(['GUNNERS FC', 'JED FC', 'OGBAFIA FC', 'ZUBBY FC'])}
+            </div>
+          </div>
+
+          <!-- Group B -->
+          <div class="bento-card !p-0 overflow-hidden border-zinc-900 ring-1 ring-red-600/30">
+            <div class="bg-zinc-900/40 p-5 border-b border-white/10">
+              <h4 class="font-heading text-sm uppercase tracking-widest text-red-400">GROUP B</h4>
+            </div>
+            <div id="fixtures-group-b" class="p-6">
+              ${renderGroupTable(['BIG PAMS FC', 'HASSAN FC', 'UNDECIDED FC', 'GABI FC'])}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="text-center mt-10 py-6 bg-black/30 border border-red-600/10 rounded-2xl">
+        <p class="font-mono text-[10px] text-zinc-400">Fixtures + Standings synced in real-time • Admin can push updates instantly</p>
       </div>
     </div>`,
 
