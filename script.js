@@ -226,11 +226,11 @@ const views = {
             </div>
             <div class="bento-card !p-6 flex flex-col items-center">
                 <p class="text-[8px] font-heading text-zinc-600 uppercase mb-1">Live_Matches</p>
-                <span class="text-4xl font-bold italic tracking-tighter text-zinc-500">00</span>
+                <span class="text-4xl font-bold italic tracking-tighter text-zinc-500">01</span>
             </div>
             <div class="bento-card !p-6 flex flex-col items-center">
                 <p class="text-[8px] font-heading text-zinc-600 uppercase mb-1">Session_Goals</p>
-                <span class="text-4xl font-bold italic tracking-tighter text-zinc-500">00</span>
+                <span class="text-4xl font-bold italic tracking-tighter text-zinc-500">01</span>
             </div>
             <div class="bento-card !p-6 flex flex-col items-center bg-red-600/5">
                 <p class="text-[8px] font-heading text-red-600 uppercase mb-1">Arena_State</p>
@@ -260,7 +260,7 @@ const views = {
             <div class="bento-card">
                 <h3 class="font-heading text-[9px] text-zinc-500 tracking-widest mb-4 uppercase">Rankings_Preview</h3>
                 <div class="space-y-3">
-                    ${['GABI FC', 'OGBAFIA FC', 'HASSAN FC'].map((team, i) => `
+                    ${['Undecided FC', 'NIL', 'NIL'].map((team, i) => `
                         <div class="flex justify-between text-[10px] border-b border-white/5 pb-1">
                             <span class="text-zinc-600 font-mono">0${i+1}</span>
                             <span class="font-bold italic uppercase">${team}</span>
@@ -325,42 +325,59 @@ const views = {
         </div>
     </div>`,
 
-  standings: `
-    <div class="animate-boot space-y-8 pb-24">
-      <div class="bento-card border-b-2 border-red-600 flex justify-between items-center relative overflow-hidden">
-        <div class="absolute top-0 right-0 p-2 opacity-10">
-          <span class="font-heading text-6xl italic text-zinc-800">INIT</span>
-        </div>
-        <div class="relative z-10">
-          <h2 class="font-heading text-4xl italic tracking-tighter text-white uppercase">Group_Stage</h2>
-          <p class="text-[9px] font-mono text-red-600/70 uppercase tracking-[0.4em] animate-pulse">Phase_01 • Deployment Pending</p>
-        </div>
-      </div>
-      <div class="grid grid-cols-1 xl:grid-cols-2 gap-8">
-        <div class="space-y-4 bento-card !p-0 overflow-hidden border-zinc-900">
-          <div class="bg-zinc-900/30 p-4 border-b border-white/5">
-            <h3 class="font-heading text-sm italic text-red-600/80 tracking-widest uppercase">GROUP_A_NODE</h3>
-          </div>
-          <div id="group-a-standings">
-            ${renderGroupTable(['GUNNERS FC', 'JED FC', 'OGBAFIA FC', 'ZUBBY FC'])}
-          </div>
-        </div>
-        <div class="space-y-4 bento-card !p-0 overflow-hidden border-zinc-900">
-          <div class="bg-zinc-900/30 p-4 border-b border-white/5">
-            <h3 class="font-heading text-sm italic text-red-600/80 tracking-widest uppercase">GROUP_B_NODE</h3>
-          </div>
-          <div id="group-b-standings">
-            ${renderGroupTable(['BIG PAMS FC', 'HASSAN FC', 'UNDECIDED FC', 'GABI FC'])}
-          </div>
-        </div>
-      </div>
-      <div class="text-center mt-10 py-6 bg-black/30 border border-red-600/10 rounded-xl">
-        <p class="font-mono text-[10px] text-zinc-500 uppercase tracking-[0.3em] animate-pulse">
-          <span class="text-red-600">●</span> Standings grid ready • Updates live from admin
-        </p>
-      </div>
-    </div>`,
+ standings: `
+<div class="animate-boot space-y-8 pb-24">
+  <div class="bento-card border-b-2 border-red-600 flex justify-between items-center relative overflow-hidden">
+    <div class="absolute top-0 right-0 p-2 opacity-10">
+      <span class="font-heading text-6xl italic text-zinc-800">LIVE_DATA</span>
+    </div>
+    <div class="relative z-10">
+      <h2 class="font-heading text-4xl italic tracking-tighter text-white uppercase">Group_Stage</h2>
+      <p class="text-[9px] font-mono text-green-500 uppercase tracking-[0.4em] animate-pulse">Phase_01 • Results_Updated_Realtime</p>
+    </div>
+  </div>
 
+  <div class="grid grid-cols-1 xl:grid-cols-2 gap-8">
+    <div class="space-y-4 bento-card !p-0 overflow-hidden border-zinc-900">
+      <div class="bg-zinc-900/30 p-4 border-b border-white/5 flex justify-between items-center">
+        <h3 class="font-heading text-sm italic text-red-600/80 tracking-widest uppercase">GROUP_A_NODE</h3>
+        <span class="text-[8px] font-mono text-zinc-600 uppercase italic">Standby_Mode</span>
+      </div>
+      <div id="group-a-standings">
+        ${renderGroupTable([
+          { name: 'GUNNERS FC', p: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0, gd: 0, pts: 0 },
+          { name: 'JED FC', p: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0, gd: 0, pts: 0 },
+          { name: 'OGBAFIA FC', p: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0, gd: 0, pts: 0 },
+          { name: 'ZUBBY FC', p: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0, gd: 0, pts: 0 }
+        ])}
+      </div>
+    </div>
+
+    <div class="space-y-4 bento-card !p-0 overflow-hidden border-zinc-900 ring-1 ring-red-600/20">
+      <div class="bg-zinc-900/30 p-4 border-b border-white/5 flex justify-between items-center">
+        <h3 class="font-heading text-sm italic text-red-600/80 tracking-widest uppercase">GROUP_B_NODE</h3>
+        <span class="text-[8px] font-mono text-red-600 animate-pulse uppercase italic">Data_Synchronized</span>
+      </div>
+      <div id="group-b-standings">
+        ${renderGroupTable([
+          { name: 'UNDECIDED FC', p: 1, w: 1, d: 0, l: 0, gf: 10, ga: 1, gd: 9, pts: 3 },
+          { name: 'BIG PAMS FC', p: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0, gd: 0, pts: 0 },
+          { name: 'HASSAN FC', p: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0, gd: 0, pts: 0 },
+          { name: 'GABI FC', p: 1, w: 0, d: 0, l: 1, gf: 1, ga: 10, gd: -9, pts: 0 }
+        ])}
+      </div>
+    </div>
+  </div>
+
+  <div class="text-center mt-10 py-6 bg-black/30 border border-red-600/10 rounded-xl">
+    <p class="font-mono text-[10px] text-zinc-500 uppercase tracking-[0.3em]">
+      <span class="text-green-500">●</span> Grid_Log: Undecided FC 10 - 1 Gabi FC (Node_Confirmed)
+    </p>
+  </div>
+</div>
+`,
+
+  
   news: `
     <div class="animate-boot space-y-10 pb-28">
       <div class="relative group rounded-3xl overflow-hidden border border-red-600/10 h-[500px] bg-zinc-950">
