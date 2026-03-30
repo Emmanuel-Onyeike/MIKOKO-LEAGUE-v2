@@ -306,7 +306,7 @@ const views = {
       </div>
     </div>`,
 
- fixtures: `
+fixtures: `
    <div class="animate-boot space-y-10 pb-28">
       <!-- Header -->
       <div class="bento-card border-b-2 border-red-600/30 flex justify-between items-center p-6">
@@ -377,38 +377,150 @@ const views = {
         </div>
       </div>
 
-      <!-- STANDINGS INTEGRATED INSIDE FIXTURES -->
-      <div class="mt-12">
+      <!-- STANDINGS INTEGRATED - MANUALLY FILLED -->
+      <div class="mt-16">
         <div class="flex items-center justify-between mb-6 px-2">
           <h3 class="font-heading text-xl italic tracking-tighter text-red-500">CURRENT STANDINGS</h3>
-          <span class="text-[10px] font-mono text-zinc-500">Updated live from admin</span>
+          <span class="text-[10px] font-mono text-emerald-400">MANUAL UPDATE • WEEK 01</span>
         </div>
 
         <div class="grid grid-cols-1 xl:grid-cols-2 gap-8">
-          <!-- Group A -->
+          <!-- GROUP A - Manual Data -->
           <div class="bento-card !p-0 overflow-hidden border-zinc-900">
-            <div class="bg-zinc-900/40 p-5 border-b border-white/10">
+            <div class="bg-zinc-900/40 p-5 border-b border-white/10 flex justify-between">
               <h4 class="font-heading text-sm uppercase tracking-widest text-red-400">GROUP A</h4>
+              <span class="text-[10px] font-mono text-zinc-500">After Matchday 1</span>
             </div>
-            <div id="fixtures-group-a" class="p-6">
-              ${renderGroupTable(['GUNNERS FC', 'JED FC', 'OGBAFIA FC', 'ZUBBY FC'])}
+            <div class="p-6">
+              <table class="w-full text-left border-collapse">
+                <thead class="bg-zinc-900/80 border-b border-white/10">
+                  <tr>
+                    <th class="p-3 font-heading text-[8px] text-zinc-500 uppercase">Pos</th>
+                    <th class="p-3 font-heading text-[8px] text-zinc-500 uppercase">Team</th>
+                    <th class="p-3 font-mono text-[8px] text-center">P</th>
+                    <th class="p-3 font-mono text-[8px] text-center">W</th>
+                    <th class="p-3 font-mono text-[8px] text-center">D</th>
+                    <th class="p-3 font-mono text-[8px] text-center">L</th>
+                    <th class="p-3 font-mono text-[8px] text-center">GD</th>
+                    <th class="p-3 font-heading text-red-600 text-right">Pts</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-white/10 text-sm">
+                  <tr class="hover:bg-white/5">
+                    <td class="p-3 font-mono text-zinc-400">1</td>
+                    <td class="p-3 font-heading uppercase">Gunners FC</td>
+                    <td class="p-3 text-center">1</td>
+                    <td class="p-3 text-center">1</td>
+                    <td class="p-3 text-center">0</td>
+                    <td class="p-3 text-center">0</td>
+                    <td class="p-3 text-center text-green-400">+3</td>
+                    <td class="p-3 text-right font-bold text-red-600">3</td>
+                  </tr>
+                  <tr class="hover:bg-white/5">
+                    <td class="p-3 font-mono text-zinc-400">2</td>
+                    <td class="p-3 font-heading uppercase">Jed FC</td>
+                    <td class="p-3 text-center">1</td>
+                    <td class="p-3 text-center">0</td>
+                    <td class="p-3 text-center">1</td>
+                    <td class="p-3 text-center">0</td>
+                    <td class="p-3 text-center">0</td>
+                    <td class="p-3 text-right font-bold text-red-600">1</td>
+                  </tr>
+                  <tr class="hover:bg-white/5 opacity-70">
+                    <td class="p-3 font-mono text-zinc-500">3</td>
+                    <td class="p-3 font-heading uppercase">Ogbafia FC</td>
+                    <td class="p-3 text-center">0</td>
+                    <td class="p-3 text-center">0</td>
+                    <td class="p-3 text-center">0</td>
+                    <td class="p-3 text-center">0</td>
+                    <td class="p-3 text-center">0</td>
+                    <td class="p-3 text-right font-bold text-zinc-500">0</td>
+                  </tr>
+                  <tr class="hover:bg-white/5 opacity-70">
+                    <td class="p-3 font-mono text-zinc-500">4</td>
+                    <td class="p-3 font-heading uppercase">Zubby FC</td>
+                    <td class="p-3 text-center">0</td>
+                    <td class="p-3 text-center">0</td>
+                    <td class="p-3 text-center">0</td>
+                    <td class="p-3 text-center">0</td>
+                    <td class="p-3 text-center">0</td>
+                    <td class="p-3 text-right font-bold text-zinc-500">0</td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
           </div>
 
-          <!-- Group B -->
+          <!-- GROUP B - Manual Data (with Undecided FC strong result) -->
           <div class="bento-card !p-0 overflow-hidden border-zinc-900 ring-1 ring-red-600/30">
-            <div class="bg-zinc-900/40 p-5 border-b border-white/10">
+            <div class="bg-zinc-900/40 p-5 border-b border-white/10 flex justify-between">
               <h4 class="font-heading text-sm uppercase tracking-widest text-red-400">GROUP B</h4>
+              <span class="text-[10px] font-mono text-zinc-500">After Matchday 1</span>
             </div>
-            <div id="fixtures-group-b" class="p-6">
-              ${renderGroupTable(['BIG PAMS FC', 'HASSAN FC', 'UNDECIDED FC', 'GABI FC'])}
+            <div class="p-6">
+              <table class="w-full text-left border-collapse">
+                <thead class="bg-zinc-900/80 border-b border-white/10">
+                  <tr>
+                    <th class="p-3 font-heading text-[8px] text-zinc-500 uppercase">Pos</th>
+                    <th class="p-3 font-heading text-[8px] text-zinc-500 uppercase">Team</th>
+                    <th class="p-3 font-mono text-[8px] text-center">P</th>
+                    <th class="p-3 font-mono text-[8px] text-center">W</th>
+                    <th class="p-3 font-mono text-[8px] text-center">D</th>
+                    <th class="p-3 font-mono text-[8px] text-center">L</th>
+                    <th class="p-3 font-mono text-[8px] text-center">GD</th>
+                    <th class="p-3 font-heading text-red-600 text-right">Pts</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-white/10 text-sm">
+                  <tr class="hover:bg-white/5">
+                    <td class="p-3 font-mono text-emerald-400 font-bold">1</td>
+                    <td class="p-3 font-heading uppercase text-emerald-400">Undecided FC</td>
+                    <td class="p-3 text-center">1</td>
+                    <td class="p-3 text-center">1</td>
+                    <td class="p-3 text-center">0</td>
+                    <td class="p-3 text-center">0</td>
+                    <td class="p-3 text-center text-green-400">+9</td>
+                    <td class="p-3 text-right font-bold text-red-600">3</td>
+                  </tr>
+                  <tr class="hover:bg-white/5 opacity-75">
+                    <td class="p-3 font-mono text-zinc-400">2</td>
+                    <td class="p-3 font-heading uppercase">Big Pams FC</td>
+                    <td class="p-3 text-center">0</td>
+                    <td class="p-3 text-center">0</td>
+                    <td class="p-3 text-center">0</td>
+                    <td class="p-3 text-center">0</td>
+                    <td class="p-3 text-center">0</td>
+                    <td class="p-3 text-right font-bold text-zinc-500">0</td>
+                  </tr>
+                  <tr class="hover:bg-white/5 opacity-75">
+                    <td class="p-3 font-mono text-zinc-400">3</td>
+                    <td class="p-3 font-heading uppercase">Hassan FC</td>
+                    <td class="p-3 text-center">0</td>
+                    <td class="p-3 text-center">0</td>
+                    <td class="p-3 text-center">0</td>
+                    <td class="p-3 text-center">0</td>
+                    <td class="p-3 text-center">0</td>
+                    <td class="p-3 text-right font-bold text-zinc-500">0</td>
+                  </tr>
+                  <tr class="hover:bg-white/5">
+                    <td class="p-3 font-mono text-red-400">4</td>
+                    <td class="p-3 font-heading uppercase">Gabi FC</td>
+                    <td class="p-3 text-center">1</td>
+                    <td class="p-3 text-center">0</td>
+                    <td class="p-3 text-center">0</td>
+                    <td class="p-3 text-center">1</td>
+                    <td class="p-3 text-center text-red-400">-9</td>
+                    <td class="p-3 text-right font-bold text-red-600">0</td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
           </div>
         </div>
       </div>
 
-      <div class="text-center mt-10 py-6 bg-black/30 border border-red-600/10 rounded-2xl">
-        <p class="font-mono text-[10px] text-zinc-400">Fixtures + Standings synced in real-time • Admin can push updates instantly</p>
+      <div class="text-center mt-12 py-6 bg-black/30 border border-red-600/10 rounded-2xl">
+        <p class="font-mono text-[10px] text-zinc-400">Fixtures + Manual Standings • Real-time sync available from admin console</p>
       </div>
     </div>`,
 
