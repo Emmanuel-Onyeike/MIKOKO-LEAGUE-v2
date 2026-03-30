@@ -845,3 +845,58 @@ function toggleMenu(open) {
   if (!menu) return;
   menu.classList.toggle('active', open);
 }
+
+function updateMatchClock() {
+    const timerEl = document.getElementById('match-timer');
+    const statusEl = document.getElementById('match-status');
+    const progressEl = document.getElementById('timer-progress');
+    
+    // Set Match Start: March 30, 2026, 15:30:00
+    const startTime = new Date('2026-03-30T15:30:00').getTime();
+    const now = new Date().getTime();
+    const diffSeconds = Math.floor((now - startTime) / 1000);
+    const diffMinutes = diffSeconds / 60;
+
+    if (diffSeconds < 0) {
+        statusEl.innerText = "Standby: Kick-off Pending";
+        timerEl.innerText = "00:00";
+        return;
+    }
+
+    // Phase 1: First Half (0-45 mins)
+    if (diffMinutes <= 45) {
+        statusEl.innerText = "Live: First_Half";
+        timerEl.innerText = formatTime(diffSeconds);
+        progressEl.style.width = (diffMinutes / 45 * 50) + "%";
+    } 
+    // Phase 2: Half Time (45-50 mins)
+    else if (diffMinutes > 45 && diffMinutes <= 50) {
+        statusEl.innerText = "Status: Half_Time";
+        timerEl.innerText = "45:00";
+        progressEl.style.width = "50%";
+    } 
+    // Phase 3: Second Half (50-95 mins)
+    else if (diffMinutes > 50 && diffMinutes <= 95) {
+        statusEl.innerText = "Live: Second_Half";
+        // Calculate played time: current time minus the 5 min break
+        const matchPlayedSeconds = diffSeconds - 300; 
+        timerEl.innerText = formatTime(matchPlayedSeconds);
+        progressEl.style.width = (50 + ((diffMinutes - 50) / 45 * 50)) + "%";
+    } 
+    // Phase 4: Full Time
+    else {
+        statusEl.innerText = "Status: Full_Time";
+        timerEl.innerText = "90:00";
+        progressEl.style.width = "100%";
+    }
+}
+
+function formatTime(seconds) {
+    const m = Math.floor(seconds / 60);
+    const s = Math.floor(seconds % 60);
+    return `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+}
+
+// Update every second
+setInterval(updateMatchClock, 1000);
+updateMatchClock();
