@@ -245,7 +245,7 @@ const views = {
                 </div>
                 <div class="text-center z-10">
                     <div class="w-16 h-16 bg-zinc-900 rounded-full mb-3 border border-red-600/20 mx-auto"></div>
-                    <p class="font-heading text-[9px] tracking-widest uppercase">GABI FC</p>
+                    <p class="font-heading text-[9px] tracking-widest uppercase">UNDECIDED  FC</p>
                 </div>
                 <div class="text-center z-10">
                     <span class="text-red-600 font-mono text-[10px] tracking-[0.4em] block mb-2">PENDING</span>
@@ -253,7 +253,7 @@ const views = {
                 </div>
                 <div class="text-center z-10">
                     <div class="w-16 h-16 bg-zinc-900 rounded-full mb-3 border border-red-600/20 mx-auto"></div>
-                    <p class="font-heading text-[9px] tracking-widest uppercase">HASSAN FC</p>
+                    <p class="font-heading text-[9px] tracking-widest uppercase">GABI FC</p>
                 </div>
             </div>
 
@@ -449,26 +449,76 @@ const views = {
     </div>`,
 
   fixtures: `
-    <div class="animate-boot space-y-10 pb-28">
-      <div class="bento-card border-b-2 border-red-600/30 flex justify-between items-center">
-        <div>
-          <h2 class="font-heading text-4xl italic tracking-tighter text-zinc-400 uppercase">Match_Fixtures</h2>
-          <p class="text-[9px] font-mono text-red-600/70 uppercase tracking-[0.4em] animate-pulse">Season_26 • Schedule not deployed</p>
-        </div>
-        <div class="hidden md:block text-right">
-          <span class="font-mono text-[10px] text-zinc-600 uppercase block">System_Time</span>
-          <span class="font-heading text-xl text-zinc-500 italic animate-pulse">--:--:--</span>
-        </div>
+   <div class="animate-boot space-y-10 pb-28">
+  <div class="bento-card border-b-2 border-red-600/30 flex justify-between items-center">
+    <div>
+      <h2 class="font-heading text-4xl italic tracking-tighter text-zinc-400 uppercase">Match_Fixtures</h2>
+      <p class="text-[9px] font-mono text-green-500/70 uppercase tracking-[0.4em]">Season_26 • Deployment_Active</p>
+    </div>
+    <div class="hidden md:block text-right">
+      <span class="font-mono text-[10px] text-zinc-600 uppercase block">System_Time</span>
+      <span class="font-heading text-xl text-zinc-500 italic">15:30:00</span>
+    </div>
+  </div>
+
+  <div class="flex items-center space-x-4 px-2">
+    <div class="h-[1px] flex-grow bg-zinc-800"></div>
+    <h3 class="font-mono text-xs text-red-600 uppercase tracking-[0.5em]">Game_Week_01</h3>
+    <div class="h-[1px] flex-grow bg-zinc-800"></div>
+  </div>
+
+  <div class="grid gap-4 md:grid-cols-2">
+    
+    <div class="bento-card border-l-2 border-zinc-800 hover:border-red-600/50 transition-colors group">
+      <div class="flex justify-between items-start mb-4">
+        <span class="font-mono text-[9px] text-zinc-500 uppercase">30_MAR_2026 // 15:30</span>
+        <span class="font-mono text-[9px] text-red-600/70 uppercase tracking-widest">Venue: Law_Faculty_Pitch</span>
       </div>
-      <div class="text-center py-32 opacity-80">
-        <div class="inline-block w-24 h-24 border-4 border-red-600/30 border-t-red-600 rounded-full animate-spin mb-10"></div>
-        <h3 class="font-heading text-4xl text-zinc-400 uppercase tracking-widest mb-6">NO_MATCHES_SCHEDULED</h3>
-        <p class="font-mono text-[11px] text-zinc-600 max-w-xl mx-auto leading-relaxed">
-          Chronological fixture grid is currently empty.<br>
-          Matches will appear here once the admin command center pushes the deployment sequence.
-        </p>
+      <div class="flex items-center justify-around text-center">
+        <div class="w-1/3 font-heading text-lg text-zinc-300 uppercase italic">Undecided FC</div>
+        <div class="font-mono text-zinc-600 text-xs px-4">VS</div>
+        <div class="w-1/3 font-heading text-lg text-zinc-300 uppercase italic">Gabi FC</div>
       </div>
-    </div>`,
+    </div>
+
+    <div class="bento-card border-l-2 border-zinc-800 hover:border-red-600/50 transition-colors">
+      <div class="flex justify-between items-start mb-4">
+        <span class="font-mono text-[9px] text-zinc-500 uppercase">31_MAR_2026 // 15:30</span>
+        <span class="font-mono text-[9px] text-red-600/70 uppercase tracking-widest">Venue: Law_Faculty_Pitch</span>
+      </div>
+      <div class="flex items-center justify-around text-center">
+        <div class="w-1/3 font-heading text-lg text-zinc-300 uppercase italic">Jed FC</div>
+        <div class="font-mono text-zinc-600 text-xs px-4">VS</div>
+        <div class="w-1/3 font-heading text-lg text-zinc-300 uppercase italic">Ogbafia FC</div>
+      </div>
+    </div>
+
+    <div class="bento-card border-l-2 border-zinc-800 hover:border-red-600/50 transition-colors">
+      <div class="flex justify-between items-start mb-4">
+        <span class="font-mono text-[9px] text-zinc-500 uppercase">01_APR_2026 // 15:30</span>
+        <span class="font-mono text-[9px] text-red-600/70 uppercase tracking-widest">Venue: Law_Faculty_Pitch</span>
+      </div>
+      <div class="flex items-center justify-around text-center">
+        <div class="w-1/3 font-heading text-lg text-zinc-300 uppercase italic">Big Pams FC</div>
+        <div class="font-mono text-zinc-600 text-xs px-4">VS</div>
+        <div class="w-1/3 font-heading text-lg text-zinc-300 uppercase italic">Hassan FC</div>
+      </div>
+    </div>
+
+    <div class="bento-card border-l-2 border-zinc-800 hover:border-red-600/50 transition-colors">
+      <div class="flex justify-between items-start mb-4">
+        <span class="font-mono text-[9px] text-zinc-500 uppercase">06_APR_2026 // 15:30</span>
+        <span class="font-mono text-[9px] text-red-600/70 uppercase tracking-widest">Venue: Law_Faculty_Pitch</span>
+      </div>
+      <div class="flex items-center justify-around text-center">
+        <div class="w-1/3 font-heading text-lg text-zinc-300 uppercase italic">Gunners FC</div>
+        <div class="font-mono text-zinc-600 text-xs px-4">VS</div>
+        <div class="w-1/3 font-heading text-lg text-zinc-300 uppercase italic">Zubby FC</div>
+      </div>
+    </div>
+
+  </div>
+</div>`,
 
   'live-games': `
     <div class="animate-boot flex flex-col items-center justify-center py-32 min-h-[80vh] relative overflow-hidden">
