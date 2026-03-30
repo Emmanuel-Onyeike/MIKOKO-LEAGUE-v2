@@ -305,34 +305,212 @@ standings: `
       </div>
     </div>`,
 
-  leaderboard: `
+leaderboard: `
     <div class="animate-boot space-y-10 pb-28">
-      <div class="bento-card flex flex-col md:flex-row items-center justify-between gap-6 border-b-2 border-red-600/30">
+      <div class="bento-card flex flex-col md:flex-row items-center justify-between gap-6 border-b-2 border-red-600/30 p-6">
         <div class="flex items-center gap-6 opacity-80">
-          <div><div class="nexus-core scale-75"><div class="nexus-inner"></div><div class="nexus-orbit animate-pulse"></div></div></div>
+          <div class="nexus-core scale-75 md:scale-100">
+            <div class="nexus-inner"></div>
+            <div class="nexus-orbit animate-pulse"></div>
+          </div>
           <div>
             <h2 class="font-heading text-3xl md:text-5xl text-zinc-400 italic uppercase tracking-tighter">LEADERBOARDS</h2>
-            <p class="font-mono text-[9px] tracking-[0.3em] text-red-600/70 uppercase animate-pulse">No performance data synced yet • S26</p>
+            <p class="font-mono text-[9px] tracking-[0.3em] text-emerald-400 uppercase">Season 26 • After Week 1 • Manual Update</p>
+          </div>
+        </div>
+        <div class="flex bg-zinc-900/30 p-1 rounded-full border border-white/5">
+          <button class="px-6 py-2 font-heading text-[8px] tracking-widest bg-red-600/10 text-red-400 rounded-full">GOALS</button>
+          <button class="px-6 py-2 font-heading text-[8px] tracking-widest text-zinc-500">ASSISTS</button>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        
+        <!-- GOAL STRIKERS - Manual Data -->
+        <div class="space-y-6">
+          <div class="flex items-center justify-between">
+            <h3 class="font-heading text-lg italic text-zinc-300 uppercase"><span class="text-red-600">01.</span> GOAL STRIKERS</h3>
+            <span class="text-[10px] font-mono text-emerald-400">Week 1 • Manual</span>
+          </div>
+          
+          <div class="space-y-3">
+            <!-- Top 5 Goal Scorers - Manual -->
+            <div class="flex items-center justify-between p-4 bg-white/[0.02] border-l-4 border-red-600 rounded-xl">
+              <div class="flex items-center gap-4">
+                <span class="font-mono text-xl font-bold text-red-500">01</span>
+                <div class="w-10 h-10 bg-zinc-800 rounded-full flex items-center justify-center text-lg">⚽</div>
+                <div>
+                  <span class="font-heading text-base">Obiechima</span>
+                  <p class="text-[10px] font-mono text-zinc-500">Gabi FC • GK turned striker?</p>
+                </div>
+              </div>
+              <div class="text-right">
+                <span class="font-heading text-3xl text-red-500">10</span>
+                <span class="block text-[10px] font-mono text-zinc-500">GOALS</span>
+              </div>
+            </div>
+
+            <div class="flex items-center justify-between p-4 bg-white/[0.01] border-l-4 border-red-600/50 rounded-xl">
+              <div class="flex items-center gap-4">
+                <span class="font-mono text-xl font-bold text-red-500">02</span>
+                <div class="w-10 h-10 bg-zinc-800 rounded-full flex items-center justify-center text-lg">🔥</div>
+                <div>
+                  <span class="font-heading text-base">Micheal Mbappe</span>
+                  <p class="text-[10px] font-mono text-zinc-500">Hassan FC</p>
+                </div>
+              </div>
+              <div class="text-right">
+                <span class="font-heading text-3xl text-red-500">7</span>
+                <span class="block text-[10px] font-mono text-zinc-500">GOALS</span>
+              </div>
+            </div>
+
+            <div class="flex items-center justify-between p-4 bg-white/[0.01] border-l-4 border-red-600/30 rounded-xl opacity-90">
+              <div class="flex items-center gap-4">
+                <span class="font-mono text-xl font-bold text-red-500">03</span>
+                <div class="w-10 h-10 bg-zinc-800 rounded-full flex items-center justify-center text-lg">⚡</div>
+                <div>
+                  <span class="font-heading text-base">Emperor</span>
+                  <p class="text-[10px] font-mono text-zinc-500">Ogbafia FC</p>
+                </div>
+              </div>
+              <div class="text-right">
+                <span class="font-heading text-3xl text-red-500">4</span>
+                <span class="block text-[10px] font-mono text-zinc-500">GOALS</span>
+              </div>
+            </div>
+
+            <div class="flex items-center justify-between p-4 bg-white/[0.01] border-l-4 border-zinc-700 rounded-xl opacity-75">
+              <div class="flex items-center gap-4">
+                <span class="font-mono text-xl font-bold text-zinc-400">04</span>
+                <div class="w-10 h-10 bg-zinc-800 rounded-full flex items-center justify-center text-lg">🏃</div>
+                <div>
+                  <span class="font-heading text-base">Success</span>
+                  <p class="text-[10px] font-mono text-zinc-500">Gabi FC</p>
+                </div>
+              </div>
+              <div class="text-right">
+                <span class="font-heading text-3xl text-zinc-400">3</span>
+                <span class="block text-[10px] font-mono text-zinc-500">GOALS</span>
+              </div>
+            </div>
+
+            <div class="flex items-center justify-between p-4 bg-white/[0.01] border-l-4 border-zinc-700 rounded-xl opacity-70">
+              <div class="flex items-center gap-4">
+                <span class="font-mono text-xl font-bold text-zinc-400">05</span>
+                <div class="w-10 h-10 bg-zinc-800 rounded-full flex items-center justify-center text-lg">💥</div>
+                <div>
+                  <span class="font-heading text-base">Donald</span>
+                  <p class="text-[10px] font-mono text-zinc-500">Ogbafia FC</p>
+                </div>
+              </div>
+              <div class="text-right">
+                <span class="font-heading text-3xl text-zinc-400">2</span>
+                <span class="block text-[10px] font-mono text-zinc-500">GOALS</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="bento-card !p-0 overflow-hidden border-zinc-900 bg-black/30">
+            <div class="p-5 border-b border-white/10">
+              <span class="text-xs font-mono uppercase tracking-widest text-zinc-500">Extended Goal List</span>
+            </div>
+            <div class="max-h-[320px] overflow-y-auto roster-scroll p-5 space-y-3 text-sm">
+              <div class="flex justify-between"><span class="text-zinc-400">06. Nnamdi (Undecided FC)</span><span class="font-mono text-red-500">2</span></div>
+              <div class="flex justify-between"><span class="text-zinc-400">07. One Guy (Zubby FC)</span><span class="font-mono text-red-500">1</span></div>
+              <div class="flex justify-between"><span class="text-zinc-400">08. Balon (Ogbafia FC)</span><span class="font-mono text-red-500">1</span></div>
+              <div class="flex justify-between opacity-60"><span class="text-zinc-500">... 12 more players with 1 goal each</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- TACTICAL ASSISTS - Manual Data -->
+        <div class="space-y-6">
+          <div class="flex items-center justify-between">
+            <h3 class="font-heading text-lg italic text-zinc-300 uppercase"><span class="text-red-600">02.</span> TACTICAL ASSISTS</h3>
+            <span class="text-[10px] font-mono text-emerald-400">Week 1 • Manual</span>
+          </div>
+          
+          <div class="space-y-3">
+            <div class="flex items-center justify-between p-4 bg-white/[0.02] border-l-4 border-amber-500 rounded-xl">
+              <div class="flex items-center gap-4">
+                <span class="font-mono text-xl font-bold text-amber-400">01</span>
+                <div class="w-10 h-10 bg-zinc-800 rounded-full flex items-center justify-center text-lg">🎯</div>
+                <div>
+                  <span class="font-heading text-base">Playboy</span>
+                  <p class="text-[10px] font-mono text-zinc-500">Undecided FC</p>
+                </div>
+              </div>
+              <div class="text-right">
+                <span class="font-heading text-3xl text-amber-400">8</span>
+                <span class="block text-[10px] font-mono text-zinc-500">ASSISTS</span>
+              </div>
+            </div>
+
+            <div class="flex items-center justify-between p-4 bg-white/[0.01] border-l-4 border-amber-500/70 rounded-xl">
+              <div class="flex items-center gap-4">
+                <span class="font-mono text-xl font-bold text-amber-400">02</span>
+                <div class="w-10 h-10 bg-zinc-800 rounded-full flex items-center justify-center text-lg">🔄</div>
+                <div>
+                  <span class="font-heading text-base">Rizzy</span>
+                  <p class="text-[10px] font-mono text-zinc-500">Hassan FC</p>
+                </div>
+              </div>
+              <div class="text-right">
+                <span class="font-heading text-3xl text-amber-400">5</span>
+                <span class="block text-[10px] font-mono text-zinc-500">ASSISTS</span>
+              </div>
+            </div>
+
+            <div class="flex items-center justify-between p-4 bg-white/[0.01] border-l-4 border-amber-400/50 rounded-xl opacity-90">
+              <div class="flex items-center gap-4">
+                <span class="font-mono text-xl font-bold text-amber-400">03</span>
+                <div class="w-10 h-10 bg-zinc-800 rounded-full flex items-center justify-center text-lg">📍</div>
+                <div>
+                  <span class="font-heading text-base">Kendo</span>
+                  <p class="text-[10px] font-mono text-zinc-500">Gabi FC</p>
+                </div>
+              </div>
+              <div class="text-right">
+                <span class="font-heading text-3xl text-amber-400">4</span>
+                <span class="block text-[10px] font-mono text-zinc-500">ASSISTS</span>
+              </div>
+            </div>
+
+            <div class="flex items-center justify-between p-4 bg-white/[0.01] border-l-4 border-zinc-700 rounded-xl opacity-75">
+              <div class="flex items-center gap-4">
+                <span class="font-mono text-xl font-bold text-zinc-400">04</span>
+                <div class="w-10 h-10 bg-zinc-800 rounded-full flex items-center justify-center text-lg">🔀</div>
+                <div>
+                  <span class="font-heading text-base">Chilaka</span>
+                  <p class="text-[10px] font-mono text-zinc-500">Ogbafia FC</p>
+                </div>
+              </div>
+              <div class="text-right">
+                <span class="font-heading text-3xl text-zinc-400">3</span>
+                <span class="block text-[10px] font-mono text-zinc-500">ASSISTS</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="bento-card !p-0 overflow-hidden border-zinc-900 bg-black/30">
+            <div class="p-5 border-b border-white/10">
+              <span class="text-xs font-mono uppercase tracking-widest text-zinc-500">Extended Assists List</span>
+            </div>
+            <div class="max-h-[320px] overflow-y-auto roster-scroll p-5 space-y-3 text-sm">
+              <div class="flex justify-between"><span class="text-zinc-400">05. Divine Amalex (Gabi FC)</span><span class="font-mono text-amber-400">2</span></div>
+              <div class="flex justify-between"><span class="text-zinc-400">06. Emperor (Ogbafia FC)</span><span class="font-mono text-amber-400">2</span></div>
+              <div class="flex justify-between opacity-60"><span class="text-zinc-500">... more assists pending full match logs</span></div>
+            </div>
           </div>
         </div>
       </div>
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        <div class="space-y-6">
-          <h3 class="font-heading text-lg italic text-zinc-400 uppercase"><span class="text-red-600/70">01.</span> GOAL STRIKERS</h3>
-          <div class="space-y-3 opacity-70">${renderNilTopPlayers('GOALS')}</div>
-          <div class="bento-card !p-0 overflow-hidden border-zinc-900 bg-black/30">
-            <div class="max-h-[400px] overflow-y-auto roster-scroll p-4 space-y-2">${renderNilExtendedList('G')}</div>
-          </div>
-        </div>
-        <div class="space-y-6">
-          <h3 class="font-heading text-lg italic text-zinc-400 uppercase"><span class="text-red-600/70">02.</span> TACTICAL ASSISTS</h3>
-          <div class="space-y-3 opacity-70">${renderNilTopPlayers('ASSISTS')}</div>
-          <div class="bento-card !p-0 overflow-hidden border-zinc-900 bg-black/30">
-            <div class="max-h-[400px] overflow-y-auto roster-scroll p-4 space-y-2">${renderNilExtendedList('A')}</div>
-          </div>
-        </div>
+
+      <div class="text-center mt-12 py-8 bg-black/40 border border-red-600/10 rounded-2xl">
+        <p class="font-mono text-[10px] text-zinc-400">Leaderboards manually updated after Week 1 • Real sync coming soon</p>
       </div>
     </div>`,
+  
 
 fixtures: `
    <div class="animate-boot space-y-10 pb-28">
