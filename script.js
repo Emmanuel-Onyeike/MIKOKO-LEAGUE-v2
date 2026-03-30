@@ -153,7 +153,7 @@ const views = {
         </div>
         <div class="bento-card !p-6 flex flex-col items-center">
           <p class="text-[8px] font-heading text-zinc-600 uppercase mb-1">Session Goals</p>
-          <span class="text-4xl font-bold italic tracking-tighter text-zinc-500">01</span>
+          <span class="text-4xl font-bold italic tracking-tighter text-zinc-500">11</span>
         </div>
         <div class="bento-card !p-6 flex flex-col items-center bg-red-600/5">
           <p class="text-[8px] font-heading text-red-600 uppercase mb-1">Arena State</p>
