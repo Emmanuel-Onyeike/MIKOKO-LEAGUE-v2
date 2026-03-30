@@ -200,7 +200,7 @@ const views = {
           "UNDECIDED FC": ["NNAMDI - GK", "NKOLAGWU", "AZZO", "ANTHONY", "CHIBUIKEM", "PLAYBOY", "HEZES", "MICHEAL", "ZICO", "HALLAND", "A1", "AMA", "ELVIS", "ARIEL", "JOSH"],
           "BIG PAMS FC": ["EMMA - GK", "SOMADINNA", "UGO", "ABBA", "RHEMA", "VON", "NOBLE", "CHARLES", "FAVOUR", "TEMPLE", "JOHN", "VICTOR JIZZY", "JP (LAW)", "JP (MAIN CAMP)", "CHUKWUMA"],
           "GUNNERS FC": ["PETER- GK", "DANIEL", "CHUKWUEMEKA", "ORORO", "SOPULU", "PASCAL", "PABLO", "SPORTY", "ECHE", "NESTER", "CHIMAOBI", "DAMMY", "MITCHELL", "DOMINIC"],
-          "ZUBBY FC": ["ONE GUY - GK", "SOMTO", "JK", "SOLOMON BLACK", "CHUKA", "CALVIN", "ARINZE", "ELIJAH", "MELLO", "BABY", "GRANDSON", "CHINEMEREM", "JASO", "MARSHAL", "CUSH"]
+          "ZUBBY FC": ["ONE GUY - GK", "SOMTO", "JK", "SOLOMON BLACK", "CHUKA", "CALVIN", "ARINZE", "ELIJAH", "MELLO", "BABY","VICTOR", "GRANDSON", "CHINEMEREM", "JASO", "MARSHAL", "CUSH"]
         }).map(([teamName, players]) => `
           <div class="bento-card !p-0 overflow-hidden border-zinc-800 hover:border-red-600/30 transition-all">
             <div class="bg-zinc-900/50 p-4 border-b border-white/5 flex justify-between items-center">
