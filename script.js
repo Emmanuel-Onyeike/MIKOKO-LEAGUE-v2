@@ -575,47 +575,36 @@ const views = {
 </div>
 `,
 
-  'pure-stream': `
-    <div class="animate-boot space-y-10 pb-28">
-      <div class="bento-card border-b-2 border-red-600/30 flex justify-between items-center bg-black/60">
-        <div class="flex items-center gap-4">
-          <div class="relative w-4 h-4">
-            <div class="absolute inset-0 bg-red-600 rounded-full animate-ping opacity-30"></div>
-            <div class="absolute inset-0 bg-zinc-800 rounded-full"></div>
-          </div>
-          <div>
-            <h2 class="font-heading text-3xl italic tracking-tighter text-zinc-400 uppercase">Pure_Stream_v1</h2>
-            <p class="text-[9px] font-mono text-zinc-500 uppercase tracking-[0.4em] animate-pulse">Direct Neural Feed • Nodes Offline</p>
-          </div>
-        </div>
-        <div class="bg-red-600/5 px-5 py-2 border border-red-600/20">
-          <span class="font-mono text-[9px] text-red-600/80 uppercase animate-pulse">STANDBY</span>
-        </div>
+ 'pure-stream': `
+<div class="animate-boot space-y-10 pb-28">
+  <div class="bento-card border-b-2 border-red-600/30 flex justify-between items-center bg-black/60">
+    <div class="flex items-center gap-4">
+      <div class="relative w-4 h-4">
+        <div id="stream-ping" class="absolute inset-0 bg-zinc-800 rounded-full"></div>
+        <div id="stream-ping-pulse" class="absolute inset-0 bg-red-600 rounded-full animate-ping opacity-30"></div>
       </div>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 opacity-75">
-        ${[1,2,3].map(n => `
-          <div class="space-y-4">
-            <div class="relative aspect-video bg-zinc-950 border border-white/5 overflow-hidden flex items-center justify-center">
-              <div class="text-center px-6">
-                <svg class="w-16 h-16 text-zinc-800 mx-auto mb-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
-                </svg>
-                <span class="font-mono text-[10px] text-zinc-700 uppercase tracking-widest animate-pulse">FEED_${n}_OFFLINE</span>
-              </div>
-            </div>
-            <button class="w-full py-4 bg-white/5 border border-white/10 font-heading text-[9px] tracking-[0.3em] text-zinc-600 cursor-not-allowed">
-              LINK_SCREEN_0${n} <span class="text-red-600/50">[LOCKED – NO SIGNAL]</span>
-            </button>
-          </div>
-        `).join('')}
+      <div>
+        <h2 class="font-heading text-3xl italic tracking-tighter text-zinc-400 uppercase">Pure_Stream_v1</h2>
+        <p id="stream-status-text" class="text-[9px] font-mono text-zinc-500 uppercase tracking-[0.4em] animate-pulse">Direct Neural Feed • Initializing...</p>
       </div>
-      <div class="bento-card bg-red-600/5 border-red-600/20 text-center py-8">
-        <p class="font-mono text-[10px] text-zinc-500 uppercase tracking-widest leading-relaxed">
-          <span class="text-red-600 animate-pulse">Note:</span> Pure Stream nodes require active match deployment.<br>
-          High-bandwidth links remain encrypted until 15–30 minutes before kick-off.
-        </p>
-      </div>
-    </div>`,
+    </div>
+    <div id="stream-tag" class="bg-red-600/5 px-5 py-2 border border-red-600/20">
+      <span class="font-mono text-[9px] text-red-600/80 uppercase animate-pulse">STANDBY</span>
+    </div>
+  </div>
+
+  <div id="stream-grid" class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    </div>
+
+  <div id="stream-footer" class="bento-card bg-red-600/5 border-red-600/20 text-center py-8">
+    <p class="font-mono text-[10px] text-zinc-500 uppercase tracking-widest leading-relaxed">
+      <span class="text-red-600 animate-pulse">Encryption_Key:</span> Pending_3:39PM_Release<br>
+      High-bandwidth links remain encrypted until scheduled activation.
+    </p>
+  </div>
+</div>
+
+`,
 
   'live-center': `
     <div class="animate-boot space-y-10 pb-28">
@@ -900,3 +889,74 @@ function formatTime(seconds) {
 // Update every second
 setInterval(updateMatchClock, 1000);
 updateMatchClock();
+
+
+
+(function() {
+  const streamUrls = [
+    "https://elite-league-streamer.vercel.app/",
+    "https://elite-league-streamer-2.vercel.app/", // Corrected assumed missing link
+    "https://elite-league-streamer-3.vercel.app/"
+  ];
+
+  function updateStreams() {
+    const grid = document.getElementById('stream-grid');
+    const statusText = document.getElementById('stream-status-text');
+    const tag = document.getElementById('stream-tag');
+    const ping = document.getElementById('stream-ping');
+    const footer = document.getElementById('stream-footer');
+
+    const now = new Date();
+    // Activation time: March 30, 2026, 15:39:00
+    const activationTime = new Date('2026-03-30T15:39:00');
+
+    if (now >= activationTime) {
+      // ONLINE STATE
+      statusText.innerText = "Direct Neural Feed • Nodes Active";
+      statusText.classList.remove('text-zinc-500');
+      statusText.classList.add('text-green-500/70');
+      tag.innerHTML = '<span class="font-mono text-[9px] text-green-500 uppercase animate-pulse">LIVE_FEED</span>';
+      tag.className = "bg-green-600/5 px-5 py-2 border border-green-600/20";
+      ping.className = "absolute inset-0 bg-green-500 rounded-full";
+      footer.style.display = "none";
+
+      grid.innerHTML = streamUrls.map((url, i) => \`
+        <div class="space-y-4">
+          <div class="relative aspect-video bg-black border border-white/10 overflow-hidden">
+            <iframe 
+              src="\${url}" 
+              class="w-full h-full border-0" 
+              allow="autoplay; fullscreen" 
+              loading="lazy">
+            </iframe>
+            <div class="absolute inset-0 -z-10 flex items-center justify-center bg-zinc-950">
+               <div class="w-8 h-8 border-2 border-red-600/20 border-t-red-600 rounded-full animate-spin"></div>
+            </div>
+          </div>
+          <a href="\${url}" target="_blank" class="block w-full py-4 bg-red-600/10 border border-red-600/20 font-heading text-[9px] tracking-[0.3em] text-red-500 text-center hover:bg-red-600 hover:text-white transition-all">
+            LINK_SCREEN_0\${i+1} [DECRYPTED]
+          </a>
+        </div>
+      \`).join('');
+    } else {
+      // OFFLINE / WAITING STATE
+      grid.innerHTML = [1, 2, 3].map(n => \`
+        <div class="space-y-4 opacity-75">
+          <div class="relative aspect-video bg-zinc-950 border border-white/5 flex items-center justify-center">
+            <div class="text-center px-6">
+               <div class="w-10 h-10 border-2 border-zinc-800 border-t-zinc-600 rounded-full animate-spin mx-auto mb-4"></div>
+               <span class="font-mono text-[10px] text-zinc-700 uppercase tracking-widest">Awaiting_Signal_0\${n}...</span>
+            </div>
+          </div>
+          <button class="w-full py-4 bg-white/5 border border-white/10 font-heading text-[9px] tracking-[0.3em] text-zinc-600 cursor-not-allowed">
+            LINK_SCREEN_0\${n} <span class="text-red-600/50">[LOCKED]</span>
+          </button>
+        </div>
+      \`).join('');
+    }
+  }
+
+  // Check every 10 seconds to save resources, but keep it accurate
+  setInterval(updateStreams, 10000);
+  updateStreams();
+})();
