@@ -233,7 +233,7 @@ const views = {
       </div>
     </div>`,
 
-  standings: `
+standings: `
     <div class="animate-boot space-y-8 pb-24">
       <div class="bento-card border-b-2 border-red-600 flex justify-between items-center relative overflow-hidden bg-black/40">
         <div class="absolute top-0 right-0 p-2 opacity-10">
@@ -244,22 +244,49 @@ const views = {
           <p class="text-[9px] font-mono text-green-500 uppercase tracking-[0.4em] animate-pulse">Manual Override Active • Node Synced</p>
         </div>
       </div>
+
       <div class="grid grid-cols-1 xl:grid-cols-2 gap-8">
+        <!-- GROUP A -->
         <div class="space-y-4 bento-card !p-0 overflow-hidden border-zinc-900 bg-zinc-950/50">
-          <div class="bg-zinc-900/30 p-4 border-b border-white/5">
+          <div class="bg-zinc-900/30 p-4 border-b border-white/5 flex justify-between items-center">
             <h3 class="font-heading text-sm italic text-red-600/80 tracking-widest uppercase">GROUP A</h3>
+            <span class="text-[8px] font-mono text-zinc-500">Standby Mode</span>
           </div>
-          <div id="group-a-standings" class="p-6">${renderGroupTable(['GUNNERS FC', 'JED FC', 'OGBAFIA FC', 'ZUBBY FC'])}</div>
+          <div id="group-a-standings" class="p-6">
+            ${renderGroupTable(['GUNNERS FC', 'JED FC', 'OGBAFIA FC', 'ZUBBY FC'])}
+          </div>
         </div>
+
+        <!-- GROUP B -->
         <div class="space-y-4 bento-card !p-0 overflow-hidden border-zinc-900 ring-1 ring-red-600/20 bg-zinc-950/50">
-          <div class="bg-zinc-900/30 p-4 border-b border-white/5">
+          <div class="bg-zinc-900/30 p-4 border-b border-white/5 flex justify-between items-center">
             <h3 class="font-heading text-sm italic text-red-600/80 tracking-widest uppercase">GROUP B</h3>
+            <span class="text-[8px] font-mono text-red-600 animate-pulse">Data Live</span>
           </div>
-          <div id="group-b-standings" class="p-6">${renderGroupTable(['BIG PAMS FC', 'HASSAN FC', 'UNDECIDED FC', 'GABI FC'])}</div>
+          <div id="group-b-standings" class="p-6">
+            ${renderGroupTable(['BIG PAMS FC', 'HASSAN FC', 'UNDECIDED FC', 'GABI FC'])}
+          </div>
         </div>
       </div>
-    </div>`,
 
+      <!-- NO SERVER RESPONDING STATE -->
+      <div id="no-server-state" class="hidden mt-8 p-10 bento-card border border-red-600/30 bg-black/60 text-center">
+        <div class="mx-auto w-16 h-16 border-4 border-red-600/30 border-t-red-600 rounded-full animate-spin mb-6"></div>
+        <h3 class="font-heading text-2xl text-red-500 mb-2">NO SERVER RESPONDING</h3>
+        <p class="font-mono text-[10px] text-zinc-400 leading-relaxed max-w-md mx-auto">
+          Standings node offline • No connection to admin backend<br>
+          <span class="text-red-600">●</span> Waiting for server sync • Manual override available
+        </p>
+        <button onclick="retryStandingsConnection()" 
+                class="mt-6 px-8 py-2.5 bg-red-600/10 hover:bg-red-600/20 border border-red-600/50 text-red-400 text-xs font-heading tracking-widest uppercase transition">
+          RETRY CONNECTION
+        </button>
+      </div>
+
+      <div class="text-center mt-10 py-6 bg-black/30 border border-red-600/10 rounded-2xl">
+        <p class="font-mono text-[10px] text-zinc-400">Real-time updates from admin • Manual data visible when server is down</p>
+      </div>
+    </div>`,
   news: `
     <div class="animate-boot space-y-10 pb-28">
       <div class="relative group rounded-3xl overflow-hidden border border-red-600/10 h-[500px] bg-zinc-950">
@@ -409,22 +436,22 @@ fixtures: `
                   <tr class="hover:bg-white/5">
                     <td class="p-3 font-mono text-zinc-400">1</td>
                     <td class="p-3 font-heading uppercase">Gunners FC</td>
-                    <td class="p-3 text-center">1</td>
-                    <td class="p-3 text-center">1</td>
                     <td class="p-3 text-center">0</td>
                     <td class="p-3 text-center">0</td>
-                    <td class="p-3 text-center text-green-400">+3</td>
-                    <td class="p-3 text-right font-bold text-red-600">3</td>
+                    <td class="p-3 text-center">0</td>
+                    <td class="p-3 text-center">0</td>
+                    <td class="p-3 text-center text-green-400">0</td>
+                    <td class="p-3 text-right font-bold text-red-600">0</td>
                   </tr>
                   <tr class="hover:bg-white/5">
                     <td class="p-3 font-mono text-zinc-400">2</td>
                     <td class="p-3 font-heading uppercase">Jed FC</td>
-                    <td class="p-3 text-center">1</td>
-                    <td class="p-3 text-center">0</td>
-                    <td class="p-3 text-center">1</td>
                     <td class="p-3 text-center">0</td>
                     <td class="p-3 text-center">0</td>
-                    <td class="p-3 text-right font-bold text-red-600">1</td>
+                    <td class="p-3 text-center">0</td>
+                    <td class="p-3 text-center">0</td>
+                    <td class="p-3 text-center">0</td>
+                    <td class="p-3 text-right font-bold text-red-600">0</td>
                   </tr>
                   <tr class="hover:bg-white/5 opacity-70">
                     <td class="p-3 font-mono text-zinc-500">3</td>
