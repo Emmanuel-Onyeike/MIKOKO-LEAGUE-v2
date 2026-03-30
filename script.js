@@ -592,20 +592,14 @@ const views = {
       <span class="font-mono text-[9px] text-red-600/80 uppercase animate-pulse">STANDBY</span>
     </div>
   </div>
-
-  <div id="stream-grid" class="grid grid-cols-1 md:grid-cols-3 gap-6">
-    </div>
-
+  <div id="stream-grid" class="grid grid-cols-1 md:grid-cols-3 gap-6"></div>
   <div id="stream-footer" class="bento-card bg-red-600/5 border-red-600/20 text-center py-8">
     <p class="font-mono text-[10px] text-zinc-500 uppercase tracking-widest leading-relaxed">
       <span class="text-red-600 animate-pulse">Encryption_Key:</span> Pending_3:39PM_Release<br>
       High-bandwidth links remain encrypted until scheduled activation.
     </p>
   </div>
-  
- 
-</div>
-`,
+</div>`,
 
   'live-center': `
     <div class="animate-boot space-y-10 pb-28">
@@ -893,17 +887,11 @@ updateMatchClock();
 
 
 
+// ────────────────────────────────────────────────
+// PURE STREAM – FULLY FIXED & STABLE (no flicker, no duplicates)
+// ────────────────────────────────────────────────
 (function() {
-  const streamUrls = [
-    "https://elite-league-streamer.vercel.app/",
-    "https://elite-league-streamer-2.vercel.app/", // Corrected assumed missing link
-    "https://elite-league-streamer-3.vercel.app/"
-  ];
-
-  (function() {
-  // Flag to prevent the iframe from refreshing every 10 seconds once live
   let isAlreadyLive = false;
-
   const streamUrls = [
     "https://elite-league-streamer.vercel.app/",
     "https://elite-league-streamer-2.vercel.app/",
@@ -916,44 +904,33 @@ updateMatchClock();
     const tag = document.getElementById('stream-tag');
     const ping = document.getElementById('stream-ping');
     const footer = document.getElementById('stream-footer');
-
-    if (!grid) return; // Safety check
+    
+    if (!grid) return;
 
     const now = new Date();
-    // Target: March 30, 2026, 03:39 PM
     const activationTime = new Date('2026-03-30T15:39:00');
 
     if (now >= activationTime) {
-      // If we are already live, don't re-run the HTML injection (prevents iframe flicker)
-      if (isAlreadyLive) return; 
-
-      // ONLINE STATE
+      if (isAlreadyLive) return; // Prevent iframe flicker / re-render
       isAlreadyLive = true;
-      
+
       if (statusText) {
         statusText.innerText = "Direct Neural Feed • Nodes Active";
         statusText.className = "text-[9px] font-mono text-green-500 uppercase tracking-[0.4em] animate-pulse";
       }
-      
       if (tag) {
         tag.innerHTML = '<span class="font-mono text-[9px] text-green-500 uppercase">LIVE_FEED</span>';
         tag.className = "bg-green-600/5 px-5 py-2 border border-green-600/20";
       }
-      
       if (ping) ping.className = "absolute inset-0 bg-green-500 rounded-full";
       if (footer) footer.style.display = "none";
 
       grid.innerHTML = streamUrls.map((url, i) => `
         <div class="space-y-4">
           <div class="relative aspect-video bg-black border border-white/10 overflow-hidden">
-            <iframe 
-              src="${url}" 
-              class="w-full h-full border-0" 
-              allow="autoplay; fullscreen" 
-              loading="lazy">
-            </iframe>
-            <div class="absolute inset-0 -z-10 flex items-center justify-center bg-zinc-950">
-               <div class="w-8 h-8 border-2 border-red-600/20 border-t-red-600 rounded-full animate-spin"></div>
+            <iframe src="${url}" class="w-full h-full border-0" allow="autoplay; fullscreen" loading="lazy"></iframe>
+            <div class="absolute inset-0 -z-10 flex items-center justify-center bg-zinc-950 pointer-events-none">
+              <div class="w-8 h-8 border-2 border-red-600/20 border-t-red-600 rounded-full animate-spin"></div>
             </div>
           </div>
           <a href="${url}" target="_blank" class="block w-full py-4 bg-red-600/10 border border-red-600/20 font-heading text-[9px] tracking-[0.3em] text-red-500 text-center hover:bg-red-600 hover:text-white transition-all uppercase">
@@ -961,16 +938,13 @@ updateMatchClock();
           </a>
         </div>
       `).join('');
-      
     } else {
-      // OFFLINE / WAITING STATE
-      // Only render this if we haven't reached the time yet
-      grid.innerHTML = [1, 2, 3].map(n => `
+      grid.innerHTML = [1,2,3].map(n => `
         <div class="space-y-4 opacity-75">
           <div class="relative aspect-video bg-zinc-950 border border-white/5 flex items-center justify-center">
             <div class="text-center px-6">
-               <div class="w-10 h-10 border-2 border-zinc-800 border-t-zinc-600 rounded-full animate-spin mx-auto mb-4"></div>
-               <span class="font-mono text-[10px] text-zinc-700 uppercase tracking-widest">Awaiting_Signal_0${n}...</span>
+              <div class="w-10 h-10 border-2 border-zinc-800 border-t-zinc-600 rounded-full animate-spin mx-auto mb-4"></div>
+              <span class="font-mono text-[10px] text-zinc-700 uppercase tracking-widest">Awaiting_Signal_0${n}...</span>
             </div>
           </div>
           <button class="w-full py-4 bg-white/5 border border-white/10 font-heading text-[9px] tracking-[0.3em] text-zinc-600 cursor-not-allowed uppercase">
@@ -981,7 +955,6 @@ updateMatchClock();
     }
   }
 
-  // Check every 10 seconds
   setInterval(updateStreams, 10000);
-  updateStreams();
+  updateStreams(); // Initial call
 })();
