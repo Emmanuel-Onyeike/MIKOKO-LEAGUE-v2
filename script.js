@@ -521,39 +521,59 @@ const views = {
 </div>`,
 
   'live-games': `
-    <div class="animate-boot flex flex-col items-center justify-center py-32 min-h-[80vh] relative overflow-hidden">
-      <div class="absolute inset-0 flex items-center justify-center opacity-15 pointer-events-none">
-        <div class="w-[450px] h-[450px] border border-red-600/40 rounded-full animate-ping-slow"></div>
-        <div class="absolute w-[700px] h-[700px] border border-zinc-800 rounded-full animate-pulse-slow"></div>
+    <div class="animate-boot flex flex-col items-center justify-center py-20 min-h-[80vh] relative overflow-hidden">
+  <div class="absolute inset-0 flex items-center justify-center opacity-10 pointer-events-none">
+    <div class="w-[600px] h-[600px] border border-red-600/20 rounded-full animate-ping-slow"></div>
+  </div>
+
+  <div class="z-10 w-full max-w-4xl px-6 space-y-12">
+    
+    <div class="text-center space-y-2">
+      <div class="inline-flex items-center gap-2 px-3 py-1 border border-red-600/30 bg-red-600/5 rounded-full">
+        <span class="w-2 h-2 bg-red-600 rounded-full animate-pulse"></span>
+        <span id="match-status" class="font-mono text-[10px] text-red-600 uppercase tracking-[0.3em]">Initialising_Link...</span>
       </div>
-      <div class="relative mb-16">
-        <div class="w-24 h-24 border-4 border-red-600/20 rounded-full flex items-center justify-center animate-pulse">
-          <div class="w-8 h-8 bg-red-600 rounded-full shadow-[0_0_40px_#ff0033]"></div>
+      <h2 class="font-heading text-4xl md:text-6xl text-zinc-300 italic uppercase tracking-tighter mt-4">Live_Match_Node</h2>
+    </div>
+
+    <div class="bento-card bg-black/40 border-white/5 p-12 relative group">
+      <div class="flex flex-col md:flex-row items-center justify-between gap-8">
+        
+        <div class="flex-1 text-center md:text-right">
+          <h3 class="font-heading text-3xl md:text-5xl text-zinc-200 uppercase italic">Undecided FC</h3>
+          <span class="font-mono text-[10px] text-zinc-600 uppercase tracking-widest">Home_Unit</span>
+        </div>
+
+        <div class="flex flex-col items-center px-10 border-x border-zinc-800/50">
+          <div id="match-timer" class="font-heading text-5xl text-red-600 italic mb-2">00:00</div>
+          <div class="font-heading text-6xl text-zinc-100 tracking-tighter"> - : - </div>
+        </div>
+
+        <div class="flex-1 text-center md:text-left">
+          <h3 class="font-heading text-3xl md:text-5xl text-zinc-200 uppercase italic">Gabi FC</h3>
+          <span class="font-mono text-[10px] text-zinc-600 uppercase tracking-widest">Away_Unit</span>
         </div>
       </div>
-      <div class="text-center z-10 space-y-8 max-w-3xl px-6">
-        <h2 class="font-heading text-5xl md:text-7xl text-zinc-300 italic uppercase tracking-tighter">LIVE_GRID_SCANNING</h2>
-        <p class="font-mono text-[12px] text-red-600/80 uppercase tracking-[0.5em] animate-pulse">
-          Searching for active Mikoko arena nodes...
-        </p>
-        <div class="flex justify-center gap-4 my-10">
-          <span class="w-4 h-4 bg-zinc-700 rounded-full animate-bounce [animation-delay:-0.4s]"></span>
-          <span class="w-4 h-4 bg-zinc-700 rounded-full animate-bounce [animation-delay:-0.2s]"></span>
-          <span class="w-4 h-4 bg-zinc-700 rounded-full animate-bounce"></span>
-        </div>
-        <div class="bento-card bg-black/60 border-white/5 py-8 px-12 inline-block">
-          <p class="text-[11px] font-mono text-zinc-500 uppercase tracking-widest leading-relaxed">
-            No live matches detected in the unified grid.<br>
-            <span class="text-red-600 animate-pulse">Standby mode active</span> • First kick-off pending
-          </p>
-        </div>
+      
+      <div class="absolute bottom-0 left-0 h-[2px] bg-red-600/30 w-full overflow-hidden">
+        <div id="timer-progress" class="h-full bg-red-600 transition-all duration-1000" style="width: 0%"></div>
       </div>
-      <div class="mt-20 opacity-50 font-mono text-[10px] text-zinc-700 uppercase flex flex-wrap justify-center gap-8">
-        <span>🛰️ Satellite Link: Stable</span>
-        <span>📡 Signal Latency: --ms</span>
-        <span>🔒 Encryption: Enabled</span>
+    </div>
+
+    <div class="flex flex-wrap justify-center gap-8 font-mono text-[10px] text-zinc-600 uppercase">
+      <div class="flex items-center gap-2">
+        <span class="text-zinc-800">●</span> Venue: Law_Faculty_Pitch
       </div>
-    </div>`,
+      <div class="flex items-center gap-2">
+        <span class="text-zinc-800">●</span> Latency: 24ms
+      </div>
+      <div class="flex items-center gap-2">
+        <span class="text-zinc-800">●</span> Stream: Encrypted
+      </div>
+    </div>
+  </div>
+</div>
+`,
 
   'pure-stream': `
     <div class="animate-boot space-y-10 pb-28">
