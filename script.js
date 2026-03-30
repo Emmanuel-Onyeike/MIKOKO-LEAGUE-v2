@@ -325,7 +325,7 @@ const views = {
         </div>
     </div>`,
 
- standings: `
+standings: `
 <div class="animate-boot space-y-8 pb-24">
   <div class="bento-card border-b-2 border-red-600 flex justify-between items-center relative overflow-hidden">
     <div class="absolute top-0 right-0 p-2 opacity-10">
@@ -344,7 +344,7 @@ const views = {
         <span class="text-[8px] font-mono text-zinc-600 uppercase italic">Standby_Mode</span>
       </div>
       <div id="group-a-standings">
-        ${renderGroupTable([
+        \${renderGroupTable([
           { name: 'GUNNERS FC', p: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0, gd: 0, pts: 0 },
           { name: 'JED FC', p: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0, gd: 0, pts: 0 },
           { name: 'OGBAFIA FC', p: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0, gd: 0, pts: 0 },
@@ -359,7 +359,7 @@ const views = {
         <span class="text-[8px] font-mono text-red-600 animate-pulse uppercase italic">Data_Synchronized</span>
       </div>
       <div id="group-b-standings">
-        ${renderGroupTable([
+        \${renderGroupTable([
           { name: 'UNDECIDED FC', p: 1, w: 1, d: 0, l: 0, gf: 10, ga: 1, gd: 9, pts: 3 },
           { name: 'BIG PAMS FC', p: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0, gd: 0, pts: 0 },
           { name: 'HASSAN FC', p: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0, gd: 0, pts: 0 },
@@ -374,8 +374,7 @@ const views = {
       <span class="text-green-500">●</span> Grid_Log: Undecided FC 10 - 1 Gabi FC (Node_Confirmed)
     </p>
   </div>
-</div>
-`,
+</div>`,
 
   
   news: `
