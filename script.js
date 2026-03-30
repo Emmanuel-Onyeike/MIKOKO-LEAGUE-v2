@@ -325,56 +325,68 @@ const views = {
         </div>
     </div>`,
 
-standings: `
+// 1. DATA OVERRIDE LAYER (Update these numbers manually)
+const tournamentData = {
+  groupA: [
+    { name: 'GUNNERS FC', p: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0, gd: 0, pts: 0 },
+    { name: 'JED FC', p: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0, gd: 0, pts: 0 },
+    { name: 'OGBAFIA FC', p: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0, gd: 0, pts: 0 },
+    { name: 'ZUBBY FC', p: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0, gd: 0, pts: 0 }
+  ],
+  groupB: [
+    { name: 'UNDECIDED FC', p: 1, w: 1, d: 0, l: 0, gf: 10, ga: 1, gd: 9, pts: 3 },
+    { name: 'BIG PAMS FC', p: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0, gd: 0, pts: 0 },
+    { name: 'HASSAN FC', p: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0, gd: 0, pts: 0 },
+    { name: 'GABI FC', p: 1, w: 0, d: 0, l: 1, gf: 1, ga: 10, gd: -9, pts: 0 }
+  ],
+  lastResult: "Undecided FC 10 - 1 Gabi FC"
+};
+
+// 2. COMPONENT LOGIC
+const components = {
+  standings: `
 <div class="animate-boot space-y-8 pb-24">
-  <div class="bento-card border-b-2 border-red-600 flex justify-between items-center relative overflow-hidden">
+  <div class="bento-card border-b-2 border-red-600 flex justify-between items-center relative overflow-hidden bg-black/40">
     <div class="absolute top-0 right-0 p-2 opacity-10">
-      <span class="font-heading text-6xl italic text-zinc-800">LIVE_DATA</span>
+      <span class="font-heading text-6xl italic text-zinc-800">LIVE</span>
     </div>
     <div class="relative z-10">
       <h2 class="font-heading text-4xl italic tracking-tighter text-white uppercase">Group_Stage</h2>
-      <p class="text-[9px] font-mono text-green-500 uppercase tracking-[0.4em] animate-pulse">Phase_01 • Results_Updated_Realtime</p>
+      <p class="text-[9px] font-mono text-green-500 uppercase tracking-[0.4em] animate-pulse">
+        Manual_Override_Active • Sync_v2.4
+      </p>
     </div>
   </div>
 
   <div class="grid grid-cols-1 xl:grid-cols-2 gap-8">
-    <div class="space-y-4 bento-card !p-0 overflow-hidden border-zinc-900">
+    <div class="space-y-4 bento-card !p-0 overflow-hidden border-zinc-900 bg-zinc-950/50">
       <div class="bg-zinc-900/30 p-4 border-b border-white/5 flex justify-between items-center">
         <h3 class="font-heading text-sm italic text-red-600/80 tracking-widest uppercase">GROUP_A_NODE</h3>
-        <span class="text-[8px] font-mono text-zinc-600 uppercase italic">Standby_Mode</span>
+        <span class="text-[8px] font-mono text-zinc-600 uppercase italic">Standby</span>
       </div>
-      <div id="group-a-standings">
-        \${renderGroupTable([
-          { name: 'GUNNERS FC', p: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0, gd: 0, pts: 0 },
-          { name: 'JED FC', p: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0, gd: 0, pts: 0 },
-          { name: 'OGBAFIA FC', p: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0, gd: 0, pts: 0 },
-          { name: 'ZUBBY FC', p: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0, gd: 0, pts: 0 }
-        ])}
+      <div id="group-a-standings" class="p-2">
+        \${renderGroupTable(tournamentData.groupA)}
       </div>
     </div>
 
-    <div class="space-y-4 bento-card !p-0 overflow-hidden border-zinc-900 ring-1 ring-red-600/20">
+    <div class="space-y-4 bento-card !p-0 overflow-hidden border-zinc-900 ring-1 ring-red-600/20 bg-zinc-950/50">
       <div class="bg-zinc-900/30 p-4 border-b border-white/5 flex justify-between items-center">
         <h3 class="font-heading text-sm italic text-red-600/80 tracking-widest uppercase">GROUP_B_NODE</h3>
-        <span class="text-[8px] font-mono text-red-600 animate-pulse uppercase italic">Data_Synchronized</span>
+        <span class="text-[8px] font-mono text-red-600 animate-pulse uppercase italic">Data_Live</span>
       </div>
-      <div id="group-b-standings">
-        \${renderGroupTable([
-          { name: 'UNDECIDED FC', p: 1, w: 1, d: 0, l: 0, gf: 10, ga: 1, gd: 9, pts: 3 },
-          { name: 'BIG PAMS FC', p: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0, gd: 0, pts: 0 },
-          { name: 'HASSAN FC', p: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0, gd: 0, pts: 0 },
-          { name: 'GABI FC', p: 1, w: 0, d: 0, l: 1, gf: 1, ga: 10, gd: -9, pts: 0 }
-        ])}
+      <div id="group-b-standings" class="p-2">
+        \${renderGroupTable(tournamentData.groupB)}
       </div>
     </div>
   </div>
 
   <div class="text-center mt-10 py-6 bg-black/30 border border-red-600/10 rounded-xl">
     <p class="font-mono text-[10px] text-zinc-500 uppercase tracking-[0.3em]">
-      <span class="text-green-500">●</span> Grid_Log: Undecided FC 10 - 1 Gabi FC (Node_Confirmed)
+      <span class="text-green-500">●</span> Grid_Log: \${tournamentData.lastResult} (Manual_Entry)
     </p>
   </div>
-</div>`,
+</div>`
+};
 
   
   news: `
