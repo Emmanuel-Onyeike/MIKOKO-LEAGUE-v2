@@ -287,6 +287,7 @@ standings: `
         <p class="font-mono text-[10px] text-zinc-400">Real-time updates from admin • Manual data visible when server is down</p>
       </div>
     </div>`,
+  
   news: `
     <div class="animate-boot space-y-10 pb-28">
       <div class="relative group rounded-3xl overflow-hidden border border-red-600/10 h-[500px] bg-zinc-950">
@@ -567,11 +568,11 @@ fixtures: `
         <div class="bento-card bg-black/40 border-white/5 p-12 relative group">
           <div class="flex flex-col md:flex-row items-center justify-between gap-8">
             <div class="flex-1 text-center md:text-right">
-              <h3 class="font-heading text-3xl md:text-5xl text-zinc-200 uppercase italic">Undecided FC</h3>
+              <h3 class="font-heading text-3xl md:text-5xl text-zinc-200 uppercase italic">Undd FC</h3>
             </div>
             <div class="flex flex-col items-center px-10 border-x border-zinc-800/50">
               <div id="match-timer" class="font-heading text-5xl text-red-600 italic mb-2">00:00</div>
-              <div class="font-heading text-6xl text-zinc-100 tracking-tighter"> - : - </div>
+              <div class="font-heading text-6xl text-zinc-100 tracking-tighter"> 10 : 1 </div>
             </div>
             <div class="flex-1 text-center md:text-left">
               <h3 class="font-heading text-3xl md:text-5xl text-zinc-200 uppercase italic">Gabi FC</h3>
