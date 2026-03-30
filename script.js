@@ -540,7 +540,7 @@ const views = {
       <div class="flex flex-col md:flex-row items-center justify-between gap-8">
         
         <div class="flex-1 text-center md:text-right">
-          <h3 class="font-heading text-3xl md:text-5xl text-zinc-200 uppercase italic">Undecided FC</h3>
+          <h3 class="font-heading text-3xl md:text-5xl text-zinc-200 uppercase italic">Undd FC</h3>
           <span class="font-mono text-[10px] text-zinc-600 uppercase tracking-widest">Home_Unit</span>
         </div>
 
