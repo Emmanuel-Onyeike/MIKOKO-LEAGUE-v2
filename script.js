@@ -757,7 +757,7 @@ fixtures: `
             </div>
             <div class="flex flex-col items-center px-10 border-x border-zinc-800/50">
               <div id="match-timer" class="font-heading text-5xl text-red-600 italic mb-2">00:00</div>
-              <div class="font-heading text-6xl text-zinc-100 tracking-tighter"> 0 : 0 </div>
+              <div class="font-heading text-6xl text-zinc-100 tracking-tighter"> 2 : 5 </div>
             </div>
             <div class="flex-1 text-center md:text-left">
               <h3 class="font-heading text-3xl md:text-5xl text-zinc-200 uppercase italic">OGB FC</h3>
