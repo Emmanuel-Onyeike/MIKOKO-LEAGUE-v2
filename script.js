@@ -155,10 +155,12 @@ const views = {
           <p class="text-[8px] font-heading text-zinc-600 uppercase mb-1">Session Goals</p>
           <span class="text-4xl font-bold italic tracking-tighter text-zinc-500">11</span>
         </div>
-        <div class="bento-card !p-6 flex flex-col items-center bg-red-600/5">
-          <p class="text-[8px] font-heading text-red-600 uppercase mb-1">Arena State</p>
-          <p class="text-sm font-bold italic uppercase animate-pulse">Waiting...</p>
-        </div>
+       <div class="bento-card !p-6 flex flex-col items-center bg-red-600/5">
+  <p class="text-[8px] font-heading text-red-600 uppercase mb-1">Arena State</p>
+  <p id="arena-state-text" class="text-sm font-bold italic uppercase animate-pulse text-zinc-500">
+    Waiting...
+  </p>
+</div>
       </div>
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
         <div class="md:col-span-2 bento-card min-h-[250px] flex items-center justify-around relative overflow-hidden">
@@ -167,7 +169,7 @@ const views = {
           </div>
           <div class="text-center z-10">
             <div class="w-16 h-16 bg-zinc-900 rounded-full mb-3 border border-red-600/20 mx-auto"></div>
-            <p class="font-heading text-[9px] tracking-widest uppercase">UNDECIDED FC</p>
+            <p class="font-heading text-[9px] tracking-widest uppercase">JED FC</p>
           </div>
           <div class="text-center z-10">
             <span class="text-red-600 font-mono text-[10px] tracking-[0.4em] block mb-2">PENDING</span>
@@ -175,7 +177,7 @@ const views = {
           </div>
           <div class="text-center z-10">
             <div class="w-16 h-16 bg-zinc-900 rounded-full mb-3 border border-red-600/20 mx-auto"></div>
-            <p class="font-heading text-[9px] tracking-widest uppercase">GABI FC</p>
+            <p class="font-heading text-[9px] tracking-widest uppercase">OGB FC</p>
           </div>
         </div>
         <div class="bento-card">
@@ -1055,3 +1057,41 @@ window.onload = () => {
 
   console.log('%c🚀 MIKOKO NEURAL_DASH_2040 – Fully Complete & Updated', 'color:#e11d48; font-size:14px; font-weight:bold');
 };
+
+
+function updateArenaState() {
+  const stateEl = document.getElementById('arena-state-text');
+  if (!stateEl) return;
+
+  const now = new Date();
+  const hours = now.getHours();
+  const minutes = now.getMinutes();
+  
+  // Convert current time to total minutes for easy comparison
+  // 3:30 PM is 15:30 (15 * 60 + 30 = 930 minutes)
+  // 6:00 PM is 18:00 (18 * 60 = 1080 minutes)
+  const currentTotalMinutes = (hours * 60) + minutes;
+  const startTimeMinutes = (15 * 60) + 30; // 15:30
+  const endTimeMinutes = (18 * 60) + 0;   // 18:00
+
+  if (currentTotalMinutes >= startTimeMinutes && currentTotalMinutes < endTimeMinutes) {
+    // MATCH ONGOING STATE
+    stateEl.textContent = "MATCH ONGOING...";
+    stateEl.classList.remove('text-zinc-500');
+    stateEl.classList.add('text-red-500');
+  } else {
+    // WAITING STATE
+    stateEl.textContent = "Waiting...";
+    stateEl.classList.remove('text-red-500');
+    stateEl.classList.add('text-zinc-500');
+  }
+}
+
+// Add this to your existing interval
+setInterval(() => {
+  updateMatchClock();
+  updateArenaState();
+}, 1000);
+
+// Run immediately on load
+updateArenaState();
