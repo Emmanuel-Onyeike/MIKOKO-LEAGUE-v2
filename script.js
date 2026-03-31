@@ -648,24 +648,24 @@ fixtures: `
               <td class="p-3 text-center">0</td>
               <td class="p-3 text-right font-bold text-zinc-500">0</td>
             </tr>
-            <tr class="hover:bg-white/5">
-              <td class="p-3 font-mono text-zinc-400">3</td>
-              <td class="p-3 font-heading uppercase">Jed FC</td>
-              <td class="p-3 text-center">1</td>
-              <td class="p-3 text-center">0</td>
-              <td class="p-3 text-center">0</td>
-              <td class="p-3 text-center">1</td>
-              <td class="p-3 text-center text-red-400">-3</td>
-              <td class="p-3 text-right font-bold text-zinc-500">0</td>
-            </tr>
             <tr class="hover:bg-white/5 opacity-70">
-              <td class="p-3 font-mono text-zinc-500">4</td>
+              <td class="p-3 font-mono text-zinc-500">3</td>
               <td class="p-3 font-heading uppercase">Zubby FC</td>
               <td class="p-3 text-center">0</td>
               <td class="p-3 text-center">0</td>
               <td class="p-3 text-center">0</td>
               <td class="p-3 text-center">0</td>
               <td class="p-3 text-center">0</td>
+              <td class="p-3 text-right font-bold text-zinc-500">0</td>
+            </tr>
+               <tr class="hover:bg-white/5">
+              <td class="p-3 font-mono text-zinc-400">4</td>
+              <td class="p-3 font-heading uppercase">Jed FC</td>
+              <td class="p-3 text-center">1</td>
+              <td class="p-3 text-center">0</td>
+              <td class="p-3 text-center">0</td>
+              <td class="p-3 text-center">1</td>
+              <td class="p-3 text-center text-red-400">-3</td>
               <td class="p-3 text-right font-bold text-zinc-500">0</td>
             </tr>
                 </tbody>
