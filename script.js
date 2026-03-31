@@ -681,9 +681,18 @@ fixtures: `
       </div>
       <div class="p-6 overflow-x-auto">
         <table class="w-full text-left border-collapse min-w-[450px]">
-          <thead class="bg-zinc-900/80 border-b border-white/10">
-            <tr>
-                </thead>
+              <thead class="bg-zinc-900/80 border-b border-white/10">
+      <tr>
+              <th class="p-3 font-heading text-[8px] text-zinc-500 uppercase">Pos</th>
+              <th class="p-3 font-heading text-[8px] text-zinc-500 uppercase">Team</th>
+              <th class="p-3 font-mono text-[8px] text-center">P</th>
+              <th class="p-3 font-mono text-[8px] text-center">W</th>
+              <th class="p-3 font-mono text-[8px] text-center">D</th>
+              <th class="p-3 font-mono text-[8px] text-center">L</th>
+              <th class="p-3 font-mono text-[8px] text-center">GD</th>
+              <th class="p-3 font-heading text-red-600 text-right">Pts</th>
+            </tr>
+          </thead>
                 <tbody class="divide-y divide-white/10 text-sm">
                   <tr class="hover:bg-white/5">
                     <td class="p-3 font-mono text-emerald-400 font-bold">1</td>
