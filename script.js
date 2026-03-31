@@ -193,7 +193,7 @@ const views = {
       <h3 class="font-heading text-[10px] text-red-600 tracking-[0.5em] pt-8">NEURAL ROSTER DEPLOYS</h3>
       <div class="grid grid-cols-1 md:grid-cols-4 gap-4 pb-20">
         ${Object.entries({
-          "GABI FC": ["OBIECHIMA- GK", "NZEKWU", "OAK", "ALUIS", "GOZIE", "DIVINE AMALEX", "FECHI", "JOSEPH", "NWABUEZE", "SUCCESS", "BOUYKA", "KENDO", "NISSI", "IGALA"],
+          "GABI FC": ["OBIECHIMA- GK", "NZEKWU", "OAK", "ALUIS", "GOZIE", "DIVINE AMALEX", "FECHI", "JOSEPH", "NWABUEZE", "SUCCESS", "BOUYKA", "KENDO","IKEM GREAT", "NISSI", "IGALA"],
           "HASSAN FC": ["CYRIL - GK", "EKEVAL", "FRANKLIN", "PEPSI", "CHIMUANYA", "IKENNA PASCAL", "HENRY", "RIZZY", "JAMIKE", "EBUKA", "MEZIE", "MICHEAL MBAPPE", "SMITH", "ISIAH"],
           "OGBAFIA FC": ["BALON- GK", "EMPEROR", "DONALD", "EKENE", "MICHEAL", "JJ", "HASSAN", "CHILAKA", "KONJ", "ONOYE CHARLES", "BANJO", "IDIBIA", "KALA", "SIRKEN"],
           "JED FC": ["MAXWELL - GK", "FRANCIS", "CYRIL", "GENTLE", "DENNIS", "DUBEM", "BERNIE", "MARVIS", "RIDER", "KAKAS", "MILLER", "NELLY", "DIOR", "ZAKI"],
