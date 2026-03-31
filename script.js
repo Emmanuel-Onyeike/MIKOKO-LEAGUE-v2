@@ -183,7 +183,7 @@ const views = {
         <div class="bento-card">
           <h3 class="font-heading text-[9px] text-zinc-500 tracking-widest mb-4 uppercase">Rankings Preview</h3>
           <div class="space-y-3">
-            ${['Undecided FC', 'Gabi FC', 'Hassan FC'].map((team, i) => `
+            ${['Undecided FC', 'Ogbafia FC', ''].map((team, i) => `
               <div class="flex justify-between text-[10px] border-b border-white/5 pb-1">
                 <span class="text-zinc-600 font-mono">0${i+1}</span>
                 <span class="font-bold italic uppercase">${team}</span>
@@ -372,6 +372,49 @@ leaderboard: `
                 <span class="font-mono text-xl font-bold text-red-500">03</span>
                 <div class="w-10 h-10 bg-zinc-800 rounded-full flex items-center justify-center text-lg">⚡</div>
                 <div>
+                  <span class="font-heading text-base">Dollar</span>
+                  <p class="text-[10px] font-mono text-zinc-500">Ogbafia FC</p>
+                </div>
+              </div>
+              <div class="text-right">
+                <span class="font-heading text-3xl text-red-500">2</span>
+                <span class="block text-[10px] font-mono text-zinc-500">GOALS</span>
+              </div>
+            </div>
+            
+            <div class="flex items-center justify-between p-4 bg-white/[0.01] border-l-4 border-red-600/30 rounded-xl opacity-90">
+              <div class="flex items-center gap-4">
+                <span class="font-mono text-xl font-bold text-red-500">04</span>
+                <div class="w-10 h-10 bg-zinc-800 rounded-full flex items-center justify-center text-lg">⚡</div>
+                <div>
+                  <span class="font-heading text-base">Konj</span>
+                  <p class="text-[10px] font-mono text-zinc-500">Ogbafia FC</p>
+                </div>
+              </div>
+              <div class="text-right">
+                <span class="font-heading text-3xl text-red-500">2</span>
+                <span class="block text-[10px] font-mono text-zinc-500">GOALS</span>
+              </div>
+            </div>
+            <div class="flex items-center justify-between p-4 bg-white/[0.01] border-l-4 border-red-600/30 rounded-xl opacity-90">
+              <div class="flex items-center gap-4">
+                <span class="font-mono text-xl font-bold text-red-500">05</span>
+                <div class="w-10 h-10 bg-zinc-800 rounded-full flex items-center justify-center text-lg">⚡</div>
+                <div>
+                  <span class="font-heading text-base">Ekene</span>
+                  <p class="text-[10px] font-mono text-zinc-500">Ogbafia FC</p>
+                </div>
+              </div>
+              <div class="text-right">
+                <span class="font-heading text-3xl text-red-500">1</span>
+                <span class="block text-[10px] font-mono text-zinc-500">GOALS</span>
+              </div>
+            </div>
+            <div class="flex items-center justify-between p-4 bg-white/[0.01] border-l-4 border-red-600/30 rounded-xl opacity-90">
+              <div class="flex items-center gap-4">
+                <span class="font-mono text-xl font-bold text-red-500">06</span>
+                <div class="w-10 h-10 bg-zinc-800 rounded-full flex items-center justify-center text-lg">⚡</div>
+                <div>
                   <span class="font-heading text-base">Tony</span>
                   <p class="text-[10px] font-mono text-zinc-500">Undecided FC</p>
                 </div>
@@ -384,7 +427,7 @@ leaderboard: `
 
             <div class="flex items-center justify-between p-4 bg-white/[0.01] border-l-4 border-zinc-700 rounded-xl opacity-75">
               <div class="flex items-center gap-4">
-                <span class="font-mono text-xl font-bold text-zinc-400">04</span>
+                <span class="font-mono text-xl font-bold text-zinc-400">07</span>
                 <div class="w-10 h-10 bg-zinc-800 rounded-full flex items-center justify-center text-lg">🏃</div>
                 <div>
                   <span class="font-heading text-base">Chibuike</span>
@@ -399,7 +442,7 @@ leaderboard: `
 
    <div class="flex items-center justify-between p-4 bg-white/[0.01] border-l-4 border-zinc-700 rounded-xl opacity-75">
               <div class="flex items-center gap-4">
-                <span class="font-mono text-xl font-bold text-zinc-400">05</span>
+                <span class="font-mono text-xl font-bold text-zinc-400">08</span>
                 <div class="w-10 h-10 bg-zinc-800 rounded-full flex items-center justify-center text-lg">🏃</div>
                 <div>
                   <span class="font-heading text-base">Nwabueze</span>
@@ -414,7 +457,7 @@ leaderboard: `
             
             <div class="flex items-center justify-between p-4 bg-white/[0.01] border-l-4 border-zinc-700 rounded-xl opacity-70">
               <div class="flex items-center gap-4">
-                <span class="font-mono text-xl font-bold text-zinc-400">06</span>
+                <span class="font-mono text-xl font-bold text-zinc-400">09</span>
                 <div class="w-10 h-10 bg-zinc-800 rounded-full flex items-center justify-center text-lg">💥</div>
                 <div>
                   <span class="font-heading text-base">Ario</span>
@@ -427,7 +470,37 @@ leaderboard: `
               </div>
             </div>
           </div>
+                     <div class="flex items-center justify-between p-4 bg-white/[0.01] border-l-4 border-zinc-700 rounded-xl opacity-70">
+              <div class="flex items-center gap-4">
+                <span class="font-mono text-xl font-bold text-zinc-400">10</span>
+                <div class="w-10 h-10 bg-zinc-800 rounded-full flex items-center justify-center text-lg">💥</div>
+                <div>
+                  <span class="font-heading text-base">Ryder </span>
+                  <p class="text-[10px] font-mono text-zinc-500">Jed FC </p>
+                </div>
+              </div>
+              <div class="text-right">
+                <span class="font-heading text-3xl text-zinc-400">1</span>
+                <span class="block text-[10px] font-mono text-zinc-500">GOALS</span>
+              </div>
+            </div>
+          </div>
 
+                   <div class="flex items-center justify-between p-4 bg-white/[0.01] border-l-4 border-zinc-700 rounded-xl opacity-70">
+              <div class="flex items-center gap-4">
+                <span class="font-mono text-xl font-bold text-zinc-400">11</span>
+                <div class="w-10 h-10 bg-zinc-800 rounded-full flex items-center justify-center text-lg">💥</div>
+                <div>
+                  <span class="font-heading text-base">Kakas</span>
+                  <p class="text-[10px] font-mono text-zinc-500">Jed FC </p>
+                </div>
+              </div>
+              <div class="text-right">
+                <span class="font-heading text-3xl text-zinc-400">1</span>
+                <span class="block text-[10px] font-mono text-zinc-500">GOALS</span>
+              </div>
+            </div>
+          </div>
           <div class="bento-card !p-0 overflow-hidden border-zinc-900 bg-black/30">
             <div class="p-5 border-b border-white/10">
               <span class="text-xs font-mono uppercase tracking-widest text-zinc-500">Extended Goal List</span>
@@ -454,6 +527,21 @@ leaderboard: `
                 <span class="font-mono text-xl font-bold text-amber-400">01</span>
                 <div class="w-10 h-10 bg-zinc-800 rounded-full flex items-center justify-center text-lg">🎯</div>
                 <div>
+                  <span class="font-heading text-base">Hassan</span>
+                  <p class="text-[10px] font-mono text-zinc-500">Ogbafia FC</p>
+                </div>
+              </div>
+              <div class="text-right">
+                <span class="font-heading text-3xl text-amber-400">3</span>
+                <span class="block text-[10px] font-mono text-zinc-500">ASSISTS</span>
+              </div>
+            </div>
+
+            <div class="flex items-center justify-between p-4 bg-white/[0.01] border-l-4 border-amber-500/70 rounded-xl">
+              <div class="flex items-center gap-4">
+                <span class="font-mono text-xl font-bold text-amber-400">02</span>
+                <div class="w-10 h-10 bg-zinc-800 rounded-full flex items-center justify-center text-lg">🔄</div>
+                <div>
                   <span class="font-heading text-base">Emma</span>
                   <p class="text-[10px] font-mono text-zinc-500">Undecided FC</p>
                 </div>
@@ -463,10 +551,9 @@ leaderboard: `
                 <span class="block text-[10px] font-mono text-zinc-500">ASSISTS</span>
               </div>
             </div>
-
-            <div class="flex items-center justify-between p-4 bg-white/[0.01] border-l-4 border-amber-500/70 rounded-xl">
+                        <div class="flex items-center justify-between p-4 bg-white/[0.01] border-l-4 border-amber-500/70 rounded-xl">
               <div class="flex items-center gap-4">
-                <span class="font-mono text-xl font-bold text-amber-400">02</span>
+                <span class="font-mono text-xl font-bold text-amber-400">03</span>
                 <div class="w-10 h-10 bg-zinc-800 rounded-full flex items-center justify-center text-lg">🔄</div>
                 <div>
                   <span class="font-heading text-base">Halaand</span>
@@ -481,7 +568,7 @@ leaderboard: `
 
             <div class="flex items-center justify-between p-4 bg-white/[0.01] border-l-4 border-amber-400/50 rounded-xl opacity-90">
               <div class="flex items-center gap-4">
-                <span class="font-mono text-xl font-bold text-amber-400">03</span>
+                <span class="font-mono text-xl font-bold text-amber-400">04</span>
                 <div class="w-10 h-10 bg-zinc-800 rounded-full flex items-center justify-center text-lg">📍</div>
                 <div>
                   <span class="font-heading text-base">Azuu</span>
@@ -496,7 +583,7 @@ leaderboard: `
 
             <div class="flex items-center justify-between p-4 bg-white/[0.01] border-l-4 border-zinc-700 rounded-xl opacity-75">
               <div class="flex items-center gap-4">
-                <span class="font-mono text-xl font-bold text-zinc-400">04</span>
+                <span class="font-mono text-xl font-bold text-zinc-400">05</span>
                 <div class="w-10 h-10 bg-zinc-800 rounded-full flex items-center justify-center text-lg">🔀</div>
                 <div>
                   <span class="font-heading text-base">Anthony</span>
