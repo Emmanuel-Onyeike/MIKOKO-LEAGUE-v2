@@ -599,23 +599,22 @@ fixtures: `
       </div>
 
       <!-- STANDINGS INTEGRATED - MANUALLY FILLED -->
-      <div class="mt-16">
-        <div class="flex items-center justify-between mb-6 px-2">
-          <h3 class="font-heading text-xl italic tracking-tighter text-red-500">CURRENT STANDINGS</h3>
-          <span class="text-[10px] font-mono text-emerald-400">MANUAL UPDATE • WEEK 01</span>
-        </div>
+<div class="mt-16">
+  <div class="flex items-center justify-between mb-6 px-2">
+    <h3 class="font-heading text-xl italic tracking-tighter text-red-500">CURRENT STANDINGS</h3>
+    <span class="text-[10px] font-mono text-emerald-400">MANUAL UPDATE • WEEK 01</span>
+  </div>
 
-        <div class="grid grid-cols-1 xl:grid-cols-2 gap-8">
-          <!-- GROUP A - Manual Data -->
-          <div class="bento-card !p-0 overflow-hidden border-zinc-900">
-            <div class="bg-zinc-900/40 p-5 border-b border-white/10 flex justify-between">
-              <h4 class="font-heading text-sm uppercase tracking-widest text-red-400">GROUP A</h4>
-              <span class="text-[10px] font-mono text-zinc-500">After Matchday 1</span>
-            </div>
-            <div class="p-6">
-              <table class="w-full text-left border-collapse">
-                <thead class="bg-zinc-900/80 border-b border-white/10">
-                  <tr>
+  <div class="grid grid-cols-1 xl:grid-cols-2 gap-8">
+    <div class="bento-card !p-0 overflow-hidden border-zinc-900">
+      <div class="bg-zinc-900/40 p-5 border-b border-white/10 flex justify-between">
+        <h4 class="font-heading text-sm uppercase tracking-widest text-red-400">GROUP A</h4>
+        <span class="text-[10px] font-mono text-zinc-500">After Matchday 1</span>
+      </div>
+      <div class="p-6 overflow-x-auto">
+        <table class="w-full text-left border-collapse min-w-[450px]">
+          <thead class="bg-zinc-900/80 border-b border-white/10">
+            <tr>
                     <th class="p-3 font-heading text-[8px] text-zinc-500 uppercase">Pos</th>
                     <th class="p-3 font-heading text-[8px] text-zinc-500 uppercase">Team</th>
                     <th class="p-3 font-mono text-[8px] text-center">P</th>
@@ -673,24 +672,15 @@ fixtures: `
           </div>
 
           <!-- GROUP B - Manual Data (with Undecided FC strong result) -->
-          <div class="bento-card !p-0 overflow-hidden border-zinc-900 ring-1 ring-red-600/30">
-            <div class="bg-zinc-900/40 p-5 border-b border-white/10 flex justify-between">
-              <h4 class="font-heading text-sm uppercase tracking-widest text-red-400">GROUP B</h4>
-              <span class="text-[10px] font-mono text-zinc-500">After Matchday 1</span>
-            </div>
-            <div class="p-6">
-              <table class="w-full text-left border-collapse">
-                <thead class="bg-zinc-900/80 border-b border-white/10">
-                  <tr>
-                    <th class="p-3 font-heading text-[8px] text-zinc-500 uppercase">Pos</th>
-                    <th class="p-3 font-heading text-[8px] text-zinc-500 uppercase">Team</th>
-                    <th class="p-3 font-mono text-[8px] text-center">P</th>
-                    <th class="p-3 font-mono text-[8px] text-center">W</th>
-                    <th class="p-3 font-mono text-[8px] text-center">D</th>
-                    <th class="p-3 font-mono text-[8px] text-center">L</th>
-                    <th class="p-3 font-mono text-[8px] text-center">GD</th>
-                    <th class="p-3 font-heading text-red-600 text-right">Pts</th>
-                  </tr>
+        <div class="bento-card !p-0 overflow-hidden border-zinc-900 ring-1 ring-red-600/30">
+      <div class="bg-zinc-900/40 p-5 border-b border-white/10 flex justify-between">
+        <h4 class="font-heading text-sm uppercase tracking-widest text-red-400">GROUP B</h4>
+        <span class="text-[10px] font-mono text-zinc-500">After Matchday 1</span>
+      </div>
+      <div class="p-6 overflow-x-auto">
+        <table class="w-full text-left border-collapse min-w-[450px]">
+          <thead class="bg-zinc-900/80 border-b border-white/10">
+            <tr>
                 </thead>
                 <tbody class="divide-y divide-white/10 text-sm">
                   <tr class="hover:bg-white/5">
