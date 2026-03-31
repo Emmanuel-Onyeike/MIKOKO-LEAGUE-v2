@@ -616,7 +616,7 @@ fixtures: `
       <div class="p-6 overflow-x-auto">
         <table class="w-full text-left border-collapse min-w-[450px]">
           <thead class="bg-zinc-900/80 border-b border-white/10">
-          <tr>
+      <tr>
               <th class="p-3 font-heading text-[8px] text-zinc-500 uppercase">Pos</th>
               <th class="p-3 font-heading text-[8px] text-zinc-500 uppercase">Team</th>
               <th class="p-3 font-mono text-[8px] text-center">P</th>
@@ -630,27 +630,17 @@ fixtures: `
           <tbody class="divide-y divide-white/10 text-sm">
             <tr class="hover:bg-white/5">
               <td class="p-3 font-mono text-emerald-400 font-bold">1</td>
-              <td class="p-3 font-heading uppercase">Undecided FC</td>
+              <td class="p-3 font-heading uppercase">Ogbafia FC</td>
               <td class="p-3 text-center">1</td>
               <td class="p-3 text-center">1</td>
               <td class="p-3 text-center">0</td>
               <td class="p-3 text-center">0</td>
-              <td class="p-3 text-center text-green-400">+9</td>
+              <td class="p-3 text-center text-green-400">+3</td>
               <td class="p-3 text-right font-bold text-red-600">3</td>
             </tr>
-            <tr class="hover:bg-white/5 opacity-75">
+            <tr class="hover:bg-white/5">
               <td class="p-3 font-mono text-zinc-400">2</td>
-              <td class="p-3 font-heading uppercase">Big Pams FC</td>
-              <td class="p-3 text-center">0</td>
-              <td class="p-3 text-center">0</td>
-              <td class="p-3 text-center">0</td>
-              <td class="p-3 text-center">0</td>
-              <td class="p-3 text-center">0</td>
-              <td class="p-3 text-right font-bold text-zinc-500">0</td>
-            </tr>
-            <tr class="hover:bg-white/5 opacity-75">
-              <td class="p-3 font-mono text-zinc-400">3</td>
-              <td class="p-3 font-heading uppercase">Hassan FC</td>
+              <td class="p-3 font-heading uppercase">Gunners FC</td>
               <td class="p-3 text-center">0</td>
               <td class="p-3 text-center">0</td>
               <td class="p-3 text-center">0</td>
@@ -659,14 +649,24 @@ fixtures: `
               <td class="p-3 text-right font-bold text-zinc-500">0</td>
             </tr>
             <tr class="hover:bg-white/5">
-              <td class="p-3 font-mono text-red-400">4</td>
-              <td class="p-3 font-heading uppercase">Gabi FC</td>
+              <td class="p-3 font-mono text-zinc-400">3</td>
+              <td class="p-3 font-heading uppercase">Jed FC</td>
               <td class="p-3 text-center">1</td>
               <td class="p-3 text-center">0</td>
               <td class="p-3 text-center">0</td>
               <td class="p-3 text-center">1</td>
-              <td class="p-3 text-center text-red-400">-9</td>
-              <td class="p-3 text-right font-bold text-red-600">0</td>
+              <td class="p-3 text-center text-red-400">-3</td>
+              <td class="p-3 text-right font-bold text-zinc-500">0</td>
+            </tr>
+            <tr class="hover:bg-white/5 opacity-70">
+              <td class="p-3 font-mono text-zinc-500">4</td>
+              <td class="p-3 font-heading uppercase">Zubby FC</td>
+              <td class="p-3 text-center">0</td>
+              <td class="p-3 text-center">0</td>
+              <td class="p-3 text-center">0</td>
+              <td class="p-3 text-center">0</td>
+              <td class="p-3 text-center">0</td>
+              <td class="p-3 text-right font-bold text-zinc-500">0</td>
             </tr>
                 </tbody>
               </table>
