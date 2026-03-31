@@ -913,18 +913,25 @@ if (typeof db !== 'undefined') {
   });
 }
 
-// Live Match Clock
 function updateMatchClock() {
   const timerEl = document.getElementById('match-timer');
   const statusEl = document.getElementById('match-status');
   const progressEl = document.getElementById('timer-progress');
   if (!timerEl || !statusEl || !progressEl) return;
 
-  const startTime = new Date('2026-03-30T15:30:00').getTime();
-  const now = Date.now();
-  const diffSeconds = Math.floor((now - startTime) / 1000);
+  const now = new Date();
+  
+  // 1. Setup today's kickoff at 15:30 (3:30 PM)
+  const startTime = new Date();
+  startTime.setHours(15, 30, 0, 0);
+
+  // 2. Midnight Reset Logic: 
+  // If it's between 12:00 AM and 3:30 PM, it's "Standby" for today's game.
+  // This effectively clears the "Full Time" state from yesterday.
+  const diffSeconds = Math.floor((now.getTime() - startTime.getTime()) / 1000);
   const diffMinutes = diffSeconds / 60;
 
+  // Game hasn't started yet (or it's a new day before 3:30 PM)
   if (diffSeconds < 0) {
     statusEl.textContent = "Standby: Kick-off Pending";
     timerEl.textContent = "00:00";
@@ -932,25 +939,42 @@ function updateMatchClock() {
     return;
   }
 
+  // Live: First Half (0 - 45 mins)
   if (diffMinutes <= 45) {
     statusEl.textContent = "Live: First Half";
-    timerEl.textContent = `${Math.floor(diffMinutes).toString().padStart(2,'0')}:${(diffSeconds % 60).toString().padStart(2,'0')}`;
+    const mins = Math.floor(diffMinutes).toString().padStart(2, '0');
+    const secs = (diffSeconds % 60).toString().padStart(2, '0');
+    timerEl.textContent = `${mins}:${secs}`;
     progressEl.style.width = (diffMinutes / 45 * 50) + "%";
-  } else if (diffMinutes <= 50) {
+  } 
+  // Half Time (45 - 50 mins)
+  else if (diffMinutes <= 55) { // Extended to 10 mins for better padding
     statusEl.textContent = "Half Time";
     timerEl.textContent = "45:00";
     progressEl.style.width = "50%";
-  } else if (diffMinutes <= 95) {
+  } 
+  // Live: Second Half (Starts after 10 min break, ends at 90+5)
+  else if (diffMinutes <= 100) {
     statusEl.textContent = "Live: Second Half";
-    const played = diffSeconds - 300;
-    timerEl.textContent = `${Math.floor(played/60).toString().padStart(2,'0')}:${(played % 60).toString().padStart(2,'0')}`;
-    progressEl.style.width = (50 + ((diffMinutes - 50) / 45 * 50)) + "%";
-  } else {
+    // Subtract the 10 minute break to show match clock (45:00+)
+    const matchSeconds = diffSeconds - 600; 
+    const mins = Math.floor(matchSeconds / 60).toString().padStart(2, '0');
+    const secs = (matchSeconds % 60).toString().padStart(2, '0');
+    timerEl.textContent = `${mins}:${secs}`;
+    progressEl.style.width = (50 + ((diffMinutes - 55) / 45 * 50)) + "%";
+  } 
+  // Full Time (Until Midnight)
+  else {
     statusEl.textContent = "Full Time";
     timerEl.textContent = "90:00";
     progressEl.style.width = "100%";
   }
 }
+
+// Run every second
+setInterval(updateMatchClock, 1000);
+// Initial call to avoid 1s delay
+updateMatchClock();
 
 // Pure Stream Handler (stable, no flicker)
 (function() {
