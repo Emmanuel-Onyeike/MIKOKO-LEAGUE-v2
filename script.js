@@ -169,7 +169,7 @@ const views = {
           </div>
           <div class="text-center z-10">
             <div class="w-16 h-16 bg-zinc-900 rounded-full mb-3 border border-red-600/20 mx-auto"></div>
-            <p class="font-heading text-[9px] tracking-widest uppercase">JED FC</p>
+            <p class="font-heading text-[9px] tracking-widest uppercase">Big Pams FC</p>
           </div>
           <div class="text-center z-10">
             <span class="text-red-600 font-mono text-[10px] tracking-[0.4em] block mb-2">PENDING</span>
@@ -177,7 +177,7 @@ const views = {
           </div>
           <div class="text-center z-10">
             <div class="w-16 h-16 bg-zinc-900 rounded-full mb-3 border border-red-600/20 mx-auto"></div>
-            <p class="font-heading text-[9px] tracking-widest uppercase">OGB FC</p>
+            <p class="font-heading text-[9px] tracking-widest uppercase">Hassan FC</p>
           </div>
         </div>
         <div class="bento-card">
