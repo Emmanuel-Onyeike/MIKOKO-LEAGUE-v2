@@ -499,6 +499,66 @@ leaderboard: `
             <span class="block text-[10px] font-mono text-zinc-500">GOALS</span>
           </div>
         </div>
+
+          <div class="flex items-center justify-between p-4 bg-white/[0.01] border-l-4 border-zinc-700 rounded-xl opacity-70">
+          <div class="flex items-center gap-4">
+            <span class="font-mono text-xl font-bold text-zinc-400">12</span>
+            <div class="w-10 h-10 bg-zinc-800 rounded-full flex items-center justify-center text-lg">💥</div>
+            <div>
+              <span class="font-heading text-base">Rizzy</span>
+              <p class="text-[10px] font-mono text-zinc-500">Hassan FC </p>
+            </div>
+          </div>
+          <div class="text-right">
+            <span class="font-heading text-3xl text-zinc-400">1</span>
+            <span class="block text-[10px] font-mono text-zinc-500">GOALS</span>
+          </div>
+        </div>
+        
+          <div class="flex items-center justify-between p-4 bg-white/[0.01] border-l-4 border-zinc-700 rounded-xl opacity-70">
+          <div class="flex items-center gap-4">
+            <span class="font-mono text-xl font-bold text-zinc-400">13</span>
+            <div class="w-10 h-10 bg-zinc-800 rounded-full flex items-center justify-center text-lg">💥</div>
+            <div>
+              <span class="font-heading text-base">Mezie</span>
+              <p class="text-[10px] font-mono text-zinc-500">Hassan FC </p>
+            </div>
+          </div>
+          <div class="text-right">
+            <span class="font-heading text-3xl text-zinc-400">1</span>
+            <span class="block text-[10px] font-mono text-zinc-500">GOALS</span>
+          </div>
+        </div>
+        
+          <div class="flex items-center justify-between p-4 bg-white/[0.01] border-l-4 border-zinc-700 rounded-xl opacity-70">
+          <div class="flex items-center gap-4">
+            <span class="font-mono text-xl font-bold text-zinc-400">14</span>
+            <div class="w-10 h-10 bg-zinc-800 rounded-full flex items-center justify-center text-lg">💥</div>
+            <div>
+              <span class="font-heading text-base">Temple</span>
+              <p class="text-[10px] font-mono text-zinc-500">Big Pams FC </p>
+            </div>
+          </div>
+          <div class="text-right">
+            <span class="font-heading text-3xl text-zinc-400">1</span>
+            <span class="block text-[10px] font-mono text-zinc-500">GOALS</span>
+          </div>
+        </div>
+        
+          <div class="flex items-center justify-between p-4 bg-white/[0.01] border-l-4 border-zinc-700 rounded-xl opacity-70">
+          <div class="flex items-center gap-4">
+            <span class="font-mono text-xl font-bold text-zinc-400">11</span>
+            <div class="w-10 h-10 bg-zinc-800 rounded-full flex items-center justify-center text-lg">💥</div>
+            <div>
+              <span class="font-heading text-base">Von</span>
+              <p class="text-[10px] font-mono text-zinc-500">Big Pams FC </p>
+            </div>
+          </div>
+          <div class="text-right">
+            <span class="font-heading text-3xl text-zinc-400">1</span>
+            <span class="block text-[10px] font-mono text-zinc-500">GOALS</span>
+          </div>
+        </div>
       </div>
 
       <div class="bento-card !p-0 overflow-hidden border-zinc-900 bg-black/30">
@@ -853,7 +913,7 @@ fixtures: `
             </div>
             <div class="flex flex-col items-center px-10 border-x border-zinc-800/50">
               <div id="match-timer" class="font-heading text-5xl text-red-600 italic mb-2">00:00</div>
-              <div class="font-heading text-6xl text-zinc-100 tracking-tighter"> 0 : 0 </div>
+              <div class="font-heading text-6xl text-zinc-100 tracking-tighter"> 2 : 2 </div>
             </div>
             <div class="flex-1 text-center md:text-left">
               <h3 class="font-heading text-3xl md:text-5xl text-zinc-200 uppercase italic">Hassan  FC</h3>
