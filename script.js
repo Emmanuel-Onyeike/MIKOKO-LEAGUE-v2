@@ -1446,64 +1446,50 @@ setInterval(() => {
 // Run immediately on load
 updateArenaState();
 
-    /**
-     * MODAL SYSTEM: Logic for Game Week Archives
-     */
-    function openModal(weekId) {
-        const modal = document.getElementById('gw-modal');
-        const content = document.getElementById('modal-body');
-        
-        // Define GW01 Data specifically for the modal
-        const archives = {
-            'GW01': `
-                <div class="space-y-4">
-                    <div class="p-4 bg-white/5 rounded-xl border border-white/10 flex justify-between items-center">
-                        <span class="text-white font-bold">Undecided FC</span>
-                        <span class="font-mono text-red-600">VS</span>
-                        <span class="text-white font-bold">Gabi FC</span>
-                    </div>
-                    <div class="p-4 bg-white/5 rounded-xl border border-white/10 flex justify-between items-center">
-                        <span class="text-white font-bold">Jed FC</span>
-                        <span class="font-mono text-red-600">VS</span>
-                        <span class="text-white font-bold">Ogbafia FC</span>
-                    </div>
-                    </div>`
-        };
+    
+ function openModal(weekId) {
+    const modal = document.getElementById('gw-modal');
+    const content = document.getElementById('modal-body');
+    
+    const archives = {
+        'GW01': `
+            <div class="space-y-4">
+                <div class="p-4 bg-white/5 rounded-xl border border-white/10 flex justify-between items-center">
+                    <span class="text-white font-bold">Undecided FC</span>
+                    <span class="font-mono text-red-600">VS</span>
+                    <span class="text-white font-bold">Gabi FC</span>
+                </div>
+                <div class="p-4 bg-white/5 rounded-xl border border-white/10 flex justify-between items-center">
+                    <span class="text-white font-bold">Jed FC</span>
+                    <span class="font-mono text-red-600">VS</span>
+                    <span class="text-white font-bold">Ogbafia FC</span>
+                </div>
+                <div class="p-4 bg-white/5 rounded-xl border border-white/10 flex justify-between items-center">
+                    <span class="text-white font-bold">Big Pams FC</span>
+                    <span class="font-mono text-red-600">VS</span>
+                    <span class="text-white font-bold">Hassan FC</span>
+                </div>
+                <div class="p-4 bg-white/5 rounded-xl border border-white/10 flex justify-between items-center">
+                    <span class="text-white font-bold">Gunners FC</span>
+                    <span class="font-mono text-red-600">VS</span>
+                    <span class="text-white font-bold">Zubby FC</span>
+                </div>
+            </div>`
+    };
 
-        if (modal && archives[weekId]) {
-            content.innerHTML = archives[weekId];
-            modal.classList.remove('hidden');
-            modal.classList.add('flex');
-            document.body.style.overflow = 'hidden'; // Prevent scroll
-        }
+    if (modal && archives[weekId]) {
+        content.innerHTML = archives[weekId];
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+        document.body.style.overflow = 'hidden'; 
     }
+}
 
-    function closeModal() {
-        const modal = document.getElementById('gw-modal');
+function closeModal() {
+    const modal = document.getElementById('gw-modal');
+    if(modal) {
         modal.classList.add('hidden');
         modal.classList.remove('flex');
         document.body.style.overflow = 'auto';
     }
-
-    /**
-     * CONTENT NAVIGATOR: Switches between Feed, Standings, etc.
-     */
-    const pageContent = {
-        'Fixtures': \`[Insert Fixtures HTML Here]\`,
-        'Leaderboard': \`[Insert Leaderboard HTML Here]\`,
-        // ... include the other modules I generated earlier
-    };
-
-    function sysAction(view) {
-        const container = document.getElementById('main-content-area');
-        if (pageContent[view]) {
-            container.innerHTML = pageContent[view];
-            // Re-trigger animations if needed
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-    }
-
-    // Initialize the default view
-    document.addEventListener('DOMContentLoaded', () => {
-        sysAction('Fixtures');
-    });
+}
