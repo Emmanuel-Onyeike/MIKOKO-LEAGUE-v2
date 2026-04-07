@@ -405,7 +405,7 @@ leaderboard: `
             </div>
           </div>
           <div class="text-right">
-            <span class="font-heading text-3xl text-red-500">1</span>
+            <span class="font-heading text-3xl text-red-500">2</span>
             <span class="block text-[10px] font-mono text-zinc-500">GOALS</span>
           </div>
         </div>
