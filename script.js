@@ -149,11 +149,11 @@ const views = {
         </div>
         <div class="bento-card !p-6 flex flex-col items-center">
           <p class="text-[8px] font-heading text-zinc-600 uppercase mb-1">Live Matches</p>
-          <span class="text-4xl font-bold italic tracking-tighter text-zinc-500">04</span>
+          <span class="text-4xl font-bold italic tracking-tighter text-zinc-500">05</span>
         </div>
         <div class="bento-card !p-6 flex flex-col items-center">
           <p class="text-[8px] font-heading text-zinc-600 uppercase mb-1">Session Goals</p>
-          <span class="text-4xl font-bold italic tracking-tighter text-zinc-500">33</span>
+          <span class="text-4xl font-bold italic tracking-tighter text-zinc-500">38</span>
         </div>
        <div class="bento-card !p-6 flex flex-col items-center bg-red-600/5">
   <p class="text-[8px] font-heading text-red-600 uppercase mb-1">Arena State</p>
@@ -547,7 +547,7 @@ leaderboard: `
         
           <div class="flex items-center justify-between p-4 bg-white/[0.01] border-l-4 border-zinc-700 rounded-xl opacity-70">
           <div class="flex items-center gap-4">
-            <span class="font-mono text-xl font-bold text-zinc-400">11</span>
+            <span class="font-mono text-xl font-bold text-zinc-400">15</span>
             <div class="w-10 h-10 bg-zinc-800 rounded-full flex items-center justify-center text-lg">💥</div>
             <div>
               <span class="font-heading text-base">Von</span>
@@ -561,7 +561,7 @@ leaderboard: `
         </div>
                <div class="flex items-center justify-between p-4 bg-white/[0.01] border-l-4 border-zinc-700 rounded-xl opacity-70">
           <div class="flex items-center gap-4">
-            <span class="font-mono text-xl font-bold text-zinc-400">12</span>
+            <span class="font-mono text-xl font-bold text-zinc-400">16</span>
             <div class="w-10 h-10 bg-zinc-800 rounded-full flex items-center justify-center text-lg">💥</div>
             <div>
               <span class="font-heading text-base">Eche</span>
@@ -576,7 +576,7 @@ leaderboard: `
 
                <div class="flex items-center justify-between p-4 bg-white/[0.01] border-l-4 border-zinc-700 rounded-xl opacity-70">
           <div class="flex items-center gap-4">
-            <span class="font-mono text-xl font-bold text-zinc-400">13</span>
+            <span class="font-mono text-xl font-bold text-zinc-400">17</span>
             <div class="w-10 h-10 bg-zinc-800 rounded-full flex items-center justify-center text-lg">💥</div>
             <div>
               <span class="font-heading text-base">ororo</span>
@@ -590,7 +590,7 @@ leaderboard: `
         </div>
                <div class="flex items-center justify-between p-4 bg-white/[0.01] border-l-4 border-zinc-700 rounded-xl opacity-70">
           <div class="flex items-center gap-4">
-            <span class="font-mono text-xl font-bold text-zinc-400">14</span>
+            <span class="font-mono text-xl font-bold text-zinc-400">18</span>
             <div class="w-10 h-10 bg-zinc-800 rounded-full flex items-center justify-center text-lg">💥</div>
             <div>
               <span class="font-heading text-base">Choppa</span>
@@ -605,7 +605,7 @@ leaderboard: `
 
                <div class="flex items-center justify-between p-4 bg-white/[0.01] border-l-4 border-zinc-700 rounded-xl opacity-70">
           <div class="flex items-center gap-4">
-            <span class="font-mono text-xl font-bold text-zinc-400">15</span>
+            <span class="font-mono text-xl font-bold text-zinc-400">19</span>
             <div class="w-10 h-10 bg-zinc-800 rounded-full flex items-center justify-center text-lg">💥</div>
             <div>
               <span class="font-heading text-base">sporty</span>
@@ -620,7 +620,7 @@ leaderboard: `
 
                <div class="flex items-center justify-between p-4 bg-white/[0.01] border-l-4 border-zinc-700 rounded-xl opacity-70">
           <div class="flex items-center gap-4">
-            <span class="font-mono text-xl font-bold text-zinc-400">16</span>
+            <span class="font-mono text-xl font-bold text-zinc-400">20</span>
             <div class="w-10 h-10 bg-zinc-800 rounded-full flex items-center justify-center text-lg">💥</div>
             <div>
               <span class="font-heading text-base">Nester</span>
@@ -635,7 +635,7 @@ leaderboard: `
 
                <div class="flex items-center justify-between p-4 bg-white/[0.01] border-l-4 border-zinc-700 rounded-xl opacity-70">
           <div class="flex items-center gap-4">
-            <span class="font-mono text-xl font-bold text-zinc-400">17</span>
+            <span class="font-mono text-xl font-bold text-zinc-400">21</span>
             <div class="w-10 h-10 bg-zinc-800 rounded-full flex items-center justify-center text-lg">💥</div>
             <div>
               <span class="font-heading text-base">Pabl0</span>
@@ -649,7 +649,7 @@ leaderboard: `
         </div>
                <div class="flex items-center justify-between p-4 bg-white/[0.01] border-l-4 border-zinc-700 rounded-xl opacity-70">
           <div class="flex items-center gap-4">
-            <span class="font-mono text-xl font-bold text-zinc-400">18</span>
+            <span class="font-mono text-xl font-bold text-zinc-400">22</span>
             <div class="w-10 h-10 bg-zinc-800 rounded-full flex items-center justify-center text-lg">💥</div>
             <div>
               <span class="font-heading text-base">Jaso</span>
@@ -663,7 +663,7 @@ leaderboard: `
         </div>
                <div class="flex items-center justify-between p-4 bg-white/[0.01] border-l-4 border-zinc-700 rounded-xl opacity-70">
           <div class="flex items-center gap-4">
-            <span class="font-mono text-xl font-bold text-zinc-400">19</span>
+            <span class="font-mono text-xl font-bold text-zinc-400">23</span>
             <div class="w-10 h-10 bg-zinc-800 rounded-full flex items-center justify-center text-lg">💥</div>
             <div>
               <span class="font-heading text-base">Kelvin</span>
@@ -677,7 +677,7 @@ leaderboard: `
         </div>
                <div class="flex items-center justify-between p-4 bg-white/[0.01] border-l-4 border-zinc-700 rounded-xl opacity-70">
           <div class="flex items-center gap-4">
-            <span class="font-mono text-xl font-bold text-zinc-400">12</span>
+            <span class="font-mono text-xl font-bold text-zinc-400">24</span>
             <div class="w-10 h-10 bg-zinc-800 rounded-full flex items-center justify-center text-lg">💥</div>
             <div>
               <span class="font-heading text-base">Ekene</span>
@@ -691,7 +691,7 @@ leaderboard: `
         </div>
           <div class="flex items-center justify-between p-4 bg-white/[0.01] border-l-4 border-zinc-700 rounded-xl opacity-70">
           <div class="flex items-center gap-4">
-            <span class="font-mono text-xl font-bold text-zinc-400">13</span>
+            <span class="font-mono text-xl font-bold text-zinc-400">25</span>
             <div class="w-10 h-10 bg-zinc-800 rounded-full flex items-center justify-center text-lg">💥</div>
             <div>
               <span class="font-heading text-base">Troy</span>
@@ -705,7 +705,7 @@ leaderboard: `
         </div>
            <div class="flex items-center justify-between p-4 bg-white/[0.01] border-l-4 border-red-600/30 rounded-xl opacity-90">
           <div class="flex items-center gap-4">
-            <span class="font-mono text-xl font-bold text-red-500">14</span>
+            <span class="font-mono text-xl font-bold text-red-500">26</span>
             <div class="w-10 h-10 bg-zinc-800 rounded-full flex items-center justify-center text-lg">⚡</div>
             <div>
               <span class="font-heading text-base">tony</span>
@@ -719,7 +719,7 @@ leaderboard: `
         </div>
            <div class="flex items-center justify-between p-4 bg-white/[0.01] border-l-4 border-red-600/30 rounded-xl opacity-90">
           <div class="flex items-center gap-4">
-            <span class="font-mono text-xl font-bold text-red-500">05</span>
+            <span class="font-mono text-xl font-bold text-red-500">27</span>
             <div class="w-10 h-10 bg-zinc-800 rounded-full flex items-center justify-center text-lg">⚡</div>
             <div>
               <span class="font-heading text-base">Chibuike</span>
@@ -875,62 +875,73 @@ fixtures: `
       </div>
 
       <!-- Fixtures Section -->
-      <div class="flex items-center space-x-4 px-2 mb-6">
-        <div class="h-[1px] flex-grow bg-zinc-800"></div>
-        <h3 class="font-mono text-xs text-red-600 uppercase tracking-[0.5em]">GAME WEEK 01</h3>
-        <div class="h-[1px] flex-grow bg-zinc-800"></div>
-      </div>
+     <div class="flex items-center space-x-4 px-2 mb-6 cursor-pointer group" onclick="openModal('GW01')">
+    <div class="h-[1px] flex-grow bg-zinc-800 group-hover:bg-zinc-700 transition-colors"></div>
+    <div class="flex flex-col items-center">
+        <h3 class="font-mono text-[10px] text-zinc-500 uppercase tracking-[0.3em] mb-1">View Previous</h3>
+        <h3 class="font-mono text-xs text-zinc-400 group-hover:text-red-600 uppercase tracking-[0.5em] transition-colors">GAME WEEK 01</h3>
+    </div>
+    <div class="h-[1px] flex-grow bg-zinc-800 group-hover:bg-zinc-700 transition-colors"></div>
+</div>
 
-      <div class="grid gap-5 md:grid-cols-2">
-        <div class="bento-card border-l-2 border-zinc-800 hover:border-red-600/50 transition-colors group p-6">
-          <div class="flex justify-between items-start mb-4">
-            <span class="font-mono text-[9px] text-zinc-500 uppercase">30 MAR 2026 // 15:30</span>
-            <span class="font-mono text-[9px] text-red-600/70 uppercase tracking-widest">Law Faculty Pitch</span>
-          </div>
-          <div class="flex items-center justify-around text-center">
+<div class="flex items-center space-x-4 px-2 mb-6">
+    <div class="h-[1px] flex-grow bg-red-600/20"></div>
+    <h3 class="font-mono text-xs text-red-600 font-black uppercase tracking-[0.5em]">GAME WEEK 02 // LIVE</h3>
+    <div class="h-[1px] flex-grow bg-red-600/20"></div>
+</div>
+
+<div class="grid gap-5 md:grid-cols-2">
+    <div class="bento-card border-l-2 border-red-600 bg-red-600/5 transition-colors group p-6">
+        <div class="flex justify-between items-start mb-4">
+            <span class="font-mono text-[9px] text-white uppercase">07 APR 2026 // 15:30</span>
+            <span class="font-mono text-[9px] text-red-600 font-bold uppercase tracking-widest">LIVE_NOW</span>
+        </div>
+        <div class="flex items-center justify-around text-center">
+            <div class="w-1/3 font-heading text-lg text-white uppercase italic">Gabi FC</div>
+            <div class="flex flex-col items-center">
+                <span class="text-2xl font-black text-white">3 - 2</span>
+                <span class="text-[8px] font-mono text-zinc-500 uppercase">Final_Signal</span>
+            </div>
+            <div class="w-1/3 font-heading text-lg text-white uppercase italic">Hassan FC</div>
+        </div>
+    </div>
+
+    <div class="bento-card border-l-2 border-zinc-800 hover:border-cyan-400/50 transition-colors p-6">
+        <div class="flex justify-between items-start mb-4">
+            <span class="font-mono text-[9px] text-zinc-500 uppercase">08 APR 2026 // 15:30</span>
+            <span class="font-mono text-[9px] text-cyan-400 uppercase tracking-widest">Scheduled_Node</span>
+        </div>
+        <div class="flex items-center justify-around text-center">
             <div class="w-1/3 font-heading text-lg text-zinc-300 uppercase italic">Undecided FC</div>
-            <div class="font-mono text-red-600 text-xs px-4 font-bold">VS</div>
-            <div class="w-1/3 font-heading text-lg text-zinc-300 uppercase italic">Gabi FC</div>
-          </div>
-        </div>
-
-        <div class="bento-card border-l-2 border-zinc-800 hover:border-red-600/50 transition-colors p-6">
-          <div class="flex justify-between items-start mb-4">
-            <span class="font-mono text-[9px] text-zinc-500 uppercase">31 MAR 2026 // 15:30</span>
-            <span class="font-mono text-[9px] text-red-600/70 uppercase tracking-widest">Law Faculty Pitch</span>
-          </div>
-          <div class="flex items-center justify-around text-center">
-            <div class="w-1/3 font-heading text-lg text-zinc-300 uppercase italic">Jed FC</div>
-            <div class="font-mono text-red-600 text-xs px-4 font-bold">VS</div>
-            <div class="w-1/3 font-heading text-lg text-zinc-300 uppercase italic">Ogbafia FC</div>
-          </div>
-        </div>
-
-        <div class="bento-card border-l-2 border-zinc-800 hover:border-red-600/50 transition-colors p-6">
-          <div class="flex justify-between items-start mb-4">
-            <span class="font-mono text-[9px] text-zinc-500 uppercase">01 APR 2026 // 15:30</span>
-            <span class="font-mono text-[9px] text-red-600/70 uppercase tracking-widest">Law Faculty Pitch</span>
-          </div>
-          <div class="flex items-center justify-around text-center">
+            <div class="font-mono text-zinc-600 text-xs px-4 font-bold">VS</div>
             <div class="w-1/3 font-heading text-lg text-zinc-300 uppercase italic">Big Pams FC</div>
-            <div class="font-mono text-red-600 text-xs px-4 font-bold">VS</div>
-            <div class="w-1/3 font-heading text-lg text-zinc-300 uppercase italic">Hassan FC</div>
-          </div>
         </div>
+    </div>
 
-        <div class="bento-card border-l-2 border-zinc-800 hover:border-red-600/50 transition-colors p-6">
-          <div class="flex justify-between items-start mb-4">
-            <span class="font-mono text-[9px] text-zinc-500 uppercase">06 APR 2026 // 15:30</span>
-            <span class="font-mono text-[9px] text-red-600/70 uppercase tracking-widest">Law Faculty Pitch</span>
-          </div>
-          <div class="flex items-center justify-around text-center">
+    <div class="bento-card border-l-2 border-zinc-800 hover:border-zinc-600 transition-colors p-6">
+        <div class="flex justify-between items-start mb-4">
+            <span class="font-mono text-[9px] text-zinc-500 uppercase">11 APR 2026 // 10:30</span>
+            <span class="font-mono text-[9px] text-zinc-500 uppercase tracking-widest">Saturday_Alpha</span>
+        </div>
+        <div class="flex items-center justify-around text-center">
+            <div class="w-1/3 font-heading text-lg text-zinc-300 uppercase italic">Jed FC</div>
+            <div class="font-mono text-zinc-600 text-xs px-4 font-bold">VS</div>
             <div class="w-1/3 font-heading text-lg text-zinc-300 uppercase italic">Gunners FC</div>
-            <div class="font-mono text-red-600 text-xs px-4 font-bold">VS</div>
-            <div class="w-1/3 font-heading text-lg text-zinc-300 uppercase italic">Zubby FC</div>
-          </div>
         </div>
-      </div>
+    </div>
 
+    <div class="bento-card border-l-2 border-zinc-800 hover:border-zinc-600 transition-colors p-6">
+        <div class="flex justify-between items-start mb-4">
+            <span class="font-mono text-[9px] text-zinc-500 uppercase">11 APR 2026 // 14:30</span>
+            <span class="font-mono text-[9px] text-zinc-500 uppercase tracking-widest">Saturday_Beta</span>
+        </div>
+        <div class="flex items-center justify-around text-center">
+            <div class="w-1/3 font-heading text-lg text-zinc-300 uppercase italic">Ogbafia FC</div>
+            <div class="font-mono text-zinc-600 text-xs px-4 font-bold">VS</div>
+            <div class="w-1/3 font-heading text-lg text-zinc-300 uppercase italic">Zubby FC</div>
+        </div>
+    </div>
+</div>
       <!-- STANDINGS INTEGRATED - MANUALLY FILLED -->
 <div class="mt-16">
   <div class="flex items-center justify-between mb-6 px-2">
@@ -1028,52 +1039,42 @@ fixtures: `
 </tr>
 </thead>
 <tbody class="divide-y divide-white/10 text-sm">
+  <tr class="hover:bg-white/5">
+    <td class="p-3 font-mono text-emerald-400 font-bold">1</td>
+    <td class="p-3 font-heading uppercase text-emerald-400">Undecided FC</td>
+    <td class="p-3 text-center">1</td>
+    <td class="p-3 text-center">1</td>
+    <td class="p-3 text-center">0</td>
+    <td class="p-3 text-center">0</td>
+    <td class="p-3 text-center text-green-400">+9</td>
+    <td class="p-3 text-right font-bold text-red-600">3</td>
+  </tr>
 
-<tr class="hover:bg-white/5">
-  <td class="p-3 font-mono text-emerald-400 font-bold">1</td>
-  <td class="p-3 font-heading uppercase text-emerald-400">Undecided FC</td>
-  <td class="p-3 text-center">1</td>
-  <td class="p-3 text-center">1</td>
-  <td class="p-3 text-center">0</td>
-  <td class="p-3 text-center">0</td>
-  <td class="p-3 text-center text-green-400">+9</td>
-  <td class="p-3 text-right font-bold text-red-600">3</td>
-</tr>
+  <tr class="hover:bg-white/5 bg-cyan-500/5 transition-colors">
+    <td class="p-3 font-mono text-cyan-400 font-bold">2</td>
+    <td class="p-3 font-heading uppercase text-white">Gabi FC</td>
+    <td class="p-3 text-center">2</td> <td class="p-3 text-center">1</td> <td class="p-3 text-center">0</td>
+    <td class="p-3 text-center">1</td>
+    <td class="p-3 text-center text-red-400">-8</td> <td class="p-3 text-right font-bold text-red-600">3</td> </tr>
 
-<tr class="hover:bg-white/5">
-  <td class="p-3 font-mono text-zinc-400">2</td>
-  <td class="p-3 font-heading uppercase">Big Pams FC</td>
-  <td class="p-3 text-center">1</td>
-  <td class="p-3 text-center">0</td>
-  <td class="p-3 text-center">1</td>
-  <td class="p-3 text-center">0</td>
-  <td class="p-3 text-center">0</td>
-  <td class="p-3 text-right font-bold text-zinc-500">1</td>
-</tr>
+  <tr class="hover:bg-white/5">
+    <td class="p-3 font-mono text-zinc-400">3</td>
+    <td class="p-3 font-heading uppercase">Big Pams FC</td>
+    <td class="p-3 text-center">1</td>
+    <td class="p-3 text-center">0</td>
+    <td class="p-3 text-center">1</td>
+    <td class="p-3 text-center">0</td>
+    <td class="p-3 text-center">0</td>
+    <td class="p-3 text-right font-bold text-zinc-500">1</td>
+  </tr>
 
-<tr class="hover:bg-white/5">
-  <td class="p-3 font-mono text-zinc-400">3</td>
-  <td class="p-3 font-heading uppercase">Hassan FC</td>
-  <td class="p-3 text-center">1</td>
-  <td class="p-3 text-center">0</td>
-  <td class="p-3 text-center">1</td>
-  <td class="p-3 text-center">0</td>
-  <td class="p-3 text-center">0</td>
-  <td class="p-3 text-right font-bold text-zinc-500">1</td>
-</tr>
-
-<tr class="hover:bg-white/5">
-  <td class="p-3 font-mono text-red-400">4</td>
-  <td class="p-3 font-heading uppercase">Gabi FC</td>
-  <td class="p-3 text-center">1</td>
-  <td class="p-3 text-center">0</td>
-  <td class="p-3 text-center">0</td>
-  <td class="p-3 text-center">1</td>
-  <td class="p-3 text-center text-red-400">-9</td>
-  <td class="p-3 text-right font-bold text-red-600">0</td>
-</tr>
-
-                </tbody>
+  <tr class="hover:bg-white/5 opacity-60">
+    <td class="p-3 font-mono text-zinc-500">4</td>
+    <td class="p-3 font-heading uppercase">Hassan FC</td>
+    <td class="p-3 text-center">2</td> <td class="p-3 text-center">0</td>
+    <td class="p-3 text-center">1</td>
+    <td class="p-3 text-center">1</td> <td class="p-3 text-center text-red-400">-1</td> <td class="p-3 text-right font-bold text-zinc-500">1</td> </tr>
+</tbody>
               </table>
             </div>
           </div>
@@ -1101,14 +1102,15 @@ fixtures: `
         <div class="bento-card bg-black/40 border-white/5 p-12 relative group">
           <div class="flex flex-col md:flex-row items-center justify-between gap-8">
             <div class="flex-1 text-center md:text-right">
-              <h3 class="font-heading text-3xl md:text-5xl text-zinc-200 uppercase italic">Gabi FC</h3>
+              <h3 class="font-heading text-3xl md:text-5xl text-zinc-200 uppercase italic">BIG Pams FC</h3>
+              
             </div>
             <div class="flex flex-col items-center px-10 border-x border-zinc-800/50">
               <div id="match-timer" class="font-heading text-5xl text-red-600 italic mb-2">00:00</div>
               <div class="font-heading text-6xl text-zinc-100 tracking-tighter"> 0 : 0 </div>
             </div>
             <div class="flex-1 text-center md:text-left">
-              <h3 class="font-heading text-3xl md:text-5xl text-zinc-200 uppercase italic">Hassan  FC</h3>
+              <h3 class="font-heading text-3xl md:text-5xl text-zinc-200 uppercase italic">Undecided  FC</h3>
             </div>
           </div>
           <div class="absolute bottom-0 left-0 h-[2px] bg-red-600/30 w-full overflow-hidden">
